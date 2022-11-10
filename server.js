@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 
-require("./config/db");
+require("./server/config/db");
 require("colors");
 
 app.use(cors());
@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use("/api", require("./routes/index"));
+app.use("/api", require("./server/routes/index"));
 
 mongoose
   .connect(process.env.URLDB, {})
