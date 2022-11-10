@@ -1,0 +1,30 @@
+{
+  "name": "emociones-be",
+  "version": "1.0.0",
+  "description": "This project is the server part and will contain the endpoints ",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Navi02643/emociones-BE.git"
+  },
+  "author": "Carlos Mercado, Luz Limon, Eduardo Diaz, Erick Mejia, Jose Castillo, Miguel Salas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Navi02643/emociones-BE/issues"
+  },
+  "homepage": "https://github.com/Navi02643/emociones-BE#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.1",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
