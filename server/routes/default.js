@@ -1,5 +1,4 @@
 const express = require("express");
-const date = require('date-and-time')
 const app = express();
 
 app.get("/", async (req, res) => {

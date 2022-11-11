@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
 const app = express();
 
 require("./server/config/db");
@@ -23,15 +22,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use("/api", require("./server/routes/index"));
-
-mongoose
-  .connect(process.env.URLDB, {})
-  .then((resp) => {
-    console.log("[SERVER]".green, `Database ONLINE in ${process.env.URLDB}`);
-  })
-  .catch((err) => {
-    console.log("[SERVER]".red, `Conexion fallida: ${err}`);
-  });
 
 app.use((req, res, next) => {
   return res.status(404).send({
