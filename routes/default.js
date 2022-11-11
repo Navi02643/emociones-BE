@@ -1,4 +1,5 @@
 const express = require("express");
+const date = require('date-and-time')
 const app = express();
 
 app.get("/", async (req, res) => {
@@ -7,6 +8,7 @@ app.get("/", async (req, res) => {
       estatus: "200",
       err: false,
       msg: "FUNCIONANDO",
+      fecha: now,
     });
   } catch (err) {
     return res.status(500).send({
