@@ -21,10 +21,11 @@ app.get("/", async (req, res) => {
 
 app.post("/", async (req, res) => {
   try {
-    await privilegeService.savePrivilege(req.body)
+    const msg = await privilegeService.savePrivilege(req.body)
     return res.status(200).send({
         status: "200",
         err: false,
+        msg
       });
   } catch (err) {
     return res.status(500).send({
