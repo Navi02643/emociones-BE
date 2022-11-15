@@ -6,19 +6,19 @@ function checkModel(model) {
   return privilege;
 }
 
-function findPrivilege() {
-  return database.findPrivilegesDB();
-}
-
-async function savePrivilege(model) {
+function savePrivilege(model) {
   const privilege = checkModel(model);
-  const findPrivilege = await database.findByName(privilege.Name);
+  const findPrivilege =  database.findByName(privilege.Name);
   if (findPrivilege.length >= 1) {
-    return 'The privilege is already registered';
+    return 0;
   } else {
-    const resp = await database.savePrivilegeDB(privilege);
+    const resp =  database.savePrivilegeDB(privilege);
     return resp;
   }
+}
+
+function findPrivilege() {
+  return database.findPrivilegesDB();
 }
 
 module.exports = { savePrivilege, findPrivilege };
