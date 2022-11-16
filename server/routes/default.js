@@ -6,8 +6,7 @@ app.get("/", async (req, res) => {
     return res.status(200).json({
       estatus: "200",
       err: false,
-      msg: "FUNCIONANDO",
-      fecha: now,
+      msg: "FUNCIONANDO"
     });
   } catch (err) {
     return res.status(500).send({
@@ -20,5 +19,6 @@ app.get("/", async (req, res) => {
     });
   }
 });
+
 
 module.exports = app;
