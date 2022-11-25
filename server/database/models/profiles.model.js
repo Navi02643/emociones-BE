@@ -5,7 +5,7 @@ const profileSchema = new Schema({
   idProfile: {
     type: String,
   },
-  Name: {
+  name: {
     type: String,
   },
 });

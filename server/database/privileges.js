@@ -1,4 +1,4 @@
-const privilegesModel = require("../models/privileges.model");
+const privilegesModel = require("./models/privileges.model");
 
 function findPrivilegesDB() {
   const privileges = privilegesModel.find();

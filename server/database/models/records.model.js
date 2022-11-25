@@ -5,7 +5,7 @@ const recordsSchema = new Schema({
   idRecord: {
     type: String,
   },
-  Cause: {
+  cause: {
     type: String,
   },
 });

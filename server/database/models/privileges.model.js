@@ -5,7 +5,7 @@ const privilegesSchema = new Schema({
   idPrivileges: {
     type: String,
   },
-  Name: {
+  name: {
     type: String,
   },
 });

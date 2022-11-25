@@ -6,7 +6,7 @@ const profiles_privilegesSchema = new Schema({
         type: String,
     },
     idPrivileges: {
-    type: String,
+        type: String,
     },
 });
 

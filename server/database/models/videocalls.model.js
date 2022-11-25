@@ -8,7 +8,7 @@ const videocallsSchema = new Schema({
   idFollowup: {
     type: String,
   },
-  Transcript: {
+  transcript: {
     type: String,
   },
 });

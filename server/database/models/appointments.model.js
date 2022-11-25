@@ -1,19 +1,19 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const followupsSchema = new Schema({
-  idFollowups: {
+const appointmentsSchema = new Schema({
+  idUser: {
     type: String,
   },
-  idRecord: {
+  idPacient: {
     type: String,
   },
-  Date: {
+  date: {
     type: String,
   },
-  Note: {
+  hour: {
     type: String,
-  }
+  },
 });
 
-module.exports = mongoose.model("Followups", followupsSchema);
+module.exports = mongoose.model("Appointments", appointmentsSchema);

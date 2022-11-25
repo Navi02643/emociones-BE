@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const testsSchema = new Schema({
+  idFollowup: {
+    type: String,
+  },
   idTest: {
     type: String,
   },
-  Name: {
+  result: {
     type: String,
   },
-  Description: {
-    type: String,
-  }
 });
 
 module.exports = mongoose.model("Tests", testsSchema);
