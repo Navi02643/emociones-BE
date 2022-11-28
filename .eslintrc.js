@@ -12,6 +12,9 @@ module.exports = {
   },
   rules: {
     'newline-after-import': 'off',
+    'max-len': 'off',
+    'new-cap': 'off',
+    'quote-props': 'off',
     'arrow-body-style': ["error", "always"],
     'linebreak-style': ["error", "windows"],
     quotes: 'off',

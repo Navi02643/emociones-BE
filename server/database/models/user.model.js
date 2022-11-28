@@ -1,47 +1,51 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
   idUser: {
     type: String,
   },
-  Name: {
+  name: {
     type: String,
   },
-  MiddleName: {
+  middleName: {
     type: String,
   },
-  LastName: {
+  lastName: {
     type: String,
   },
-  Email: {
+  email: {
     type: String,
   },
-  Phone: {
+  phone: {
     type: String,
   },
-  Password: {
+  password: {
     type: String,
   },
-  Birthdate: {
+  birthdate: {
     type: String,
   },
   idProfile: {
     type: String,
   },
-  MaritalStatus: {
+  maritalStatus: {
     type: String,
   },
   idRecord: {
     type: String,
   },
-  Status: {
+  status: {
     type: Boolean,
     default: true,
   },
-  Background: {
+  background: {
     type: String,
+  },
+  range: {
+    type: Number,
   },
 });
 
-module.exports = mongoose.model("Users", userSchema);
+module.exports = mongoose.model("users", userSchema);

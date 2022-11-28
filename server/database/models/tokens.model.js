@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
-const profileSchema = new Schema({
-  idProfile: {
+const tokenSchema = new Schema({
+  token: {
     type: String,
   },
-  Name: {
+  refreshToken: {
     type: String,
   },
 });
 
-module.exports = mongoose.model("Profiles", profileSchema);
+module.exports = mongoose.model("Tokens", tokenSchema);

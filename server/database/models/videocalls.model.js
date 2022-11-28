@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const videocallsSchema = new Schema({
@@ -8,7 +9,7 @@ const videocallsSchema = new Schema({
   idFollowup: {
     type: String,
   },
-  Transcript: {
+  transcript: {
     type: String,
   },
 });

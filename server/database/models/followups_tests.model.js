@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const testsSchema = new Schema({
@@ -8,7 +9,7 @@ const testsSchema = new Schema({
   idTest: {
     type: String,
   },
-  Result: {
+  result: {
     type: String,
   },
 });
