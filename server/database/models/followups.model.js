@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const followupsSchema = new Schema({
@@ -13,7 +14,7 @@ const followupsSchema = new Schema({
   },
   note: {
     type: String,
-  }
+  },
 });
 
 module.exports = mongoose.model("Followups", followupsSchema);

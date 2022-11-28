@@ -1,22 +1,16 @@
 const express = require("express");
+
 const app = express();
 
 app.get("/", async (req, res) => {
   try {
     return res.status(200).json({
-      estatus: "200",
-      err: false,
-      msg: "FUNCIONANDO",
-      fecha: now,
+      error: false,
+      data: "FUNCIONANDO",
     });
-  } catch (err) {
+  } catch (error) {
     return res.status(500).send({
-      estatus: "500",
-      err: true,
-      msg: "Error",
-      cont: {
-        err: Object.keys(err).length === 0 ? err.message : err,
-      },
+      error: Object.keys(error).length === 0 ? error.message : error,
     });
   }
 });

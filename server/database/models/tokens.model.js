@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const tokenSchema = new Schema({
@@ -7,7 +8,7 @@ const tokenSchema = new Schema({
   },
   refreshToken: {
     type: String,
-  }
+  },
 });
 
 module.exports = mongoose.model("Tokens", tokenSchema);
