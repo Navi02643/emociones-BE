@@ -1,6 +1,8 @@
-const privilegeService = require("../services/privileges");
 const express = require("express");
+
 const app = express();
+
+const privilegeService = require("../services/privileges");
 
 app.get("/", async (req, res) => {
   try {
@@ -14,7 +16,7 @@ app.get("/", async (req, res) => {
     return res.status(500).send({
       status: "500",
       err: true,
-      err: Object.keys(err).length === 0 ? err.message : err,
+      cont: Object.keys(err).length === 0 ? err.message : err,
     });
   }
 });
@@ -23,15 +25,15 @@ app.post("/", async (req, res) => {
   try {
     const msg = await privilegeService.savePrivilege(req.body)
     return res.status(200).send({
-        status: "200",
-        err: false,
-        msg
-      });
+      status: "200",
+      err: false,
+      msg,
+    });
   } catch (err) {
     return res.status(500).send({
       status: "500",
       err: true,
-      err: Object.keys(err).length === 0 ? err.message : err,
+      cont: Object.keys(err).length === 0 ? err.message : err,
     });
   }
 });

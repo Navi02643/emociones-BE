@@ -1,20 +1,19 @@
-const privilegesModel = require("../models/privileges.model");
+const PrivilegesModel = require("../models/privileges.model");
 const database = require("../database/privileges");
 
 function checkModel(model) {
-  const privilege = new privilegesModel(model);
+  const privilege = new PrivilegesModel(model);
   return privilege;
 }
 
 function savePrivilege(model) {
   const privilege = checkModel(model);
-  const findPrivilege =  database.findByName(privilege.Name);
-  if (findPrivilege.length >= 1) {
+  const findPrivileges = database.findByName(privilege.Name);
+  if (findPrivileges.length >= 1) {
     return 0;
-  } else {
-    const resp =  database.savePrivilegeDB(privilege);
-    return resp;
   }
+  const resp = database.savePrivilegeDB(privilege);
+  return resp;
 }
 
 function findPrivilege() {

@@ -1,14 +1,9 @@
-const cookieParser = require("cookie-parser");
-const express = require("express");
-const app = express();
+const tokenService = require("../services/tokens");
 
-app.use(cookieParser());
-
-const accessTokens = ['123456789','9876543210'];
-
-const firewall = (req, res, next) => {
-  const authorized = accessTokens.includes(req.query.accessToken);
-  if (!authorized) return res.status(401).send("Unauthorized");
+const firewall = async (req, res, next) => {
+  const accessTokens = await tokenService.findTokens();
+  const isAuthorized = accessTokens.includes(req.headers.authorization.split(" ")[1]);
+  if (!isAuthorized) return res.status(401).send("Unauthorized");
   next();
 };
 
