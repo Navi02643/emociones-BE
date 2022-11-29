@@ -9,4 +9,5 @@ const tokenSchema = new Schema({
     type: String,
   },
 });
+
 module.exports = mongoose.model("Tokens", tokenSchema);

@@ -4,7 +4,8 @@
   "description": "This project is the server part and will contain the endpoints ",
   "main": "server.js",
   "scripts": {
-    "test": "node server.js"
+    "test": "node server.js",
+    "lint": "eslint . --ext .js --ignore-pattern /build/*"
   },
   "repository": {
     "type": "git",

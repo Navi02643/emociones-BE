@@ -1,8 +1,8 @@
-const tokensModel = require("../models/tokens.model");
+const TokensModel = require("./models/tokens.model");
 
 async function findToken() {
-  const accessTokens = await tokensModel.find();
-  return accessTokens;
+  const ACCESSTOKEN = await TokensModel.find();
+  return ACCESSTOKEN;
 }
 
 module.exports = { findToken };

@@ -1,11 +1,12 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const profileSchema = new Schema({
   idProfile: {
     type: String,
   },
-  Name: {
+  name: {
     type: String,
   },
 });
