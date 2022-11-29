@@ -11,10 +11,7 @@ module.exports = {
     ecmaVersion: 'latest',
   },
   rules: {
-    'newline-after-import': 'off',
-    'max-len': 'off',
-    'new-cap': 'off',
-    'quote-props': 'off',
+    'import/newline-after-import': ["error"],
     'arrow-body-style': ["error", "always"],
     'linebreak-style': ["error", "windows"],
     quotes: 'off',

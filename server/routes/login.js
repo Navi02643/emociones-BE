@@ -3,7 +3,7 @@ const loginService = require("../services/login");
 
 const app = express();
 
-app.post('/login', async (req, res) => {
+app.post('/', async (req, res) => {
   try {
     const data = await loginService.login(req.body);
     return res.status(200).send({
