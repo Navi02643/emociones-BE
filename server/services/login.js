@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-
 const jwt = require('jsonwebtoken');
 const loginDB = require('../database/login');
 const loginDTO = require('./models/loginDTO');
@@ -24,6 +23,7 @@ function tokenGeneration(postData) {
 
 async function login(user) {
   const dataUser = await loginDB.findUsersDB(user.email);
+  if (!dataUser) return 'Incorrect email/password';
   const isCorrectPassword = await bcrypt.compare(user.password, dataUser.password);
   if (!isCorrectPassword) return 'Incorrect email/password';
   const token = tokenGeneration(dataUser);
