@@ -1,5 +1,5 @@
 const userModel = require("./models/user.model");
-const tokenModel = require('./models/tokens.model');
+const TokenModel = require('./models/tokens.model');
 
 async function findUsersDB(email) {
   const users = await userModel.findOne({ email });
@@ -7,7 +7,7 @@ async function findUsersDB(email) {
 }
 
 async function saveTokenUser(token) {
-  const tokenSave = new tokenModel(token);
+  const tokenSave = new TokenModel(token);
   const tokens = await tokenSave.save();
   return tokens;
 }

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const videocallsSchema = new Schema({
+const videoCallsSchema = new Schema({
   idVideoCall: {
     type: String,
   },
@@ -14,4 +14,4 @@ const videocallsSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Videocalls", videocallsSchema);
+module.exports = mongoose.model("Videocalls", videoCallsSchema);
