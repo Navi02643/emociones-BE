@@ -8,6 +8,7 @@ async function checkTokenValidator(tokens) {
     jwt.verify(token.refreshToken, config.refreshTokenSecret, (err, decode) => {
       if (err) return err;
       if (decode) validTokens.push(token.refreshToken);
+      return 0;
     });
   });
   return validTokens;
