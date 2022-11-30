@@ -12,13 +12,9 @@ app.post('/', async (req, res) => {
     });
   } catch (error) {
     return res.status(500).send({
-      error: Object.keys(error).length === 0 ? error.message : error,
+      error: 'something failed, try again later',
     });
   }
-});
-
-app.get('/secure', (req, res) => {
-  res.send('Secure');
 });
 
 module.exports = app;
