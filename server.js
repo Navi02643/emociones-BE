@@ -60,6 +60,7 @@ app.use((req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
+  // eslint-disable-next-line no-console
   console.log(
     "[SERVER]".green,
     `Our app is running on port ${process.env.PORT}`,

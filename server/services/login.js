@@ -6,14 +6,14 @@ const config = require('../config/config.json');
 
 function tokenGeneration(postData) {
   const user = {
-    "email": postData.email,
-    "password": postData.password,
+    email: postData.email,
+    password: postData.password,
   };
   const token = jwt.sign(user, config.secret, { expiresIn: config.tokenLife });
   const refreshToken = jwt.sign(user, config.refreshTokenSecret, { expiresIn: config.refreshTokenLife });
   const response = {
-    "token": token,
-    "refreshToken": refreshToken,
+    token,
+    refreshToken,
   };
   loginDB.saveTokenUser(response);
   return response;
