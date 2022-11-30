@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-
 const jwt = require('jsonwebtoken');
 const loginDB = require('../database/login');
 const loginDTO = require('./models/loginDTO');
