@@ -33,11 +33,11 @@ const swaggerSpecs = {
     },
     servers: [
       {
-        url: "http://localhost:5000",
+        url: "http://localhost:5000/api/",
       },
     ],
   },
-  apis: [`${path.join(__dirname, "routes/*.js")}`],
+  apis: [`${path.join(__dirname, "/server/routes/*.js")}`],
 };
 
 app.use(bodyParser.json());
