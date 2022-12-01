@@ -12,7 +12,7 @@ app.post('/', async (req, res) => {
     });
   } catch (error) {
     return res.status(500).send({
-      error: 'something failed, try again later',
+      error: Object.keys(error).length === 0 ? error.message : error,
     });
   }
 });
