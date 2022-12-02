@@ -3,15 +3,13 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const videoCallsSchema = new Schema({
-  idVideoCall: {
-    type: String,
-  },
   idFollowup: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "followups",
   },
   transcript: {
     type: String,
   },
 });
 
-module.exports = mongoose.model("Videocalls", videoCallsSchema);
+module.exports = mongoose.model("videocalls", videoCallsSchema);

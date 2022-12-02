@@ -28,6 +28,7 @@
     "express-access-token": "^1.1.6",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.2",
+    "nodemailer": "^6.8.0",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.6.0"
   },

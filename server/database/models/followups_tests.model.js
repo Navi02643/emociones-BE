@@ -4,14 +4,16 @@ const { Schema } = mongoose;
 
 const testsSchema = new Schema({
   idFollowup: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "followups",
   },
   idTest: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "records",
   },
   result: {
     type: String,
   },
 });
 
-module.exports = mongoose.model("Tests", testsSchema);
+module.exports = mongoose.model("tests", testsSchema);

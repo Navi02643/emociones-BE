@@ -5,7 +5,7 @@ const app = express();
 
 const firewall = require("../security/accesstoken");
 
-app.use("/default", expressAccessToken, firewall, require("./default"));
 app.use("/login", require("./login"));
+app.use("/user", expressAccessToken, firewall, require("./user"));
 
 module.exports = app;
