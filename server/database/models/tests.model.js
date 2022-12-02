@@ -3,9 +3,6 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const testsSchema = new Schema({
-  idTest: {
-    type: String,
-  },
   name: {
     type: String,
   },
@@ -14,4 +11,4 @@ const testsSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Tests", testsSchema);
+module.exports = mongoose.model("tests", testsSchema);

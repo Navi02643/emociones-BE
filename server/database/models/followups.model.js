@@ -3,11 +3,9 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const followupsSchema = new Schema({
-  idFollowups: {
-    type: String,
-  },
   idRecord: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "records",
   },
   date: {
     type: String,
@@ -17,4 +15,4 @@ const followupsSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Followups", followupsSchema);
+module.exports = mongoose.model("followups", followupsSchema);

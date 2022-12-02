@@ -3,9 +3,6 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  idUser: {
-    type: String,
-  },
   name: {
     type: String,
   },
@@ -25,16 +22,14 @@ const userSchema = new Schema({
     type: String,
   },
   birthdate: {
-    type: String,
-  },
-  idProfile: {
-    type: String,
+    type: Date,
   },
   maritalStatus: {
     type: String,
   },
   idRecord: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "records",
   },
   status: {
     type: Boolean,
@@ -45,6 +40,7 @@ const userSchema = new Schema({
   },
   range: {
     type: Number,
+    default: 1,
   },
 });
 

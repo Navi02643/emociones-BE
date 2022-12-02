@@ -4,10 +4,12 @@ const { Schema } = mongoose;
 
 const appointmentsSchema = new Schema({
   idUser: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "users",
   },
   idPacient: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "users",
   },
   date: {
     type: String,
@@ -17,4 +19,4 @@ const appointmentsSchema = new Schema({
   },
 });
 
-module.exports = mongoose.model("Appointments", appointmentsSchema);
+module.exports = mongoose.model("appointments", appointmentsSchema);
