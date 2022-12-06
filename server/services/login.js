@@ -23,12 +23,12 @@ function tokenGeneration(postData) {
 
 async function login(user) {
   const dataUser = await loginDB.findUsersDB(user.email);
-  if (!dataUser) return 'Incorrect email/password';
+  if (!dataUser) return ({ error: true, msg: 'Incorrect email/password' });
   const isCorrectPassword = await bcrypt.compare(user.password, dataUser.password);
-  if (!isCorrectPassword) return 'Incorrect email/password';
+  if (!isCorrectPassword) return ({ error: true, msg: 'Incorrect email/password' });
   const token = tokenGeneration(dataUser);
   const loginData = loginDTO.loginDTO(dataUser, token);
-  return loginData;
+  return ({ error: false, loginData });
 }
 
 module.exports = { login };
