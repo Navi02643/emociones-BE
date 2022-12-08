@@ -50,6 +50,14 @@ app.use(
   swaggerUI.setup(swaggerJSDoc(swaggerSpecs)),
 );
 
+const server = require("http").Server(app);
+const io = require("socket.io")(server);
+const socketVerification = require("./server/security/socketio");
+
+io.use(socketVerification);
+
+require("./server/services/socketio")(io);
+
 app.use((req, res) => {
   return res.status(404).send({
     resp: "404",
@@ -59,7 +67,7 @@ app.use((req, res) => {
   });
 });
 
-app.listen(process.env.PORT, () => {
+server.listen(process.env.PORT, () => {
   // eslint-disable-next-line no-console
   console.log(
     "[SERVER]".green,

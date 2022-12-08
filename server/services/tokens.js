@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/config.json");
-const database = require("../database/tokens");
+const tokensDB = require("../database/tokens");
 
 async function checkTokenValidator(tokens) {
   const validTokens = [];
@@ -14,7 +14,7 @@ async function checkTokenValidator(tokens) {
   return validTokens;
 }
 async function findTokens() {
-  const findToken = await database.findToken();
+  const findToken = await tokensDB.findToken();
   const TokenCheck = await checkTokenValidator(findToken);
   return TokenCheck;
 }

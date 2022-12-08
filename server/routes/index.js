@@ -8,5 +8,6 @@ const firewall = require("../security/accesstoken");
 app.use("/login", require("./login"));
 app.use("/user", expressAccessToken, firewall, require("./user"));
 app.use("/logout", expressAccessToken, firewall, require("./logout"));
+app.use("/default", expressAccessToken, firewall, require("./default"));
 
 module.exports = app;
