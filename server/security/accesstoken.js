@@ -1,4 +1,4 @@
-const tokenService = require("../services/tokens");
+const tokenService = require("../services/session");
 
 const firewall = async (req, res, next) => {
   const accessTokens = await tokenService.findTokens();
