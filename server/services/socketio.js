@@ -1,6 +1,12 @@
 function socketServer(io) {
   io.on("connection", (socket) => {
-    console.log(socket.id);
+    socket.on("disconnect", () => {
+      socket.broadcast.emit("callEnded");
+    });
+
+    socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+      socket.leave(roomId);
+    });
   });
 }
 
