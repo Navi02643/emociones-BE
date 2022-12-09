@@ -25,6 +25,7 @@ function tokenGeneration(postData) {
 async function login(user) {
   const dataUser = await usersDB.findEmail(user.email);
   if (!dataUser) return 'Incorrect email/password';
+
   const isCorrectPassword = await bcrypt.compare(user.password, dataUser.password);
   if (!isCorrectPassword) return 'Incorrect email/password';
 
@@ -48,6 +49,7 @@ async function checkTokenValidator(token) {
   });
   return validToken;
 }
+
 async function findTokens(token) {
   const findToken = await tokenDB.findToken(token);
   const TokenCheck = await checkTokenValidator(findToken);

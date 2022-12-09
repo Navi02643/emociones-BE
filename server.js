@@ -54,6 +54,7 @@ app.use((req, res) => {
   return res.status(404).send({
     isValid: false,
     message: 'not found',
+    data: [],
   });
 });
 
