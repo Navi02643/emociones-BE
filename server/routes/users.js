@@ -1,11 +1,11 @@
 const express = require("express");
-const logoutService = require("../services/logout");
+const userService = require("../services/users");
 
 const app = express();
 
-app.delete('/', async (req, res) => {
+app.post('/register', async (req, res) => {
   try {
-    const data = await logoutService.logout(req.body, req.headers.authorization.split(" ")[1]);
+    const data = await userService.generateUser(req.body);
     return res.status(200).send({
       error: false,
       data,
