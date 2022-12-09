@@ -52,10 +52,8 @@ app.use(
 
 app.use((req, res) => {
   return res.status(404).send({
-    resp: "404",
-    err: true,
-    msg: `URL ${req.url} Not Found`,
-    cont: {},
+    isValid: false,
+    message: 'not found',
   });
 });
 

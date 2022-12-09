@@ -1,8 +1,19 @@
-const TokensModel = require("./models/tokens.model");
+const TokenModel = require("./models/tokens.model");
+
+async function saveTokenUser(token) {
+  const tokenSave = new TokenModel(token);
+  const tokens = await tokenSave.save();
+  return tokens;
+}
 
 async function findToken(token) {
-  const accessToken = await TokensModel.findOne({ token });
+  const accessToken = await TokenModel.findOne({ token });
   return accessToken;
 }
 
-module.exports = { findToken };
+async function deleteSession(session) {
+  const idFind = await TokenModel.findOneAndDelete({ idUser: `${session.id}`, refreshToken: `${session.refreshToken}` });
+  return idFind;
+}
+
+module.exports = { findToken, saveTokenUser, deleteSession };
