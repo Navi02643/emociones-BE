@@ -34,11 +34,11 @@ async function login(user) {
   return loginData;
 }
 
-async function logout(session, refreshToken) {
-  const data = { id: session.id, refreshToken };
+async function logout(session, token) {
+  const data = { id: session.idUser, token };
   const sessionFind = await tokenDB.deleteSession(data);
-  if (sessionFind) return 'Closed session';
-  return 'The session does not exist';
+  if (sessionFind) return { isValid: true, message: 'Closed session', data: [] };
+  return { isValid: true, message: 'The session does not exist', data: [] };
 }
 
 async function checkTokenValidator(token) {
