@@ -76,7 +76,7 @@
                 "idRecord":{
                     "type": "Schema.Types.ObjectId",
                     "ref": "records"
-                },
+                }, 
                 "status":{
                     "type": "boolean",
                     "default": "true"

@@ -19,7 +19,7 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Authorization, Origin, X-Requested-With, Content-Type, Accept",
   );
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE. FETCH");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, FETCH");
   res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE, FETCH");
   next();
 });
