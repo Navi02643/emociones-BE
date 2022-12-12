@@ -37,8 +37,8 @@ async function login(user) {
 async function logout(session, token) {
   const data = { id: session.idUser, token };
   const sessionFind = await tokenDB.deleteSession(data);
-  if (sessionFind) return { isValid: true, message: 'Closed session', data: [] };
-  return { isValid: true, message: 'The session does not exist', data: [] };
+  if (sessionFind) return { isValid: true, message: 'Closed session', data: null };
+  return { isValid: true, message: 'The session does not exist', data: null };
 }
 
 async function checkTokenValidator(token) {
