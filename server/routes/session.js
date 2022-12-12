@@ -13,7 +13,9 @@ app.delete('/logout', async (req, res) => {
     });
   } catch (error) {
     return res.status(500).send({
-      error: 'something failed, try again later',
+      isValid: false,
+      message: 'something failed, try again later',
+      data: [],
     });
   }
 });
