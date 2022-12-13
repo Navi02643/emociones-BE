@@ -3,9 +3,8 @@ const cors = require("cors");
 
 const app = express();
 const swaggerUI = require("swagger-ui-express");
-const swaggerJSDoc = require("swagger-jsdoc");
-const path = require("path");
 const bodyParser = require("body-parser");
+const swaggerJSDoc = require("./server/swagger/swagger.json");
 
 require("dotenv").config();
 require("./server/config/db");
@@ -19,26 +18,10 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Authorization, Origin, X-Requested-With, Content-Type, Accept",
   );
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE");
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE, FETCH");
+  res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE, FETCH");
   next();
 });
-
-const swaggerSpecs = {
-  definition: {
-    openapi: "3.0.3",
-    info: {
-      title: "EmocionesBE",
-      version: "1.0.0",
-    },
-    servers: [
-      {
-        url: "http://localhost:5000/api/",
-      },
-    ],
-  },
-  apis: [`${path.join(__dirname, "/server/routes/*.js")}`],
-};
 
 app.use(bodyParser.json());
 
@@ -47,7 +30,7 @@ app.use("/api", require("./server/routes/index"));
 app.use(
   "/api-doc",
   swaggerUI.serve,
-  swaggerUI.setup(swaggerJSDoc(swaggerSpecs)),
+  swaggerUI.setup(swaggerJSDoc),
 );
 
 app.use((req, res) => {
