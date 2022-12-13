@@ -3,7 +3,6 @@ const cors = require("cors");
 
 const app = express();
 const swaggerUI = require("swagger-ui-express");
-// const path = require("path");
 const bodyParser = require("body-parser");
 const swaggerJSDoc = require("./server/swagger/swagger.json");
 
@@ -23,22 +22,6 @@ app.use((req, res, next) => {
   res.header("Allow", "GET, POST, OPTIONS, PUT, DELETE, FETCH");
   next();
 });
-
-// const swaggerSpecs = {
-//   definition: {
-//     openapi: "3.0.3",
-//     info: {
-//       title: "EmocionesBE",
-//       version: "1.0.0",
-//     },
-//     servers: [
-//       {
-//         url: "http://localhost:5000/api/",
-//       },
-//     ],
-//   },
-//   apis: [`${path.join(__dirname, "/server/routes/*.js")}`],
-// };
 
 app.use(bodyParser.json());
 
