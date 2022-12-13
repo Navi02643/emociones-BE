@@ -15,7 +15,7 @@ app.post('/register', async (req, res) => {
     return res.status(500).send({
       isValid: false,
       message: 'something failed, try again later',
-      data: [],
+      data: null,
     });
   }
 });

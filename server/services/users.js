@@ -38,22 +38,8 @@ async function sendEmail(user, password) {
   return 0;
 }
 
-function checkUserData(user) {
-  try {
-    if (user.name === "") return { isValid: false, message: 'the name is required', data: [] };
-    if (user.middleName === "") return { isValid: false, message: 'the middleName is required', data: [] };
-    if (user.email === "") return { isValid: false, message: 'the email is required', data: [] };
-    if (user.phone === "") return { isValid: false, message: 'the phone is required', data: [] };
-    if (user.birthdate === "") return { isValid: false, message: 'the birthday is required', data: [] };
-    if (user.idRecord === "") return { isValid: false, message: 'the record is required', data: [] };
-    return true;
-  } catch (error) {
-    return { isValid: false, message: 'the name, middleName, email, phone and record is obligatory', data: [] };
-  }
-}
-
 async function generateUser(user) {
-  const check = checkUserData(user);
+  const check = userDTO.checkUserData(user);
 
   if (check.isValid === false) return check;
 
