@@ -12,7 +12,7 @@ async function findToken(token) {
 }
 
 async function deleteSession(session) {
-  const idFind = await TokenModel.findOneAndDelete({ idUser: `${session.id}`, refreshToken: `${session.refreshToken}` });
+  const idFind = await TokenModel.findOneAndDelete({ idUser: `${session.id}`, token: `${session.token}` });
   return idFind;
 }
 
