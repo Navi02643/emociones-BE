@@ -26,6 +26,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-access-token": "^1.1.6",
+    "joi": "^17.7.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.7.2",
     "nodemailer": "^6.8.0",
