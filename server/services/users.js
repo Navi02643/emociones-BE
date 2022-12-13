@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
-const userDB = require("../database/user");
+const userDB = require("../database/users");
 const userDTO = require('./models/userDTO');
 
 async function generatePassword() {
