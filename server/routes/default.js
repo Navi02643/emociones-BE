@@ -7,7 +7,6 @@ app.get("/", async (req, res) => {
       estatus: "200",
       err: false,
       msg: "FUNCIONANDO",
-      fecha: now,
     });
   } catch (err) {
     return res.status(500).send({
