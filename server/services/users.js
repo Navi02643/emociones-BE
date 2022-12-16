@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 const userDB = require("../database/users");
+const recordDB = require("../database/records");
 const userDTO = require('./models/userDTO');
 
 async function generatePassword() {
@@ -39,11 +40,15 @@ async function sendEmail(user, password) {
 }
 
 async function generateUser(user) {
+  const userData = user;
+  const generateRecord = await recordDB.saveRecord({ cause: user.cause });
+
+  userData.idRecord = generateRecord._id;
+
   const check = userDTO.checkUserData(user);
 
   if (check.isValid === false) return check;
 
-  const userData = user;
   const findEmail = await userDB.findEmail(user.email);
 
   if (findEmail) return { isValid: false, message: 'Email already exists', data: user.email };
