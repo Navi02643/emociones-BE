@@ -4,8 +4,8 @@ function checkUserData(user) {
   try {
     const schema = Joi.object({
       name: Joi.string().pattern(/^[a-zA-Z ]+$/, { name: 'alpha' }),
-      middleName: Joi.string().pattern(/^[a-zA-Z]+$/, { name: 'alpha' }),
-      lastName: Joi.string().pattern(/^[a-zA-Z]+$/, { name: 'alpha' }),
+      middleName: Joi.string().pattern(/^[a-zA-Z ]+$/, { name: 'alpha' }),
+      lastName: Joi.string().pattern(/^[a-zA-Z ]+$/, { name: 'alpha' }),
       email: Joi.string().email(),
       phone: Joi.number(),
       birthdate: Joi.date(),
