@@ -1,11 +1,11 @@
 const express = require("express");
-const userService = require("../services/users");
+const appointmentsService = require("../services/appointments");
 
 const app = express();
 
-app.post('/register', async (req, res) => {
+app.get("/", async (req, res) => {
   try {
-    const data = await userService.generateUser(req.body);
+    const data = await appointmentsService.getAppointments(req.query, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,
@@ -14,7 +14,7 @@ app.post('/register', async (req, res) => {
   } catch (error) {
     return res.status(500).send({
       isValid: false,
-      message: 'something failed, try again later',
+      message: "Something failed, try again later.",
       data: null,
     });
   }

@@ -11,4 +11,9 @@ async function findEmail(email) {
   return searchEmail;
 }
 
-module.exports = { saveUser, findEmail };
+async function findById(id) {
+  const searchId = await UserModel.findById(id);
+  return searchId;
+}
+
+module.exports = { saveUser, findEmail, findById };
