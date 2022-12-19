@@ -53,11 +53,6 @@
                 "summary": "Show appointments",
                 "parameters": [{
                     "in": "query",
-                    "name": "idUser",
-                    "required": true,
-                    "type": "string"
-                }, {
-                    "in": "query",
                     "name": "page",
                     "required": false,
                     "type": "string"
