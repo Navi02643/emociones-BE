@@ -1,9 +1,31 @@
 const AppointmentModel = require("./models/appointments.model");
 require("./models/user.model");
 
-async function findByUser(idUser, limit, offset) {
-  const appointments = await AppointmentModel.find({ idUser }).populate("idUser").populate("idPacient").skip(offset)
-    .limit(limit);
+async function findByUser(idUser, parameters, offset) {
+  const appointments = await AppointmentModel.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "idPacient",
+        foreignField: "_id",
+        as: "Pacient",
+      },
+    }, {
+      $lookup: {
+        from: "users",
+        localField: "idUser",
+        foreignField: "_id",
+        as: "User",
+      },
+    },
+    { $unwind: "$User" },
+    { $unwind: "$Pacient" },
+    {
+      $sort: {
+        [parameters.value.order]: parameters.value.way,
+      },
+    },
+  ]).skip(offset).limit(parameters.value.size);
   return appointments;
 }
 

@@ -6,7 +6,7 @@ const appointmentDTO = require("./models/appointmentsDTO");
 async function userAppointments(data, user) {
   if (user.range === 2 || user.range === 3) {
     const offset = (data.value.page * data.value.size) - data.value.size;
-    const foundAppointments = await appointmentDB.findByUser(user._id, data.value.size, offset);
+    const foundAppointments = await appointmentDB.findByUser(user._id, data, offset);
     return foundAppointments;
   }
   if (user.range === 1) {
@@ -14,20 +14,6 @@ async function userAppointments(data, user) {
     return foundAppointments;
   }
   return ({ isValid: false, message: "Range not valid", data: null });
-}
-
-function sortAppointments(order, way) {
-  return (appointment1, appointment2) => {
-    if (appointment1[order] < appointment2[order]) {
-      const result = -1 * way;
-      return result;
-    }
-    if (appointment1[order] > appointment2[order]) {
-      const result = 1 * way;
-      return result;
-    }
-    return 0;
-  };
 }
 
 async function getAppointments(query, token) {
@@ -45,6 +31,9 @@ async function getAppointments(query, token) {
 
   if (appointmentCheck.isValid === false) return appointmentCheck;
 
+  appointmentCheck.value.page = parseInt(appointmentCheck.value.page, 10);
+  appointmentCheck.value.size = parseInt(appointmentCheck.value.size, 10);
+  appointmentCheck.value.way = parseInt(appointmentCheck.value.way, 10);
   const { idUser } = await tokenDB.findToken(token);
   const user = await userDB.findById(idUser);
 
@@ -55,9 +44,8 @@ async function getAppointments(query, token) {
   if (verifiedAppointments.isValid === false) return verifiedAppointments;
 
   const outputAppointments = verifiedAppointments.map((appointment) => {
-    return appointmentDTO.outputAppointmentsDTO(appointment);
+    return appointmentDTO.outputGetAppointmentsDTO(appointment);
   });
-  outputAppointments.sort(sortAppointments(data.order, data.way));
   return ({ isValid: true, message: "Appointments retrieved successfully", data: outputAppointments });
 }
 

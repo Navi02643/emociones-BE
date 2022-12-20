@@ -5,7 +5,7 @@ function inputGetAppointmentsDTO(getAppointmentData) {
     const schema = Joi.object({
       page: Joi.string().pattern(/^[0-9]+$/, { name: "numbers" }).trim(),
       size: Joi.string().pattern(/^[0-9]+$/, { name: "numbers" }).trim(),
-      order: Joi.string().pattern(/^(patientName|date)/, { name: "sort" }).trim(),
+      order: Joi.string().pattern(/^(Pacient.name|date)/, { name: "sort" }).trim(),
       way: Joi.string().pattern(/(1|-1)$/, { name: "sort" }).trim(),
     });
     const value = schema.validate({
@@ -13,7 +13,7 @@ function inputGetAppointmentsDTO(getAppointmentData) {
       size: `${getAppointmentData.size}`,
       order: `${getAppointmentData.order}`,
       way: `${getAppointmentData.way}`,
-    });
+    }, { convert: true });
     if (value.error) {
       const message = `${value.error.message.split('"')[1]} has an invalid value`;
       return ({ isValid: false, message, data: null });
@@ -24,10 +24,10 @@ function inputGetAppointmentsDTO(getAppointmentData) {
   }
 }
 
-function outputAppointmentsDTO(appointmentData) {
+function outputGetAppointmentsDTO(appointmentData) {
   const appointmentDTO = {
-    patientName: `${appointmentData.idPacient.name} ${appointmentData.idPacient.middleName} ${appointmentData.idPacient.lastName}`,
-    therapistName: `${appointmentData.idUser.name} ${appointmentData.idUser.middleName} ${appointmentData.idUser.lastName}`,
+    patientName: `${appointmentData.Pacient.name} ${appointmentData.Pacient.middleName} ${appointmentData.Pacient.lastName}`,
+    therapistName: `${appointmentData.User.name} ${appointmentData.User.middleName} ${appointmentData.User.lastName}`,
     date: appointmentData.date,
     hour: appointmentData.hour,
   };
@@ -35,4 +35,4 @@ function outputAppointmentsDTO(appointmentData) {
   return appointmentDTO;
 }
 
-module.exports = { inputGetAppointmentsDTO, outputAppointmentsDTO };
+module.exports = { inputGetAppointmentsDTO, outputGetAppointmentsDTO };
