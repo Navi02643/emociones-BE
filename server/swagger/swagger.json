@@ -15,7 +15,8 @@
           "operationId": "getUsers",
           "tags": ["User Data"],
           "summary": "Post User",
-          "parameters": [{
+          "parameters": [
+            {
             "in": "body",
             "name": "body",
             "description": "Login data",
@@ -229,4 +230,5 @@
             "name": "Appointments"
         }
     }
+  }
 }
