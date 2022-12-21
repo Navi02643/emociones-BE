@@ -11,4 +11,9 @@ async function findEmail(email) {
   return searchEmail;
 }
 
-module.exports = { saveUser, findEmail };
+async function findPatient(name) {
+  const searchPatient = await UserModel.find({ name: { $regex: `${name}` }, range: 1 });
+  return searchPatient;
+}
+
+module.exports = { saveUser, findEmail, findPatient };
