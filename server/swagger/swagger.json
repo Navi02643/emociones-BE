@@ -1,28 +1,28 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "title": "Swagger Document",
-        "description": "Swagger Document",
-        "version": "1.0"
-    },
-    "produces": ["application/json"],
-    "host": "localhost:5000",
-    "basePath": "/api", 
-    "paths": {
-      "/user/": {
-        "post": {
-          "x-swagger-router-controller": "middleware-name1",
-          "operationId": "getUsers",
-          "tags": ["User Data"],
-          "summary": "Post User",
-          "parameters": [
-            {
+  "swagger": "2.0",
+  "info": {
+    "title": "Swagger Document",
+    "description": "Swagger Document",
+    "version": "1.0"
+  },
+  "produces": ["application/json"],
+  "host": "localhost:5000",
+  "basePath": "/api",
+  "paths": {
+    "/user/": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name1",
+        "operationId": "getUsers",
+        "tags": ["User Data"],
+        "summary": "Post User",
+        "parameters": [
+          {
             "in": "body",
             "name": "body",
             "description": "Login data",
             "required": true,
             "schema": {
-                "$ref": "#definitions/User"
+              "$ref": "#definitions/User"
             }
           }
         ],
