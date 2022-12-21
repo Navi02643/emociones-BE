@@ -9,6 +9,7 @@ async function findByUser(idUser, parameters, offset) {
         localField: "idPacient",
         foreignField: "_id",
         as: "Pacient",
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
       },
     }, {
       $lookup: {
@@ -16,6 +17,7 @@ async function findByUser(idUser, parameters, offset) {
         localField: "idUser",
         foreignField: "_id",
         as: "User",
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
       },
     },
     { $unwind: "$User" },

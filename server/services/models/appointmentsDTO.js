@@ -5,7 +5,7 @@ function inputGetAppointmentsDTO(getAppointmentData) {
     const schema = Joi.object({
       page: Joi.string().pattern(/^[0-9]+$/, { name: "numbers" }).trim(),
       size: Joi.string().pattern(/^[0-9]+$/, { name: "numbers" }).trim(),
-      order: Joi.string().pattern(/^(Pacient.name|date)/, { name: "sort" }).trim(),
+      order: Joi.string().pattern(/^(Pacient.fullName|date)/, { name: "sort" }).trim(),
       way: Joi.string().pattern(/(1|-1)$/, { name: "sort" }).trim(),
     });
     const value = schema.validate({
@@ -26,8 +26,8 @@ function inputGetAppointmentsDTO(getAppointmentData) {
 
 function outputGetAppointmentsDTO(appointmentData) {
   const appointmentDTO = {
-    patientName: `${appointmentData.Pacient.name} ${appointmentData.Pacient.middleName} ${appointmentData.Pacient.lastName}`,
-    therapistName: `${appointmentData.User.name} ${appointmentData.User.middleName} ${appointmentData.User.lastName}`,
+    patientName: appointmentData.Pacient.fullName,
+    therapistName: appointmentData.User.fullName,
     date: appointmentData.date,
     hour: appointmentData.hour,
   };
