@@ -7,12 +7,15 @@ app.post('/', async (req, res) => {
   try {
     const data = await loginService.login(req.body);
     return res.status(200).send({
-      error: false,
-      data,
+      isValid: data.isValid,
+      message: data.message,
+      data: data.data,
     });
   } catch (error) {
     return res.status(500).send({
-      error: 'something failed, try again later',
+      isValid: false,
+      message: 'something failed, try again later',
+      data: null,
     });
   }
 });

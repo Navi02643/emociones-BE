@@ -12,7 +12,7 @@ function tokenGeneration(postData) {
     password: postData.password,
   };
   const token = jwt.sign(user, config.secret, { expiresIn: config.tokenLife });
-  const refreshToken = jwt.sign(user, config.refreshTokenSecret, { expiresIn: config.refreshTokenLife });
+  const refreshToken = jwt.sign(user, config.refreshTokenSecret);
   const response = {
     idUser: postData._id,
     token,
@@ -24,34 +24,36 @@ function tokenGeneration(postData) {
 
 async function login(user) {
   const dataUser = await usersDB.findEmail(user.email);
-  if (!dataUser) return 'Incorrect email/password';
+
+  if (!dataUser) return ({ isValid: false, message: 'Incorrect email/password', data: null });
+
   const isCorrectPassword = await bcrypt.compare(user.password, dataUser.password);
-  if (!isCorrectPassword) return 'Incorrect email/password';
+
+  if (!isCorrectPassword) return ({ isValid: false, message: 'Incorrect email/password', data: null });
+
   const token = tokenGeneration(dataUser);
   const loginData = loginDTO.loginDTO(dataUser, token);
-  return loginData;
+  return { isValid: true, message: 'Login Success', data: loginData };
 }
 
-async function logout(session, refreshToken) {
-  const data = { id: session.id, refreshToken };
+async function logout(session, token) {
+  const data = { id: session.idUser, token };
   const sessionFind = await tokenDB.deleteSession(data);
-  if (sessionFind) return 'Closed session';
-  return 'The session does not exist';
+  if (sessionFind) return { isValid: true, message: 'Closed session', data: null };
+  return { isValid: true, message: 'The session does not exist', data: null };
 }
 
-async function checkTokenValidator(tokens) {
-  const validTokens = [];
-  tokens.forEach((token) => {
-    jwt.verify(token.refreshToken, config.refreshTokenSecret, (err, decode) => {
-      if (err) return err;
-      if (decode) validTokens.push(token.refreshToken);
-      return 0;
-    });
+async function checkTokenValidator(token) {
+  const validToken = [];
+  jwt.verify(token.token, config.secret, (err, decode) => {
+    if (decode) validToken.push(token.refreshToken);
+    return 0;
   });
-  return validTokens;
+  return validToken;
 }
-async function findTokens() {
-  const findToken = await tokenDB.findToken();
+
+async function findTokens(token) {
+  const findToken = await tokenDB.findToken(token);
   const TokenCheck = await checkTokenValidator(findToken);
   return TokenCheck;
 }
