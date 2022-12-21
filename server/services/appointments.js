@@ -38,11 +38,9 @@ async function getAppointments(query, token) {
   const user = await userDB.findById(idUser);
 
   if (!user) return ({ isValid: false, message: "User not found", data: null });
-
   const verifiedAppointments = await userAppointments(appointmentCheck, user);
 
   if (verifiedAppointments.isValid === false) return verifiedAppointments;
-
   const outputAppointments = verifiedAppointments.map((appointment) => {
     return appointmentDTO.outputGetAppointmentsDTO(appointment);
   });
