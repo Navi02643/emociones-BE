@@ -12,10 +12,7 @@ const appointmentsSchema = new Schema({
     ref: "users",
   },
   date: {
-    type: String,
-  },
-  hour: {
-    type: String,
+    type: Date,
   },
 });
 

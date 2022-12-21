@@ -75,6 +75,43 @@
         ],
         "responses": {}
       }
+    },
+    "/appointments": {
+        "get": {
+            "x-swagger-router-controller": "middleware-name3",
+            "operationId": "showAppointments",
+            "tags": ["Appointments"],
+            "summary": "Show appointments",
+            "parameters": [{
+                "in": "query",
+                "name": "page",
+                "required": false,
+                "type": "string"
+            }, {
+                "in": "query",
+                "name": "size",
+                "required": false,
+                "type": "string" 
+            }, {
+                "in": "query",
+                "name": "order",
+                "required": false,
+                "type": "string"
+            }, {
+                "in": "query",
+                "name": "way",
+                "required": false,
+                "type": "string"
+            }, {
+                "in": "header",
+                "name": "authorization",
+                "require": true,
+                "type": "string"
+            }],
+            "responses": {
+
+            }
+        }
     }
   },
   "definitions": {
@@ -171,6 +208,27 @@
       "xml": {
         "name": "Login"
       }
+    },
+    "Appointments": {
+        "properties": {
+            "idUser": {
+                "type": "Schema.Types.ObjectId",
+                "ref": "users"
+            },
+            "idPacient": {
+                "type": "Schema.Types.ObjectId",
+                "ref": "users"
+            },
+            "date": {
+                "type": "string"
+            },
+            "hour": {
+                "type": "string"
+            }
+        },
+        "xml": {
+            "name": "Appointments"
+        }
     }
   }
 }
