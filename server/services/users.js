@@ -65,7 +65,7 @@ async function generateUser(user) {
 }
 
 async function nameAutoComplete(name) {
-  const userfind = name.name;
+  const userfind = name;
   if (userfind.length >= 3) {
     const userData = await userDB.findPatient(userfind);
     return { isValid: true, message: 'User Success', data: userData };

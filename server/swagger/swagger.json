@@ -31,7 +31,7 @@
     },
     "/user/register": {
       "post": {
-        "x-swagger-router-controller": "middleware-name1",
+        "x-swagger-router-controller": "middleware-name2",
         "operationId": "getUsers",
         "tags": ["User Data"],
         "summary": "Register User",
@@ -56,9 +56,36 @@
         "responses": {}
       }
     },
-    "/login": {
+    "/user/autocomplete": {
       "post": {
         "x-swagger-router-controller": "middleware-name3",
+        "operationId": "Autocomplete Patients",
+        "tags": ["User Data"],
+        "summary": "Autocomplete Patients",
+        "parameters": [
+          {
+            "in": "params",
+            "name": "params",
+            "description": "Autocomplete name of Patients",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UserRegister"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "an authorization header",
+            "required": "true",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/login": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name4",
         "operationId": "login",
         "tags": ["Login"],
         "summary": "Log a user",
