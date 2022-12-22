@@ -10,7 +10,9 @@ async function userAppointments(data, user) {
     return foundAppointments;
   }
   if (user.range === 1) {
-    const foundAppointments = await appointmentDB.findByPatient(user._id);
+    const date = new Date();
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    const foundAppointments = await appointmentDB.findByPatient(user._id, date);
     return foundAppointments;
   }
   return ({ isValid: false, message: "Range not valid", data: null });
@@ -38,11 +40,9 @@ async function getAppointments(query, token) {
   const user = await userDB.findById(idUser);
 
   if (!user) return ({ isValid: false, message: "User not found", data: null });
-
   const verifiedAppointments = await userAppointments(appointmentCheck, user);
 
   if (verifiedAppointments.isValid === false) return verifiedAppointments;
-
   const outputAppointments = verifiedAppointments.map((appointment) => {
     return appointmentDTO.outputGetAppointmentsDTO(appointment);
   });
