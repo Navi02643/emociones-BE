@@ -10,7 +10,9 @@ async function userAppointments(data, user) {
     return foundAppointments;
   }
   if (user.range === 1) {
-    const foundAppointments = await appointmentDB.findByPatient(user._id);
+    const date = new Date();
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    const foundAppointments = await appointmentDB.findByPatient(user._id, date);
     return foundAppointments;
   }
   return ({ isValid: false, message: "Range not valid", data: null });

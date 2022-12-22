@@ -35,7 +35,7 @@ async function findByUser(idUser, parameters, offset) {
   return appointments;
 }
 
-async function findByPatient(idPacient) {
+async function findByPatient(idPacient, date) {
   const appointments = await AppointmentModel.aggregate([
     {
       $lookup: {
@@ -57,9 +57,8 @@ async function findByPatient(idPacient) {
     { $unwind: "$User" },
     { $unwind: "$Pacient" },
     {
-      $match: { "Pacient._id": Types.ObjectId(idPacient) },
-    },
-    {
+      $match: { $and: [{ "Pacient._id": Types.ObjectId(idPacient) }, { date: { $gte: date } }] },
+    }, {
       $sort: {
         date: 1,
       },
