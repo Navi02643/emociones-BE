@@ -1,11 +1,14 @@
-const tokenService = require("../services/tokens");
+const tokenService = require("../services/session");
 
 const socketVerification = async (socket, next) => {
-  const accessTokens = await tokenService.findTokens();
-  const isAuthorized = accessTokens.includes(socket.handshake.query.token);
-  console.log(isAuthorized);
-  if (!isAuthorized) return next(new Error("Unauthorized"));
-  return next();
+  try {
+    if (!socket.handshake.headers.token) return next(new Error("Unauthorized"));
+    const isAuthorized = await tokenService.findTokens(socket.handshake.headers.token);
+    if (!isAuthorized) return next(new Error("Unauthorized"));
+    return next();
+  } catch (error) {
+    return next(new Error("Unauthorized"));
+  }
 };
 
 module.exports = socketVerification;
