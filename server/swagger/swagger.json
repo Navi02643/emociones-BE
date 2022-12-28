@@ -205,16 +205,18 @@
       "properties": {
         "idUser": {
           "type": "string",
-          "default": "637ecbb79ddb4c3a627ad43d"
+          "describe": "This field contains the ID of the therapist.",
+          "example": "63aa409c3a6c25ca233c0713"
         },
         "idPacient": {
           "type": "string",
-          "default": "6398a857009e00d0a9adc79d"
+          "describe": "This field contains the patient's ID.",
+          "example": "63aa4fbd3a6c25ca233c071f"
         },
         "date": {
           "type": "string",
-          "describe": "YYYY-MM-DD HH:mm:ss",
-          "default": "2000-04-03 09:00:00"
+          "describe": " his field contains the following format YYYY-MM-DD HH:mm:ss for the appointment.",
+          "example": "2000-04-03 09:00:00"
         }
       },
       "xml": {
