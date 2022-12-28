@@ -165,7 +165,7 @@
         },
         "email": {
           "type": "string",
-          "description": "This field contains the user's email. Note: The password is sent to the email, use an email that you can access.",
+          "description": "This field contains the user's email. Note: The password is automatically generated, the password is sent to the email, use an email that you can access.",
           "example": "correo@gmail.com"
         },
         "phone": {
