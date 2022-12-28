@@ -10,7 +10,9 @@ async function userAppointments(data, user) {
     return foundAppointments;
   }
   if (user.range === 1) {
-    const foundAppointments = await appointmentDB.findByPatient(user._id);
+    const date = new Date();
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    const foundAppointments = await appointmentDB.findByPatient(user._id, date);
     return foundAppointments;
   }
   return ({ isValid: false, message: "Range not valid", data: null });
@@ -38,17 +40,30 @@ async function getAppointments(query, token) {
   const user = await userDB.findById(idUser);
 
   if (!user) return ({ isValid: false, message: "User not found", data: null });
-
   const verifiedAppointments = await userAppointments(appointmentCheck, user);
 
   if (verifiedAppointments.isValid === false) return verifiedAppointments;
-
   const outputAppointments = verifiedAppointments.map((appointment) => {
     return appointmentDTO.outputGetAppointmentsDTO(appointment);
   });
   return ({ isValid: true, message: "Appointments retrieved successfully", data: outputAppointments });
 }
 
+async function createAppointment(appointment) {
+  const appointmentData = appointment;
+  const check = appointmentDTO.checkAppointmentData(appointment);
+  const date = (appointment.date).split(" ")[0];
+  const hour = (appointment.date).split(" ")[1];
+
+  if (check.isValid === false) return check;
+
+  appointmentData.date = `${date}T${hour}.000+00:00`;
+  const save = await appointmentDB.createAppointment(appointmentData);
+
+  return { isValid: true, message: 'Appointment created', data: save };
+}
+
+module.exports = { getAppointments, createAppointment };
 async function deleteAppointment(appointment, range) {
   const date = new Date();
   const data = { _id: appointment._id };
