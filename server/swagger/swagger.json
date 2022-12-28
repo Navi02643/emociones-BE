@@ -133,6 +133,19 @@
     }
   },
   "definitions": {
+    "Login": {
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Login"
+      }
+    },
     "UserRegister": {
       "properties": {
         "name": {
@@ -161,7 +174,10 @@
           "example": "4495653636"
         },
         "birthdate": {
-          "type": "date"
+          "type": "string",
+          "format": "date",
+          "description": "this field contains the date of birth of the user in the format YYYY-MM-DD.",
+          "example": "2000-04-03"
         },
         "maritalStatus": {
           "type": "string",
@@ -186,19 +202,6 @@
       },
       "xml": {
         "name": "User"
-      }
-    },
-    "Login": {
-      "properties": {
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Login"
       }
     },
     "Appointments": {
