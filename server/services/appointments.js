@@ -63,15 +63,12 @@ async function createAppointment(appointment) {
   return { isValid: true, message: 'Appointment created', data: save };
 }
 
-module.exports = { getAppointments, createAppointment };
 async function deleteAppointment(appointment, range) {
   const date = new Date();
   const data = { _id: appointment._id };
   const search = await appointmentDB.searchAppointment(data);
-  if (range === 1) {
-    if (search.data.date !== date) {
-      return ({ isValid: false, message: "Sorry, contact your therapist directly to make your cancellation", data: null });
-    }
+  if (range === 1 && search.data.date !== date) {
+    return ({ isValid: false, message: "Sorry, contact your therapist directly to make your cancellation", data: null });
   }
   const deleteAppointments = await appointmentDB.deleteAppointment(data);
   if (!deleteAppointments) {
@@ -80,4 +77,4 @@ async function deleteAppointment(appointment, range) {
   return ({ isValid: true, message: "Appointment deleted successfully", data: deleteAppointments });
 }
 
-module.exports = { getAppointments, deleteAppointment };
+module.exports = { getAppointments, deleteAppointment, createAppointment };
