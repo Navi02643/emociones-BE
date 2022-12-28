@@ -16,4 +16,11 @@ async function findPatient(name) {
   return searchPatient;
 }
 
-module.exports = { saveUser, findEmail, findPatient };
+async function findById(id) {
+  const searchId = await UserModel.findById(id);
+  return searchId;
+}
+
+module.exports = {
+  saveUser, findEmail, findPatient, findById,
+};
