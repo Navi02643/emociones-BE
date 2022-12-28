@@ -67,4 +67,10 @@ async function findByPatient(idPacient, date) {
   return appointments;
 }
 
-module.exports = { findByUser, findByPatient };
+async function createAppointment(appointment) {
+  const newAppointment = new AppointmentModel(appointment);
+  const appointmentSave = await newAppointment.save();
+  return appointmentSave;
+}
+
+module.exports = { findByUser, findByPatient, createAppointment };

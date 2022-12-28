@@ -8,54 +8,15 @@
   "produces": ["application/json"],
   "host": "localhost:5000",
   "basePath": "/api",
+  "securityDefinitions": {
+    "bearerAuth": {
+      "name": "Authorization",
+      "in": "header",
+      "type": "apiKey",
+      "description": "enter the session token includes the word Bearer and a space before the token"
+    }
+  },
   "paths": {
-    "/user/": {
-      "post": {
-        "x-swagger-router-controller": "middleware-name1",
-        "operationId": "getUsers",
-        "tags": ["User Data"],
-        "summary": "Post User",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Login data",
-            "required": true,
-            "schema": {
-              "$ref": "#definitions/User"
-            }
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/user/register": {
-      "post": {
-        "x-swagger-router-controller": "middleware-name1",
-        "operationId": "getUsers",
-        "tags": ["User Data"],
-        "summary": "Register User",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Register user data",
-            "required": true,
-            "schema": {
-              "$ref": "#definitions/UserRegister"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "an authorization header",
-            "required": "true",
-            "type": "string"
-          }
-        ],
-        "responses": {}
-      }
-    },
     "/login": {
       "post": {
         "x-swagger-router-controller": "middleware-name3",
@@ -76,94 +37,107 @@
         "responses": {}
       }
     },
-    "/appointments": {
-        "get": {
-            "x-swagger-router-controller": "middleware-name3",
-            "operationId": "showAppointments",
-            "tags": ["Appointments"],
-            "summary": "Show appointments",
-            "parameters": [{
-                "in": "query",
-                "name": "page",
-                "required": false,
-                "type": "string"
-            }, {
-                "in": "query",
-                "name": "size",
-                "required": false,
-                "type": "string" 
-            }, {
-                "in": "query",
-                "name": "order",
-                "required": false,
-                "type": "string"
-            }, {
-                "in": "query",
-                "name": "way",
-                "required": false,
-                "type": "string"
-            }, {
-                "in": "header",
-                "name": "authorization",
-                "require": true,
-                "type": "string"
-            }],
-            "responses": {
-
+    "/session/logout": {
+      "delete": {
+        "x-swagger-router-controller": "middleware-name1",
+        "operationId": "getUsers",
+        "tags": ["Session"],
+        "summary": "Register User",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "description": "enter the session token includes the word Bearer and a space before the token",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user/register": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name1",
+        "operationId": "getUsers",
+        "tags": ["User"],
+        "summary": "Register User",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Register user data",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UserRegister"
             }
-        }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/appointments": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "showAppointments",
+        "tags": ["Appointments"],
+        "summary": "Show appointments",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "way",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "require": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "post": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "showAppointments",
+        "tags": ["Appointments"],
+        "summary": "Register appointment",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create appointment data",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/Appointments"
+            }
+          }
+        ],
+        "responses": []
+      }
     }
   },
   "definitions": {
-    "User": {
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "middleName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "birthdate": {
-          "type": "date"
-        },
-        "maritalStatus": {
-          "type": "string"
-        },
-        "idRecord": {
-          "type": "Schema.Types.ObjectId",
-          "ref": "records"
-        },
-        "status": {
-          "type": "boolean",
-          "default": "true"
-        },
-        "background": {
-          "type": "boolean"
-        },
-        "range": {
-          "type": "number",
-          "default": "1"
-        },
-        "cause": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "User"
-      }
-    },
     "UserRegister": {
       "properties": {
         "name": {
@@ -182,7 +156,8 @@
           "type": "number"
         },
         "birthdate": {
-          "type": "date"
+          "type": "string",
+          "format": "date"
         },
         "maritalStatus": {
           "type": "string"
@@ -210,25 +185,24 @@
       }
     },
     "Appointments": {
-        "properties": {
-            "idUser": {
-                "type": "Schema.Types.ObjectId",
-                "ref": "users"
-            },
-            "idPacient": {
-                "type": "Schema.Types.ObjectId",
-                "ref": "users"
-            },
-            "date": {
-                "type": "string"
-            },
-            "hour": {
-                "type": "string"
-            }
+      "properties": {
+        "idUser": {
+          "type": "string",
+          "default": "637ecbb79ddb4c3a627ad43d"
         },
-        "xml": {
-            "name": "Appointments"
+        "idPacient": {
+          "type": "string",
+          "default": "6398a857009e00d0a9adc79d"
+        },
+        "date": {
+          "type": "string",
+          "describe": "YYYY-MM-DD HH:mm:ss",
+          "default": "2000-04-03 09:00:00"
         }
+      },
+      "xml": {
+        "name": "Appointments"
+      }
     }
   }
 }

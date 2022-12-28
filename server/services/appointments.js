@@ -49,4 +49,18 @@ async function getAppointments(query, token) {
   return ({ isValid: true, message: "Appointments retrieved successfully", data: outputAppointments });
 }
 
-module.exports = { getAppointments };
+async function createAppointment(appointment) {
+  const appointmentData = appointment;
+  const check = appointmentDTO.checkAppointmentData(appointment);
+  const date = (appointment.date).split(" ")[0];
+  const hour = (appointment.date).split(" ")[1];
+
+  if (check.isValid === false) return check;
+
+  appointmentData.date = `${date}T${hour}.000+00:00`;
+  const save = await appointmentDB.createAppointment(appointmentData);
+
+  return { isValid: true, message: 'Appointment created', data: save };
+}
+
+module.exports = { getAppointments, createAppointment };
