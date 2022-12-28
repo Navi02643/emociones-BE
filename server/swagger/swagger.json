@@ -139,6 +139,33 @@
 
             }
         }
+    },
+    "/appointments/": {
+      "delete": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "Delete appointments",
+        "tags": ["Appointments Data"],
+        "summary": "",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Delete appointments",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/Appointments"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "an authorization header",
+            "required": "true",
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
     }
   },
   "definitions": {
