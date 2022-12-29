@@ -113,7 +113,7 @@
       },
       "post": {
         "x-swagger-router-controller": "middleware-name3",
-        "operationId": "showAppointments",
+        "operationId": "createAppointments",
         "tags": ["Appointments"],
         "summary": "Register appointment",
         "security": [{ "bearerAuth": [] }],
@@ -126,9 +126,12 @@
             "schema": {
               "$ref": "#definitions/Appointments"
             }
-        }]
+        }
+      ],
+      "responses": {}
     }
-  },
+  }
+},
   "definitions": {
     "Login": {
       "properties": {
@@ -205,25 +208,24 @@
       "properties": {
         "idUser": {
           "type": "string",
-          "describe": "This field contains the ID of the therapist.",
+          "description": "This field contains the ID of the therapist.",
           "example": "63aa409c3a6c25ca233c0713"
         },
         "idPacient": {
           "type": "string",
-          "describe": "This field contains the patient's ID.",
+          "description": "This field contains the patient's ID.",
           "example": "63aa4fbd3a6c25ca233c071f"
         },
         "date": {
           "type": "string",
           "format": "date",
-          "describe": " his field contains the following format YYYY-MM-DD HH:mm:ss for the appointment.",
+          "description": " his field contains the following format YYYY-MM-DD HH:mm:ss for the appointment.",
           "example": "2000-04-03 09:00:00"
         }
       },
       "xml": {
         "name": "Appointments"
       }
-    }
+      }
+    }  
   }
-}
-}
