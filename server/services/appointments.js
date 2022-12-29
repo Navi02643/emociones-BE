@@ -2,6 +2,7 @@ const userDB = require("../database/users");
 const tokenDB = require("../database/tokens");
 const appointmentDB = require("../database/appointments");
 const appointmentDTO = require("./models/appointmentsDTO");
+const ranges = require("../utils/range.constans");
 
 async function userAppointments(data, user) {
   if (user.range === 2 || user.range === 3) {
@@ -67,10 +68,8 @@ async function deleteAppointment(appointment, range) {
   const date = new Date();
   const data = { _id: appointment._id };
   const search = await appointmentDB.searchAppointment(data);
-  if (range === 1) {
-    if (search.data.date !== date) {
-      return ({ isValid: false, message: "Sorry, contact your therapist directly to make your cancellation", data: null });
-    }
+  if (range === ranges.patient && search.data.date !== date) {
+    return ({ isValid: false, message: "Sorry, contact your therapist directly to make your cancellation", data: null });
   }
   const deleteAppointments = await appointmentDB.deleteAppointment(data);
   if (!deleteAppointments) {

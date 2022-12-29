@@ -1,10 +1,5 @@
 const UserModel = require('./models/user.model');
-
-const RANGE = {
-  patient: 1,
-  therapist: 2,
-  admin: 3,
-};
+const RANGE = require('../utils/range.constans');
 
 async function saveUser(user) {
   const newUser = new UserModel(user);

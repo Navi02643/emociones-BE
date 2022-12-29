@@ -118,52 +118,42 @@
         "responses": {}
       }
     },
-    "/login/": {
-      "post": {
-        "x-swagger-router-controller": "middleware-name3",
-        "operationId": "Autocomplete Patients",
-        "tags": ["User Data"],
-        "summary": "Autocomplete Patients",
-        "parameters": [
-          {
-            "in": "params",
-            "name": "params",
-            "description": "Autocomplete name of Patients",
-            "required": true,
-            "schema": {
-              "$ref": "#definitions/UserRegister"
+    "/appointments/": {
+        "get": {
+            "x-swagger-router-controller": "middleware-name3",
+            "operationId": "showAppointments",
+            "tags": ["Appointments"],
+            "summary": "Show appointments",
+            "parameters": [{
+                "in": "query",
+                "name": "page",
+                "required": false,
+                "type": "string"
+            }, {
+                "in": "query",
+                "name": "size",
+                "required": false,
+                "type": "string" 
+            }, {
+                "in": "query",
+                "name": "order",
+                "required": false,
+                "type": "string"
+            }, {
+                "in": "query",
+                "name": "way",
+                "required": false,
+                "type": "string"
+            }, {
+                "in": "header",
+                "name": "authorization",
+                "require": true,
+                "type": "string"
+            }],
+            "responses": {
+
             }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "an authorization header",
-            "required": "true",
-            "type": "string"
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/appointment": {
-      "post": {
-        "x-swagger-router-controller": "middleware-name4",
-        "operationId": "showAppointments",
-        "tags": ["Appointments"],
-        "summary": "Register appointment",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Create appointment data",
-            "required": true,
-            "schema": {
-              "$ref": "#definitions/Appointments"
-            }
-          }
-        ],
-        "responses": []
-      }
+        }
     }
   },
   "definitions": {
