@@ -42,6 +42,9 @@ const userSchema = new Schema({
     type: Number,
     default: 1,
   },
+  gender: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("users", userSchema);
