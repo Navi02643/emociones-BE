@@ -57,7 +57,7 @@
     },
     "/user/register": {
       "post": {
-        "x-swagger-router-controller": "middleware-name1",
+        "x-swagger-router-controller": "middleware-name2",
         "operationId": "getUsers",
         "tags": ["User"],
         "summary": "Register User",
@@ -116,25 +116,44 @@
           }
         ],
         "responses": {}
-      },
-      "post": {
-        "x-swagger-router-controller": "middleware-name3",
-        "operationId": "showAppointments",
-        "tags": ["Appointments"],
-        "summary": "Register appointment",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Create appointment data",
-            "required": true,
-            "schema": {
-              "$ref": "#definitions/Appointments"
-            }
-          }
-        ],
-        "responses": []
       }
+    },
+    "/appointments/": {
+        "get": {
+            "x-swagger-router-controller": "middleware-name3",
+            "operationId": "showAppointments",
+            "tags": ["Appointments"],
+            "summary": "Show appointments",
+            "parameters": [{
+                "in": "query",
+                "name": "page",
+                "required": false,
+                "type": "string"
+            }, {
+                "in": "query",
+                "name": "size",
+                "required": false,
+                "type": "string" 
+            }, {
+                "in": "query",
+                "name": "order",
+                "required": false,
+                "type": "string"
+            }, {
+                "in": "query",
+                "name": "way",
+                "required": false,
+                "type": "string"
+            }, {
+                "in": "header",
+                "name": "authorization",
+                "require": true,
+                "type": "string"
+            }],
+            "responses": {
+
+            }
+        }
     }
   },
   "definitions": {

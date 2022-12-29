@@ -64,4 +64,13 @@ async function generateUser(user) {
   return { isValid: true, message: 'User successfully created', data: dataUserFilter };
 }
 
-module.exports = { generateUser };
+async function nameAutoComplete(name) {
+  const userfind = name;
+  if (userfind.length >= 3) {
+    const userData = await userDB.findPatient(userfind);
+    return { isValid: true, message: 'User Success', data: userData };
+  }
+  return { isValid: false, message: 'Not user found', data: null };
+}
+
+module.exports = { generateUser, nameAutoComplete };

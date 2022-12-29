@@ -2,6 +2,7 @@ const userDB = require("../database/users");
 const tokenDB = require("../database/tokens");
 const appointmentDB = require("../database/appointments");
 const appointmentDTO = require("./models/appointmentsDTO");
+const RANGE = require("../utils/range.constans");
 
 async function userAppointments(data, user) {
   if (user.range === 2 || user.range === 3) {
@@ -63,4 +64,18 @@ async function createAppointment(appointment) {
   return { isValid: true, message: 'Appointment created', data: save };
 }
 
-module.exports = { getAppointments, createAppointment };
+async function deleteAppointment(appointment, range) {
+  const date = new Date();
+  const data = { _id: appointment._id };
+  const search = await appointmentDB.searchAppointment(data);
+  if (range === RANGE.patient && search.data.date !== date) {
+    return ({ isValid: false, message: "Sorry, contact your therapist directly to make your cancellation", data: null });
+  }
+  const deleteAppointments = await appointmentDB.deleteAppointment(data);
+  if (!deleteAppointments) {
+    return ({ isValid: false, message: "Appointment not existing", data: null });
+  }
+  return ({ isValid: true, message: "Appointment deleted successfully", data: deleteAppointments });
+}
+
+module.exports = { getAppointments, deleteAppointment, createAppointment };
