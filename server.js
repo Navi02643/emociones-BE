@@ -5,9 +5,12 @@ const app = express();
 const swaggerUI = require("swagger-ui-express");
 const bodyParser = require("body-parser");
 const server = require("http").Server(app);
-const io = require("socket.io")(server);
+const io = require("./server/config/socketio").init(server);
 const socketVerification = require("./server/security/socketio");
 const swaggerJSDoc = require("./server/swagger/swagger.json");
+
+
+//app.set("view engine", "ejs");
 
 require("dotenv").config();
 require("./server/config/db");
@@ -36,11 +39,7 @@ app.use(
   swaggerUI.setup(swaggerJSDoc),
 );
 
-app.get("/chat/:room", (req, res) => {
-  res.sendFile(/**enviar archivo para hacer la videollamada */);
-});
-
-io.use(socketVerification, require("./server/services/videoCall")(io));
+io.use(socketVerification, require("./server/routes/index"));
 
 app.use((req, res) => {
   return res.status(404).send({
