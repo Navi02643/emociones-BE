@@ -73,4 +73,16 @@ async function createAppointment(appointment) {
   return appointmentSave;
 }
 
-module.exports = { findByUser, findByPatient, createAppointment };
+async function searchAppointment(appointment) {
+  const idAppointment = await AppointmentModel.findById({ _id: `${appointment._id}` });
+  return idAppointment;
+}
+
+async function deleteAppointment(appointment) {
+  const idAppointment = await AppointmentModel.findOneAndDelete({ _id: `${appointment._id}` });
+  return idAppointment;
+}
+
+module.exports = {
+  findByUser, findByPatient, deleteAppointment, searchAppointment, createAppointment,
+};

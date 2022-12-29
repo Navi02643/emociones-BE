@@ -57,7 +57,7 @@
     },
     "/user/register": {
       "post": {
-        "x-swagger-router-controller": "middleware-name1",
+        "x-swagger-router-controller": "middleware-name2",
         "operationId": "getUsers",
         "tags": ["User"],
         "summary": "Register User",
@@ -126,10 +126,7 @@
             "schema": {
               "$ref": "#definitions/Appointments"
             }
-          }
-        ],
-        "responses": []
-      }
+        }]
     }
   },
   "definitions": {
@@ -228,4 +225,5 @@
       }
     }
   }
+}
 }
