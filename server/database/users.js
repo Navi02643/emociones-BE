@@ -1,5 +1,11 @@
 const UserModel = require('./models/user.model');
 
+const RANGE = {
+  patient: 1,
+  therapist: 2,
+  admin: 3,
+};
+
 async function saveUser(user) {
   const newUser = new UserModel(user);
   const userSave = await newUser.save();
@@ -12,7 +18,7 @@ async function findEmail(email) {
 }
 
 async function findPatient(name) {
-  const searchPatient = await UserModel.find({ name: { $regex: `${name}` }, range: 1 });
+  const searchPatient = await UserModel.find({ name: { $regex: `${name}` }, range: RANGE.patient });
   return searchPatient;
 }
 
