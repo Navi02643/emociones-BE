@@ -1,36 +1,21 @@
-const { create } = require("../database/models/tokens.model");
-const tokensDB = require("../database/tokens");
-const usersDB = require("../database/users");
-
 const io = require("../config/socketio").get();
 
-function join(socket, data) {
-  const tokenData = tokensDB.findToken(socket.handshake.headers.token);
-  const user = usersDB.findById(tokenData.idUser);
-  console.log(socket.handshake.headers.token);
-  if (data.range === 2) {
-    socket.join(data.idUser);
-    socket.emit("roomCreated");
-  }
-}
-
 io.on("connection", (socket) => {
-  socket.on("join", (data) => {
-    join(socket, data);
-  });
+  socket.join(socket.handshake.auth.id);
+  console.log(io.sockets.adapter.rooms);
+  socket.emit("me", socket.handshake.auth.id);
 
   socket.on("disconnect", () => {
-    console.log("test");
+    socket.emit()
   });
 
-  socket.on("callUser", ({ userToCall, signalData, from, name }) => {
-    console.log("test");
+  socket.on("callUser", ({
+    from, name, signalData, userToCall,
+  }) => {
+    io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+  });
+
+  socket.on("answerCall", (data) => {
+    io.to(data.to).emit("callAccepted", data.signal);
   });
 });
-
-function videoCallRoute(room) {
-  const createdRoom = createRoom(room);
-  return ({ isValid: true });
-}
-
-module.exports = { join, videoCallRoute };

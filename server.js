@@ -9,9 +9,6 @@ const io = require("./server/config/socketio").init(server);
 const socketVerification = require("./server/security/socketio");
 const swaggerJSDoc = require("./server/swagger/swagger.json");
 
-
-//app.set("view engine", "ejs");
-
 require("dotenv").config();
 require("./server/config/db");
 require("colors");
