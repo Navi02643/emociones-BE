@@ -22,7 +22,7 @@ app.get("/", async (req, res) => {
 
 app.post('/', async (req, res) => {
   try {
-    const data = await appointmentsService.createAppointment(req.body);
+    const data = await appointmentsService.createAppointment(req.body, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,
