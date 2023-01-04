@@ -10,32 +10,15 @@ async function findByUser(idUser, parameters, offset) {
         localField: "idPacient",
         foreignField: "_id",
         as: "Pacient",
-        pipeline: [
-          {
-            $addFields: {
-              fullName: {
-                $concat: ["$name", " ", "$middleName", " ", "$lastName"],
-              },
-            },
-          },
-        ],
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
       },
-    },
-    {
+    }, {
       $lookup: {
         from: "users",
         localField: "idUser",
         foreignField: "_id",
         as: "User",
-        pipeline: [
-          {
-            $addFields: {
-              fullName: {
-                $concat: ["$name", " ", "$middleName", " ", "$lastName"],
-              },
-            },
-          },
-        ],
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
       },
     },
     { $unwind: "$User" },
@@ -48,9 +31,7 @@ async function findByUser(idUser, parameters, offset) {
         [parameters.value.order]: parameters.value.way,
       },
     },
-  ])
-    .skip(offset)
-    .limit(parameters.value.size);
+  ]).skip(offset).limit(parameters.value.size);
   return appointments;
 }
 
@@ -62,45 +43,22 @@ async function findByPatient(idPacient, date) {
         localField: "idPacient",
         foreignField: "_id",
         as: "Pacient",
-        pipeline: [
-          {
-            $addFields: {
-              fullName: {
-                $concat: ["$name", " ", "$middleName", " ", "$lastName"],
-              },
-            },
-          },
-        ],
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
       },
-    },
-    {
+    }, {
       $lookup: {
         from: "users",
         localField: "idUser",
         foreignField: "_id",
         as: "User",
-        pipeline: [
-          {
-            $addFields: {
-              fullName: {
-                $concat: ["$name", " ", "$middleName", " ", "$lastName"],
-              },
-            },
-          },
-        ],
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
       },
     },
     { $unwind: "$User" },
     { $unwind: "$Pacient" },
     {
-      $match: {
-        $and: [
-          { "Pacient._id": Types.ObjectId(idPacient) },
-          { date: { $gte: date } },
-        ],
-      },
-    },
-    {
+      $match: { $and: [{ "Pacient._id": Types.ObjectId(idPacient) }, { date: { $gte: date } }] },
+    }, {
       $sort: {
         date: 1,
       },
@@ -116,25 +74,17 @@ async function createAppointment(appointment) {
 }
 
 async function checkAvailability(idTherapist, date) {
-  const exist = await AppointmentModel.aggregate([
-    {
-      $match: { idUser: Types.ObjectId(idTherapist), date: new Date(date) },
-    },
-  ]);
+  const exist = await AppointmentModel.aggregate([{ $match: { idUser: Types.ObjectId(idTherapist), date: new Date(date) } }]);
   return exist;
 }
 
 async function searchAppointment(appointment) {
-  const idAppointment = await AppointmentModel.findById({
-    _id: `${appointment._id}`,
-  });
+  const idAppointment = await AppointmentModel.findById({ _id: `${appointment._id}` });
   return idAppointment;
 }
 
 async function deleteAppointment(appointment) {
-  const idAppointment = await AppointmentModel.findOneAndDelete({
-    _id: `${appointment._id}`,
-  });
+  const idAppointment = await AppointmentModel.findOneAndDelete({ _id: `${appointment._id}` });
   return idAppointment;
 }
 
