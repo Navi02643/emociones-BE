@@ -83,6 +83,7 @@ async function createAppointment(appointment, token) {
   const availability = await appointmentDB.checkAvailability(appointmentData.idUser, appointmentData.date);
 
   if (availability.length >= 1) return { isValid: false, message: 'The therapist does not have available this day and time', data: null };
+
   const save = await appointmentDB.createAppointment(appointmentData);
   return { isValid: true, message: 'Appointment created', data: save };
 }
