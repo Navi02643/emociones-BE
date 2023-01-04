@@ -5,7 +5,7 @@ const app = express();
 
 app.delete('/logout', async (req, res) => {
   try {
-    const data = await loginService.logout(req.body, req.headers.authorization.split(" ")[1]);
+    const data = await loginService.logout(req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,
