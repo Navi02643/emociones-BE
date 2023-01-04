@@ -11,12 +11,12 @@ function checkDate(currentDate, dateSave) {
 }
 
 async function userAppointments(data, user) {
-  if (user.range === 2 || user.range === 3) {
+  if (user.range === RANGE.therapist || user.range === RANGE.admin) {
     const offset = (data.value.page * data.value.size) - data.value.size;
     const foundAppointments = await appointmentDB.findByUser(user._id, data, offset);
     return foundAppointments;
   }
-  if (user.range === 1) {
+  if (user.range === RANGE.patient) {
     const date = new Date();
     date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     const foundAppointments = await appointmentDB.findByPatient(user._id, date);
@@ -61,12 +61,13 @@ async function createAppointment(appointment, token) {
   const { idUser } = await tokenDB.findToken(token);
   const loggerUser = await userDB.findById(idUser);
 
-  if (loggerUser.range === 1) return { isValid: false, message: 'Logged-in user range not valid', data: null };
+  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'Logged-in user range not valid', data: null };
 
   const checkIsTherapist = await userDB.findById(appointment.idUser);
 
-  if (checkIsTherapist.range === 1) return { isValid: false, message: 'The user who tries to register as a therapist is not', data: null };
-
+  if (checkIsTherapist.range === RANGE.patient) {
+    return { isValid: false, message: 'The user who tries to register as a therapist is not', data: null };
+  }
   const date = (appointment.date).split(" ")[0];
   const hour = (appointment.date).split(" ")[1];
   const current = new Date();
