@@ -17,9 +17,7 @@ function checkAppointmentData(appointment) {
 
     const isCorrectDateFormat = Moment(appointment.date, "YYYY-MM-DD HH:mm:ss", true).isValid();
 
-    if (!isCorrectDateFormat) {
-      return { isValid: false, message: 'The correct date format is YYYY-MM-DD hh:mm:ss', data: null };
-    }
+    if (!isCorrectDateFormat) return { isValid: false, message: 'The correct date format is YYYY-MM-DD hh:mm:ss', data: null };
 
     if (value.error) {
       const message = value.error.details[0].message.replaceAll('"', "");
