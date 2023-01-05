@@ -11,15 +11,15 @@ function checkDate(currentDate, dateSave) {
 }
 
 async function userAppointments(data, user) {
+  const date = new Date();
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+  const offset = (data.value.page * data.value.size) - data.value.size;
   if (user.range === RANGE.therapist || user.range === RANGE.admin) {
-    const offset = (data.value.page * data.value.size) - data.value.size;
-    const foundAppointments = await appointmentDB.findByUser(user._id, data, offset);
+    const foundAppointments = await appointmentDB.findByUser(user._id, data, offset, date);
     return foundAppointments;
   }
   if (user.range === RANGE.patient) {
-    const date = new Date();
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    const foundAppointments = await appointmentDB.findByPatient(user._id, date);
+    const foundAppointments = await appointmentDB.findByPatient(user._id, data, offset, date);
     return foundAppointments;
   }
   return ({ isValid: false, message: "Range not valid", data: null });

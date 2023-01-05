@@ -2,7 +2,7 @@ const { Types } = require("mongoose");
 const AppointmentModel = require("./models/appointments.model");
 require("./models/user.model");
 
-async function findByUser(idUser, parameters, offset) {
+async function findByUser(idUser, parameters, offset, date) {
   const appointments = await AppointmentModel.aggregate([
     {
       $lookup: {
@@ -24,7 +24,7 @@ async function findByUser(idUser, parameters, offset) {
     { $unwind: "$User" },
     { $unwind: "$Pacient" },
     {
-      $match: { "User._id": Types.ObjectId(idUser) },
+      $match: { $and: [{ "User._id": Types.ObjectId(idUser) }, { date: { $gte: date } }] },
     },
     {
       $sort: {
@@ -35,7 +35,7 @@ async function findByUser(idUser, parameters, offset) {
   return appointments;
 }
 
-async function findByPatient(idPacient, date) {
+async function findByPatient(idPacient, parameters, offset, date) {
   const appointments = await AppointmentModel.aggregate([
     {
       $lookup: {
@@ -60,11 +60,52 @@ async function findByPatient(idPacient, date) {
       $match: { $and: [{ "Pacient._id": Types.ObjectId(idPacient) }, { date: { $gte: date } }] },
     }, {
       $sort: {
-        date: 1,
+        [parameters.value.order]: parameters.value.way,
       },
     },
-  ]).limit(1);
+  ]).skip(offset).limit(parameters.value.size);
   return appointments;
+}
+
+async function findByRangeDate(startDate, endDate) {
+  const listAppointment = await AppointmentModel.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "idPacient",
+        foreignField: "_id",
+        as: "pacient",
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
+      },
+    },
+    {
+      $match: {
+        $and: [
+          { date: { $gte: new Date(startDate) } },
+          { date: { $lt: new Date(endDate) } },
+        ],
+      },
+    },
+  ]);
+  return listAppointment;
+}
+
+async function findByHour(date) {
+  const listAppointment = await AppointmentModel.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "idPacient",
+        foreignField: "_id",
+        as: "pacient",
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
+      },
+    },
+    {
+      $match: { date: new Date(date) },
+    },
+  ]);
+  return listAppointment;
 }
 
 async function createAppointment(appointment) {
@@ -99,6 +140,8 @@ module.exports = {
   deleteAppointment,
   searchAppointment,
   createAppointment,
+  findByRangeDate,
+  findByHour,
   checkAvailability,
   updateAppointment,
 };

@@ -130,7 +130,28 @@
       ],
       "responses": {}
     }
-  }
+    },
+    "/notification": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "sendNotification",
+        "tags": ["Notifications"],
+        "summary": "Send notification",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create appointment data",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/Notification"
+            }
+          }
+      ],
+      "responses": {}
+      }
+    }
 },
   "definitions": {
     "Login": {
@@ -226,6 +247,18 @@
       "xml": {
         "name": "Appointments"
       }
+    },
+    "Notification": {
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "This field contains the action to take. 1=remember one day before, 2=remember one hour before.",
+          "example": "1"
+        }
+      },
+      "xml": {
+        "name": "Appointments"
       }
-    }  
-  }
+    }
+  }  
+}
