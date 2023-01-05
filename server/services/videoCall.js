@@ -4,17 +4,20 @@ io.on("connection", (socket) => {
   socket.join(socket.handshake.auth.id);
   socket.leave(socket.id);
   console.log(socket.id);
+  console.log(io.sockets.adapter.rooms);
   socket.emit("me", socket.handshake.auth.id);
 
   socket.on("disconnecting", () => {
-    io.sockets.in(Array.from(socket.rooms)[0]).emit("disconnected", socket.id);
+    //socket.emit("disconnected", socket.id);
+    //socket.broadcast.to(Array.from(socket.rooms)[0]).emit("disconnected", socket.id);
+    io.to(Array.from(socket.rooms)[0]).emit("disconnected");
     socket.leave(Array.from(socket.rooms)[0]);
-
-    // io.sockets.in(room).emit("disconnected");
   });
 
-  socket.on("disconnect", () => {
-
+  socket.on("leaveCall", () => {
+    socket.broadcast.to(Array.from(socket.rooms)[0]).emit("disconnected", socket.id);
+    socket.emit("disconnected", socket.id);
+    socket.leave(Array.from(socket.rooms)[0]);
   });
 
   socket.on("callUser", ({
