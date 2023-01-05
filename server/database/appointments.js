@@ -114,6 +114,11 @@ async function createAppointment(appointment) {
   return appointmentSave;
 }
 
+async function checkAvailability(idTherapist, date) {
+  const exist = await AppointmentModel.aggregate([{ $match: { idUser: Types.ObjectId(idTherapist), date: new Date(date) } }]);
+  return exist;
+}
+
 async function searchAppointment(appointment) {
   const idAppointment = await AppointmentModel.findById({ _id: `${appointment._id}` });
   return idAppointment;
@@ -132,4 +137,5 @@ module.exports = {
   createAppointment,
   findByRangeDate,
   findByHour,
+  checkAvailability,
 };
