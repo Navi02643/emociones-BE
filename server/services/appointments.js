@@ -103,4 +103,18 @@ async function deleteAppointment(appointment, range) {
   return ({ isValid: true, message: "Appointment deleted successfully", data: deleteAppointments });
 }
 
-module.exports = { getAppointments, deleteAppointment, createAppointment };
+async function updateAppointments(appointment) {
+  const data = { _id: appointment._id, date: appointment.date };
+  const updateAppointment = await appointmentDB.updateAppointment(data);
+  if (!updateAppointment) {
+    return ({ isValid: false, message: "Appointment not existing", data: null });
+  }
+  return ({ isValid: true, message: "Appointment updated successfully", data: appointment.date });
+}
+
+module.exports = {
+  getAppointments,
+  deleteAppointment,
+  createAppointment,
+  updateAppointments,
+};
