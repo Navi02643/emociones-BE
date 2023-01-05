@@ -56,7 +56,7 @@ app.delete('/', async (req, res) => {
 
 app.put('/', async (req, res) => {
   try {
-    const data = await appointmentsService.updateAppointments(req.body);
+    const data = await appointmentsService.updateAppointments(req.body, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,
