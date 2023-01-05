@@ -67,6 +67,47 @@ async function findByPatient(idPacient, parameters, offset, date) {
   return appointments;
 }
 
+async function findByRangeDate(startDate, endDate) {
+  const listAppointment = await AppointmentModel.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "idPacient",
+        foreignField: "_id",
+        as: "pacient",
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
+      },
+    },
+    {
+      $match: {
+        $and: [
+          { date: { $gte: new Date(startDate) } },
+          { date: { $lt: new Date(endDate) } },
+        ],
+      },
+    },
+  ]);
+  return listAppointment;
+}
+
+async function findByHour(date) {
+  const listAppointment = await AppointmentModel.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "idPacient",
+        foreignField: "_id",
+        as: "pacient",
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
+      },
+    },
+    {
+      $match: { date: new Date(date) },
+    },
+  ]);
+  return listAppointment;
+}
+
 async function createAppointment(appointment) {
   const newAppointment = new AppointmentModel(appointment);
   const appointmentSave = await newAppointment.save();
@@ -94,5 +135,7 @@ module.exports = {
   deleteAppointment,
   searchAppointment,
   createAppointment,
+  findByRangeDate,
+  findByHour,
   checkAvailability,
 };
