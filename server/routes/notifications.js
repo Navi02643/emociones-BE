@@ -1,11 +1,11 @@
 const express = require("express");
-const loginService = require("../services/session");
+const notificationService = require("../services/notification");
 
 const app = express();
 
-app.delete('/logout', async (req, res) => {
+app.post('/', async (req, res) => {
   try {
-    const data = await loginService.logout(req.headers.authorization.split(" ")[1]);
+    const data = await notificationService.sendNotification(req.body, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,

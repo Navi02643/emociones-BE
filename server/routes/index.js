@@ -10,5 +10,6 @@ app.use("/user", expressAccessToken, firewall, require("./users"));
 app.use("/session", expressAccessToken, firewall, require("./session"));
 app.use("/appointments", expressAccessToken, firewall, require("./appointments"));
 app.use("/videoCall", expressAccessToken, firewall, require("./videoCall"));
+app.use("/notification", expressAccessToken, firewall, require('./notifications'));
 
 module.exports = app;

@@ -8,54 +8,15 @@
   "produces": ["application/json"],
   "host": "localhost:5000",
   "basePath": "/api",
+  "securityDefinitions": {
+    "bearerAuth": {
+      "name": "Authorization",
+      "in": "header",
+      "type": "apiKey",
+      "description": "enter the session token includes the word Bearer and a space before the token"
+    }
+  },
   "paths": {
-    "/user/": {
-      "post": {
-        "x-swagger-router-controller": "middleware-name1",
-        "operationId": "getUsers",
-        "tags": ["User Data"],
-        "summary": "Post User",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Login data",
-            "required": true,
-            "schema": {
-              "$ref": "#definitions/User"
-            }
-          }
-        ],
-        "responses": {}
-      }
-    },
-    "/user/register": {
-      "post": {
-        "x-swagger-router-controller": "middleware-name1",
-        "operationId": "getUsers",
-        "tags": ["User Data"],
-        "summary": "Register User",
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Register user data",
-            "required": true,
-            "schema": {
-              "$ref": "#definitions/UserRegister"
-            }
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "description": "an authorization header",
-            "required": "true",
-            "type": "string"
-          }
-        ],
-        "responses": {}
-      }
-    },
     "/login": {
       "post": {
         "x-swagger-router-controller": "middleware-name3",
@@ -76,126 +37,123 @@
         "responses": {}
       }
     },
+    "/session/logout": {
+      "delete": {
+        "x-swagger-router-controller": "middleware-name1",
+        "operationId": "getUsers",
+        "tags": ["Session"],
+        "summary": "Register User",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "description": "enter the session token includes the word Bearer and a space before the token",
+            "required": true
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user/register": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getUsers",
+        "tags": ["User"],
+        "summary": "Register User",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Register user data",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UserRegister"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/appointments": {
-        "get": {
-            "x-swagger-router-controller": "middleware-name3",
-            "operationId": "showAppointments",
-            "tags": ["Appointments"],
-            "summary": "Show appointments",
-            "parameters": [{
-                "in": "query",
-                "name": "page",
-                "required": false,
-                "type": "string"
-            }, {
-                "in": "query",
-                "name": "size",
-                "required": false,
-                "type": "string" 
-            }, {
-                "in": "query",
-                "name": "order",
-                "required": false,
-                "type": "string"
-            }, {
-                "in": "query",
-                "name": "way",
-                "required": false,
-                "type": "string"
-            }, {
-                "in": "header",
-                "name": "authorization",
-                "require": true,
-                "type": "string"
-            }],
-            "responses": {
-
+      "get": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "showAppointments",
+        "tags": ["Appointments"],
+        "summary": "Show appointments",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "way",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "post": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "createAppointments",
+        "tags": ["Appointments"],
+        "summary": "Register appointment",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create appointment data",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/Appointments"
             }
         }
+      ],
+      "responses": {}
     }
-  },
+    },
+    "/notification": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "sendNotification",
+        "tags": ["Notifications"],
+        "summary": "Send notification",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create appointment data",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/Notification"
+            }
+          }
+      ],
+      "responses": {}
+      }
+    }
+},
   "definitions": {
-    "User": {
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "middleName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "birthdate": {
-          "type": "date"
-        },
-        "maritalStatus": {
-          "type": "string"
-        },
-        "idRecord": {
-          "type": "Schema.Types.ObjectId",
-          "ref": "records"
-        },
-        "status": {
-          "type": "boolean",
-          "default": "true"
-        },
-        "background": {
-          "type": "boolean"
-        },
-        "range": {
-          "type": "number",
-          "default": "1"
-        },
-        "cause": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "User"
-      }
-    },
-    "UserRegister": {
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "middleName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "number"
-        },
-        "birthdate": {
-          "type": "date"
-        },
-        "maritalStatus": {
-          "type": "string"
-        },
-        "cause": {
-          "type": "string",
-          "ref": "records"
-        }
-      },
-      "xml": {
-        "name": "User"
-      }
-    },
     "Login": {
       "properties": {
         "email": {
@@ -209,26 +167,98 @@
         "name": "Login"
       }
     },
-    "Appointments": {
-        "properties": {
-            "idUser": {
-                "type": "Schema.Types.ObjectId",
-                "ref": "users"
-            },
-            "idPacient": {
-                "type": "Schema.Types.ObjectId",
-                "ref": "users"
-            },
-            "date": {
-                "type": "string"
-            },
-            "hour": {
-                "type": "string"
-            }
+    "UserRegister": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "This field contains the user's name.",
+          "example": "Jose Ramon"
         },
-        "xml": {
-            "name": "Appointments"
+        "middleName": {
+          "type": "string",
+          "description": "This field contains the user's middleName. Note: If the user does not have a middleName omit this field.",
+          "example": "Silva"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "This field contains the user's lastName.",
+          "example": "Torres"
+        },
+        "email": {
+          "type": "string",
+          "description": "This field contains the user's email. Note: The password is automatically generated, the password is sent to the email, use an email that you can access.",
+          "example": "correo@gmail.com"
+        },
+        "phone": {
+          "type": "number",
+          "description": "This field contains the user's number phone. Note: Notifications will be sent to the number that is registered.",
+          "example": "4495653636"
+        },
+        "birthdate": {
+          "type": "string",
+          "format": "date",
+          "description": "this field contains the date of birth of the user in the format YYYY-MM-DD.",
+          "example": "2000-04-03"
+        },
+        "maritalStatus": {
+          "type": "string",
+          "description": "This field contains the user's marital status.",
+          "example": "Soltero"
+        },
+        "cause": {
+          "type": "string",
+          "description": "This field contains the reason why user registers. Note: If the user is a therapist enter 63ab303c9523e22c9ca14580 as a value.",
+          "example": "Depresion"
+        },
+        "gender": {
+          "type": "string",
+          "description": "This field contains the user's gender. Note: Select male, female, or other.",
+          "example": "Otro"
+        },
+        "range": {
+          "type": "number",
+          "description": "This field contains the range that will be assigned to the user. Note: 1 is for patient and 2 for therapist.",
+          "example": 1
         }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Appointments": {
+      "properties": {
+        "idUser": {
+          "type": "string",
+          "description": "This field contains the ID of the therapist.",
+          "example": "63aa409c3a6c25ca233c0713"
+        },
+        "idPacient": {
+          "type": "string",
+          "description": "This field contains the patient's ID.",
+          "example": "63aa4fbd3a6c25ca233c071f"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": " his field contains the following format YYYY-MM-DD HH:mm:ss for the appointment.",
+          "example": "2000-04-03 09:00:00"
+        }
+      },
+      "xml": {
+        "name": "Appointments"
+      }
+    },
+    "Notification": {
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "This field contains the action to take. 1=remember one day before, 2=remember one hour before.",
+          "example": "1"
+        }
+      },
+      "xml": {
+        "name": "Appointments"
+      }
     }
-  }
+  }  
 }

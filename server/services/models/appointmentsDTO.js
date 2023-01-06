@@ -1,4 +1,38 @@
 const Joi = require("joi");
+const Moment = require('moment');
+
+Moment().format();
+
+function checkAppointmentData(appointment) {
+  try {
+    const schema = Joi.object({
+      idUser: Joi.string().min(24).max(24),
+      idPacient: Joi.string().min(24).max(24),
+    });
+
+    const value = schema.validate({
+      idUser: `${appointment.idUser}`,
+      idPacient: `${appointment.idPacient}`,
+    });
+
+    const isCorrectDateFormat = Moment(appointment.date, "YYYY-MM-DD HH:mm:ss", true).isValid();
+
+    if (!isCorrectDateFormat) return { isValid: false, message: 'Invalid date', data: null };
+
+    if (value.error) {
+      const message = value.error.details[0].message.replaceAll('"', "");
+      return { isValid: false, message, data: null };
+    }
+
+    return { isValid: true, message: "Fields are valid", data: null };
+  } catch (error) {
+    return {
+      isValid: false,
+      message: "the user, patient and date is obligatory",
+      data: null,
+    };
+  }
+}
 
 function inputGetAppointmentsDTO(getAppointmentData) {
   try {
@@ -25,14 +59,35 @@ function inputGetAppointmentsDTO(getAppointmentData) {
 }
 
 function outputGetAppointmentsDTO(appointmentData) {
+  const hour = Moment.parseZone(appointmentData.date).utc().format("HH:mm");
+  const date = Moment.parseZone(appointmentData.date).utc().format("YYYY/MM/DD");
   const appointmentDTO = {
     patientName: appointmentData.Pacient.fullName,
     therapistName: appointmentData.User.fullName,
-    date: appointmentData.date,
-    hour: appointmentData.hour,
+    date,
+    hour,
   };
 
   return appointmentDTO;
 }
 
-module.exports = { inputGetAppointmentsDTO, outputGetAppointmentsDTO };
+function outPutNotification(appointments) {
+  const appointmentAux = [];
+  const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  appointments.forEach((appointment) => {
+    const dataAppointment = {
+      date: `${appointment.date.getDate()} de ${months[appointment.date.getMonth()]} del ${appointment.date.getFullYear()}`,
+      hour: Moment.parseZone(appointment.date).utc().format('HH:MM'),
+      phone: appointment.pacient[0].phone,
+    };
+    appointmentAux.push(dataAppointment);
+  });
+  return appointmentAux;
+}
+
+module.exports = {
+  inputGetAppointmentsDTO,
+  outputGetAppointmentsDTO,
+  checkAppointmentData,
+  outPutNotification,
+};

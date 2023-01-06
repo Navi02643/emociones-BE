@@ -2,7 +2,7 @@ const { Types } = require("mongoose");
 const AppointmentModel = require("./models/appointments.model");
 require("./models/user.model");
 
-async function findByUser(idUser, parameters, offset) {
+async function findByUser(idUser, parameters, offset, date) {
   const appointments = await AppointmentModel.aggregate([
     {
       $lookup: {
@@ -24,7 +24,7 @@ async function findByUser(idUser, parameters, offset) {
     { $unwind: "$User" },
     { $unwind: "$Pacient" },
     {
-      $match: { "User._id": Types.ObjectId(idUser) },
+      $match: { $and: [{ "User._id": Types.ObjectId(idUser) }, { date: { $gte: date } }] },
     },
     {
       $sort: {
@@ -35,7 +35,7 @@ async function findByUser(idUser, parameters, offset) {
   return appointments;
 }
 
-async function findByPatient(idPacient) {
+async function findByPatient(idPacient, parameters, offset, date) {
   const appointments = await AppointmentModel.aggregate([
     {
       $lookup: {
@@ -57,15 +57,91 @@ async function findByPatient(idPacient) {
     { $unwind: "$User" },
     { $unwind: "$Pacient" },
     {
-      $match: { "Pacient._id": Types.ObjectId(idPacient) },
-    },
-    {
+      $match: { $and: [{ "Pacient._id": Types.ObjectId(idPacient) }, { date: { $gte: date } }] },
+    }, {
       $sort: {
-        date: 1,
+        [parameters.value.order]: parameters.value.way,
       },
     },
-  ]).limit(1);
+  ]).skip(offset).limit(parameters.value.size);
   return appointments;
 }
 
-module.exports = { findByUser, findByPatient };
+async function findByRangeDate(startDate, endDate) {
+  const listAppointment = await AppointmentModel.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "idPacient",
+        foreignField: "_id",
+        as: "pacient",
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
+      },
+    },
+    {
+      $match: {
+        $and: [
+          { date: { $gte: new Date(startDate) } },
+          { date: { $lt: new Date(endDate) } },
+        ],
+      },
+    },
+  ]);
+  return listAppointment;
+}
+
+async function findByHour(date) {
+  const listAppointment = await AppointmentModel.aggregate([
+    {
+      $lookup: {
+        from: "users",
+        localField: "idPacient",
+        foreignField: "_id",
+        as: "pacient",
+        pipeline: [{ $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } } }],
+      },
+    },
+    {
+      $match: { date: new Date(date) },
+    },
+  ]);
+  return listAppointment;
+}
+
+async function createAppointment(appointment) {
+  const newAppointment = new AppointmentModel(appointment);
+  const appointmentSave = await newAppointment.save();
+  return appointmentSave;
+}
+
+async function checkAvailability(idTherapist, date) {
+  const exist = await AppointmentModel.aggregate([{ $match: { idUser: Types.ObjectId(idTherapist), date: new Date(date) } }]);
+  return exist;
+}
+
+async function searchAppointment(appointment) {
+  const idAppointment = await AppointmentModel.findById({ _id: `${appointment._id}` });
+  return idAppointment;
+}
+
+async function deleteAppointment(appointment) {
+  const idAppointment = await AppointmentModel.findOneAndDelete({ _id: `${appointment._id}` });
+  return idAppointment;
+}
+
+async function updateAppointment(appointment) {
+  const idAppointment = await AppointmentModel.findOneAndUpdate({ _id: `${appointment._id}`, date: `${appointment.date}` });
+  return idAppointment;
+}
+
+module.exports = {
+  findByUser,
+  findByPatient,
+  deleteAppointment,
+  searchAppointment,
+  createAppointment,
+  findByRangeDate,
+  findByHour,
+  checkAvailability,
+  updateAppointment,
+};
