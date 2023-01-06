@@ -22,8 +22,7 @@ app.post('/register', async (req, res) => {
 
 app.get('/autocomplete', async (req, res) => {
   try {
-    const { name } = req.params;
-    const data = await userService.nameAutoComplete(name);
+    const data = await userService.nameAutoComplete(req.query, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,

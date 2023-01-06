@@ -12,8 +12,8 @@ async function findEmail(email) {
   return searchEmail;
 }
 
-async function findPatient(name) {
-  const searchPatient = await UserModel.find({ name: { $regex: `${name}` }, range: RANGE.patient });
+async function findPatient(user) {
+  const searchPatient = await UserModel.find({ name: { $regex: `${user.name}` }, range: RANGE.patient });
   return searchPatient;
 }
 
