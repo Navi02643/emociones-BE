@@ -103,4 +103,28 @@ async function deleteAppointment(appointment, range) {
   return ({ isValid: true, message: "Appointment deleted successfully", data: deleteAppointments });
 }
 
-module.exports = { getAppointments, deleteAppointment, createAppointment };
+async function updateAppointments(appointment, token) {
+  const { idUser } = await tokenDB.findToken(token);
+  const loggerUser = await userDB.findById(idUser);
+
+  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'This user rank cannot update appointments', data: null };
+  const appointmentDate = appointment.date;
+  const date = (appointment.date).split(" ")[0];
+  const hour = (appointment.date).split(" ")[1];
+  appointmentDate.date = `${date}T${hour}.000+00:00`;
+
+  const data = { _id: appointment._id, date: appointmentDate };
+
+  const updateAppointment = await appointmentDB.updateAppointment(data);
+  if (!updateAppointment) {
+    return ({ isValid: false, message: "Appointment not existing", data: null });
+  }
+  return ({ isValid: true, message: "Appointment updated successfully", data: appointment.date });
+}
+
+module.exports = {
+  getAppointments,
+  deleteAppointment,
+  createAppointment,
+  updateAppointments,
+};

@@ -129,6 +129,11 @@ async function deleteAppointment(appointment) {
   return idAppointment;
 }
 
+async function updateAppointment(appointment) {
+  const idAppointment = await AppointmentModel.findOneAndUpdate({ _id: `${appointment._id}`, date: `${appointment.date}` });
+  return idAppointment;
+}
+
 module.exports = {
   findByUser,
   findByPatient,
@@ -138,4 +143,5 @@ module.exports = {
   findByRangeDate,
   findByHour,
   checkAvailability,
+  updateAppointment,
 };
