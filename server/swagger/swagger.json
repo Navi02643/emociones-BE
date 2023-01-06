@@ -129,7 +129,25 @@
         }
       ],
       "responses": {}
-    }
+    },
+    "put": {
+      "x-swagger-router-controller": "middleware-name3",
+      "operationId": "updateAppointments",
+      "tags": ["Appointments"],
+      "summary": "Update appointment",
+      "security": [{ "bearerAuth": [] }],
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "description": "Update appointment data",
+          "required": true,
+          "schema": {
+            "$ref": "#definitions/Appointments"
+          }
+      }
+    ],
+    "responses": {}
     },
     "/notification": {
       "post": {
@@ -261,4 +279,5 @@
       }
     }
   }  
+}
 }
