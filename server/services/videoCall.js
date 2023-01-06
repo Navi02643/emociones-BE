@@ -3,32 +3,27 @@ const io = require("../config/socketio").get();
 io.on("connection", (socket) => {
   socket.join(socket.handshake.auth.id);
   socket.leave(socket.id);
-  console.log(socket.id);
-  console.log(io.sockets.adapter.rooms);
   socket.emit("me", socket.handshake.auth.id);
 
   socket.on("disconnecting", () => {
-    //socket.emit("disconnected", socket.id);
-    //socket.broadcast.to(Array.from(socket.rooms)[0]).emit("disconnected", socket.id);
-    io.to(Array.from(socket.rooms)[0]).emit("disconnected");
-    socket.leave(Array.from(socket.rooms)[0]);
-  });
-
-  socket.on("leaveCall", () => {
-    socket.broadcast.to(Array.from(socket.rooms)[0]).emit("disconnected", socket.id);
-    socket.emit("disconnected", socket.id);
-    socket.leave(Array.from(socket.rooms)[0]);
+    const currentRoom = Array.from(socket.rooms)[0];
+    io.sockets.in(currentRoom).emit("destroyPeer");
+    io.socketsLeave(currentRoom);
   });
 
   socket.on("callUser", ({
-    from, name, signalData, userToCall,
+    from, myPeer, name, userToCall,
   }) => {
-    io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+    io.sockets.in(userToCall).emit("callUser", { from, name, otherPeer: myPeer });
   });
 
-  socket.on("answerCall", (data) => {
-    io.to(data.to).emit("callAccepted", data.signal);
-    socket.join(data.to);
-    socket.leave(socket.handshake.auth.id);
+  socket.on("answerCall", ({ from, fromId, to }) => {
+    socket.join(to);
+    socket.leave(fromId);
+    io.sockets.in(to).emit("callAccepted", from);
+  });
+
+  socket.on("destroyPeer", (to) => {
+    socket.to(to).emit("destroyPeer");
   });
 });
