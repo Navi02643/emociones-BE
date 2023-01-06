@@ -1,8 +1,10 @@
 const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 const userDB = require("../database/users");
+const tokenDB = require("../database/tokens");
 const recordDB = require("../database/records");
 const userDTO = require('./models/userDTO');
+const RANGE = require("../utils/range.constans");
 
 async function generatePassword() {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -64,13 +66,18 @@ async function generateUser(user) {
   return { isValid: true, message: 'User successfully created', data: dataUserFilter };
 }
 
-async function nameAutoComplete(name) {
-  const userfind = name;
-  if (userfind.length >= 3) {
-    const userData = await userDB.findPatient(userfind);
-    return { isValid: true, message: 'User Success', data: userData };
+async function nameAutoComplete(user, token) {
+  const { idUser } = await tokenDB.findToken(token);
+  const loggerUser = await userDB.findById(idUser);
+
+  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'User range not valid, access only for therapists', data: null };
+
+  const data = { name: user.name };
+  if (data.name.length >= 3) {
+    const userData = await userDB.findPatient(data);
+    return { isValid: true, message: 'List of users obtained successfully', data: userData };
   }
-  return { isValid: false, message: 'Not user found', data: null };
+  return { isValid: false, message: 'List of users not found', data: null };
 }
 
 module.exports = { generateUser, nameAutoComplete };
