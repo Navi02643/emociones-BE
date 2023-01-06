@@ -148,7 +148,8 @@
       }
     ],
     "responses": {}
-    },
+    }
+  },
     "/notification": {
       "post": {
         "x-swagger-router-controller": "middleware-name3",
@@ -279,5 +280,4 @@
       }
     }
   }  
-}
 }
