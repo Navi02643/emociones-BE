@@ -36,7 +36,7 @@ app.use(
   swaggerUI.setup(swaggerJSDoc),
 );
 
-io.use(socketVerification, require("./server/routes/index"));
+io.use(socketVerification, require("./server/services/videoCall")(io));
 
 app.use((req, res) => {
   return res.status(404).send({
