@@ -1,10 +1,7 @@
-const { App } = require("uWebSockets.js");
-
 let io;
 
 module.exports = {
   init: (server) => {
-    const app = new App();
     // eslint-disable-next-line global-require
     io = require("socket.io")(server, {
       cors: {
@@ -12,8 +9,6 @@ module.exports = {
       },
       rejectUnauthorized: false,
     });
-
-    io.attachApp(app);
 
     return io;
   },
