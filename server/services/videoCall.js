@@ -3,7 +3,6 @@ module.exports = (io) => {
     socket.join(socket.handshake.auth.id);
     socket.leave(socket.id);
     socket.emit("me", socket.handshake.auth.id);
-    console.log(io.sockets.adapter.rooms);
 
     socket.on("disconnecting", () => {
       const currentRoom = Array.from(socket.rooms)[0];
@@ -20,12 +19,7 @@ module.exports = (io) => {
     socket.on("answerCall", ({ from, fromId, to }) => {
       socket.join(to);
       socket.leave(fromId);
-      console.log(io.sockets.adapter.rooms);
       io.sockets.in(to).emit("callAccepted", from);
     });
-
-    // socket.on("destroyPeer", (to) => {
-    //   socket.to(to).emit("destroyPeer");
-    // });
   });
 };
