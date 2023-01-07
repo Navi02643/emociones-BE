@@ -7,6 +7,7 @@ module.exports = {
       cors: {
         origin: '*',
       },
+      rejectUnauthorized: false,
     });
     return io;
   },
