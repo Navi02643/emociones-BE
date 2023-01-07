@@ -36,7 +36,8 @@
     "socket.io": "^4.5.4",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.6.0",
-    "twilio": "^3.84.0"
+    "twilio": "^3.84.0",
+    "uWebSockets.js": "github:uNetworking/uWebSockets.js#v20.15.0"
   },
   "devDependencies": {
     "eslint": "^8.27.0",
