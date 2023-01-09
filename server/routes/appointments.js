@@ -39,7 +39,7 @@ app.post('/', async (req, res) => {
 
 app.delete('/', async (req, res) => {
   try {
-    const data = await appointmentsService.deleteAppointment(req.body);
+    const data = await appointmentsService.deleteAppointment(req.body, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,
