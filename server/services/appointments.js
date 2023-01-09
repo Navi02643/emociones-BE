@@ -89,18 +89,24 @@ async function createAppointment(appointment, token) {
   return { isValid: true, message: 'Appointment created', data: save };
 }
 
-async function deleteAppointment(appointment, range) {
-  const date = new Date();
+async function deleteAppointment(appointment, token) {
+  const { idUser } = await tokenDB.findToken(token);
+  const loggerUser = await userDB.findById(idUser);
   const data = { _id: appointment._id };
-  const search = await appointmentDB.searchAppointment(data);
-  if (range === RANGE.patient && search.data.date !== date) {
-    return ({ isValid: false, message: "Sorry, contact your therapist directly to make your cancellation", data: null });
-  }
   const deleteAppointments = await appointmentDB.deleteAppointment(data);
-  if (!deleteAppointments) {
-    return ({ isValid: false, message: "Appointment not existing", data: null });
+  const searchDate = await appointmentDB.searchAppointments(data);
+  const currentDate = new Date();
+
+  if (loggerUser.range === RANGE.therapist) {
+    return { isValid: true, message: "Appointment deleted successfully", data: deleteAppointments };
   }
-  return ({ isValid: true, message: "Appointment deleted successfully", data: deleteAppointments });
+  if (loggerUser.range === RANGE.patient) {
+    if (searchDate.date === currentDate) {
+      return { isValid: false, message: "Sorry, contact your therapist directly to make your cancellation", data: null };
+    }
+    return { isValid: true, message: "Appointment deleted successfully", data: deleteAppointments };
+  }
+  return ({ isValid: false, message: "Appointment not existing", data: null });
 }
 
 async function updateAppointments(appointment, token) {
