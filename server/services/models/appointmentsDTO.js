@@ -62,6 +62,7 @@ function outputGetAppointmentsDTO(appointmentData) {
   const hour = Moment.parseZone(appointmentData.date).utc().format("HH:mm");
   const date = Moment.parseZone(appointmentData.date).utc().format("YYYY/MM/DD");
   const appointmentDTO = {
+    appointmentId: appointmentData._id,
     patientName: appointmentData.Pacient.fullName,
     therapistName: appointmentData.User.fullName,
     date,
