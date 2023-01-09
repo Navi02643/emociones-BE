@@ -8,6 +8,7 @@ module.exports = {
         origin: '*',
       },
       rejectUnauthorized: false,
+      allowEIO3: true,
     });
 
     return io;
