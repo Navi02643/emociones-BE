@@ -55,6 +55,27 @@
         "responses": {}
       }
     },
+    "/user/autocomplete": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getUsersName",
+        "tags": ["Get User Name"],
+        "summary": "UserName",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "type": "string",
+            "schema": {
+              "$ref": "#definitions/UserGetName"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/user/register": {
       "post": {
         "x-swagger-router-controller": "middleware-name2",
@@ -184,6 +205,18 @@
       },
       "xml": {
         "name": "Login"
+      }
+    },
+    "UserGetName": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "This field contains the name of the users.",
+          "example": "Eduardo"
+        }
+      },
+      "xml": {
+        "name": "UserGetName"
       }
     },
     "UserRegister": {
