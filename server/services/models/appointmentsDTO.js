@@ -15,7 +15,8 @@ function checkAppointmentData(appointment) {
       idPacient: `${appointment.idPacient}`,
     });
 
-    const isCorrectDateFormat = Moment(appointment.date, "YYYY-MM-DD HH:mm:ss", true).isValid();
+    const date = `${appointment.date} ${appointment.hour}`;
+    const isCorrectDateFormat = Moment(date, "YYYY-MM-DD HH:mm:ss", true).isValid();
 
     if (!isCorrectDateFormat) return { isValid: false, message: 'Invalid date', data: null };
 

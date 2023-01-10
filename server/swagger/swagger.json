@@ -164,7 +164,26 @@
           "description": "Update appointment data",
           "required": true,
           "schema": {
-            "$ref": "#definitions/Appointments"
+            "$ref": "#definitions/AppointmentsUpdate"
+          }
+      }
+    ],
+    "responses": {}
+    },
+    "delete": {
+      "x-swagger-router-controller": "middleware-name3",
+      "operationId": "deleteAppointments",
+      "tags": ["Appointments"],
+      "summary": "Delete appointment",
+      "security": [{ "bearerAuth": [] }],
+      "parameters": [
+        {
+          "in": "body",
+          "name": "body",
+          "description": "Delete appointment data",
+          "required": true,
+          "schema": {
+            "$ref": "#definitions/AppointmentsDelete"
           }
       }
     ],
@@ -298,6 +317,36 @@
       },
       "xml": {
         "name": "Appointments"
+      }
+    },
+    "AppointmentsUpdate": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "This field contains the ID of the appointment.",
+          "example": "63aa409c3a6c25ca233c0713"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": " his field contains the following format YYYY-MM-DD HH:mm:ss for the appointment.",
+          "example": "2000-04-03 09:00:00"
+        }
+      },
+      "xml": {
+        "name": "AppointmentsUpdate"
+      }
+    },
+    "AppointmentsDelete": {
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "This field contains the ID of the appointment.",
+          "example": "63aa409c3a6c25ca233c0713"
+        }
+      },
+      "xml": {
+        "name": "AppointmentsDelete"
       }
     },
     "Notification": {
