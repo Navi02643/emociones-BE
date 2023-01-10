@@ -258,9 +258,13 @@
         },
         "date": {
           "type": "string",
-          "format": "date",
-          "description": " his field contains the following format YYYY-MM-DD HH:mm:ss for the appointment.",
-          "example": "2000-04-03 09:00:00"
+          "description": " his field contains the following format YYYY-MM-DD for the appointment.",
+          "example": "2023-12-29"
+        },
+        "hour": {
+          "type": "string",
+          "description": " his field contains the following format HH:mm:ss for the appointment.",
+          "example": "09:00:00"
         }
       },
       "xml": {
