@@ -1,9 +1,10 @@
 const express = require("express");
 const userService = require("../services/users");
+const requireRange = require("../rangeVerification/rangeVerification");
 
 const app = express();
 
-app.post('/register', async (req, res) => {
+app.post('/register', requireRange, async (req, res) => {
   try {
     const data = await userService.generateUser(req.body);
     return res.status(200).send({
