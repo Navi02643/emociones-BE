@@ -6,7 +6,7 @@
     "version": "1.0"
   },
   "produces": ["application/json"],
-  "host": "localhost:5000",
+  "host": "emociones-be-production-5d46.up.railway.app",
   "basePath": "/api",
   "securityDefinitions": {
     "bearerAuth": {
