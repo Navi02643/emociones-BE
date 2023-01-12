@@ -22,6 +22,15 @@ async function findById(id) {
   return searchId;
 }
 
+async function removeRecord(id) {
+  const updateUser = await UserModel.findByIdAndUpdate(id, { $unset: { idRecord: '' } });
+  return updateUser;
+}
+
 module.exports = {
-  saveUser, findEmail, findPatient, findById,
+  saveUser,
+  findEmail,
+  findPatient,
+  findById,
+  removeRecord,
 };
