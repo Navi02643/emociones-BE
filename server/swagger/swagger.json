@@ -204,9 +204,11 @@
             "required": true,
             "schema": {
               "$ref": "#definitions/Followup"
+            }
           }
         ],
         "responses": {}
+      }
     },
     "/record": {
       "delete": {
@@ -359,6 +361,18 @@
         "name": "AppointmentsDelete"
       }
     },
+    "Notification": {
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "This field contains the action to take. 1=remember one day before, 2=remember one hour before.",
+          "example": "1"
+        }
+      },
+      "xml": {
+        "name": "Appointments"
+      }
+    },
     "UserRecords": {
       "properties": {
         "idUser": {
@@ -375,18 +389,6 @@
           "type": "string",
           "description": "This field contains the record's ID.",
           "example": "63beefef09ce2995e627b160"
-        }
-      },
-      "xml": {
-        "name": "Appointments"
-      }
-    },
-    "Notification": {
-      "properties": {
-        "action": {
-          "type": "string",
-          "description": "This field contains the action to take. 1=remember one day before, 2=remember one hour before.",
-          "example": "1"
         }
       },
       "xml": {
