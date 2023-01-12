@@ -7,6 +7,10 @@ const userRecordSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "users",
   },
+  idPacient: {
+    type: Schema.Types.ObjectId,
+    ref: "users",
+  },
   idRecord: {
     type: Schema.Types.ObjectId,
     ref: "records",
