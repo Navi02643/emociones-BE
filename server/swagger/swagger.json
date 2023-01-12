@@ -168,7 +168,7 @@
     ],
     "responses": {}
     }
-  },
+    },
     "/notification": {
       "post": {
         "x-swagger-router-controller": "middleware-name3",
@@ -184,6 +184,27 @@
             "required": true,
             "schema": {
               "$ref": "#definitions/Notification"
+            }
+          }
+      ],
+      "responses": {}
+      }
+    },
+    "/record": {
+      "delete": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "CloseRecord",
+        "tags": ["Records"],
+        "summary": "Close record",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Create appointment data",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UserRecords"
             }
           }
       ],
@@ -318,6 +339,28 @@
       },
       "xml": {
         "name": "AppointmentsDelete"
+      }
+    },
+    "UserRecords": {
+      "properties": {
+        "idUser": {
+          "type": "string",
+          "description": "This field contains the ID of the therapist.",
+          "example": "63aa409c3a6c25ca233c0713"
+        },
+        "idPacient": {
+          "type": "string",
+          "description": "This field contains the patient's ID.",
+          "example": "63beefef09ce2995e627b163"
+        },
+        "idRecord": {
+          "type": "string",
+          "description": "This field contains the record's ID.",
+          "example": "63beefef09ce2995e627b160"
+        }
+      },
+      "xml": {
+        "name": "Appointments"
       }
     },
     "Notification": {

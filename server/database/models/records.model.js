@@ -6,6 +6,10 @@ const recordsSchema = new Schema({
   cause: {
     type: String,
   },
+  open: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = mongoose.model("records", recordsSchema);

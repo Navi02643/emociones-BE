@@ -60,7 +60,6 @@ async function createAppointment(appointment, token) {
   const appointmentData = appointment;
   const { idUser } = await tokenDB.findToken(token);
   const loggerUser = await userDB.findById(idUser);
-
   if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'Logged-in user range not valid', data: null };
 
   const checkIsTherapist = await userDB.findById(appointment.idUser);
