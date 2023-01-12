@@ -69,4 +69,10 @@ async function sendNotification(action, token) {
   return { isValid: true, message: 'Notifications were sent successfully', data: null };
 }
 
-module.exports = { sendNotification };
+async function cancelledAppointment(appointment, user) {
+  const filteredAppointmentDate = appointmentDTO.outPutCancelNotification([appointment]);
+  const message = `Su cita en Beggining del ${filteredAppointmentDate[0].date} a las ${filteredAppointmentDate[0].hour} ha sido cancelada`;
+  buildStructure(message, user.phone);
+}
+
+module.exports = { sendNotification, cancelledAppointment };

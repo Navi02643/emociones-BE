@@ -35,9 +35,6 @@ const userSchema = new Schema({
     type: Boolean,
     default: true,
   },
-  background: {
-    type: String,
-  },
   range: {
     type: Number,
     default: 1,
