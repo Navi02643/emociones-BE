@@ -1,19 +1,18 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const followupsSchema = new Schema({
-  idFollowups: {
-    type: String,
-  },
   idRecord: {
+    type: Schema.Types.ObjectId,
+    ref: "records",
+  },
+  date: {
     type: String,
   },
-  Date: {
+  note: {
     type: String,
   },
-  Note: {
-    type: String,
-  }
 });
 
-module.exports = mongoose.model("Followups", followupsSchema);
+module.exports = mongoose.model("followups", followupsSchema);

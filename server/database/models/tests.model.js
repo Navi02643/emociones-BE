@@ -1,16 +1,14 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const testsSchema = new Schema({
-  idFollowup: {
+  name: {
     type: String,
   },
-  idTest: {
-    type: String,
-  },
-  Result: {
+  description: {
     type: String,
   },
 });
 
-module.exports = mongoose.model("Tests", testsSchema);
+module.exports = mongoose.model("tests", testsSchema);

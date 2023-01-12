@@ -1,47 +1,50 @@
 const mongoose = require("mongoose");
+
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  idUser: {
+  name: {
     type: String,
   },
-  Name: {
+  middleName: {
     type: String,
   },
-  MiddleName: {
+  lastName: {
     type: String,
   },
-  LastName: {
+  email: {
     type: String,
   },
-  Email: {
+  phone: {
     type: String,
   },
-  Phone: {
+  password: {
     type: String,
   },
-  Password: {
-    type: String,
+  birthdate: {
+    type: Date,
   },
-  Birthdate: {
-    type: String,
-  },
-  idProfile: {
-    type: String,
-  },
-  MaritalStatus: {
+  maritalStatus: {
     type: String,
   },
   idRecord: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "records",
   },
-  Status: {
+  status: {
     type: Boolean,
     default: true,
   },
-  Background: {
+  background: {
+    type: String,
+  },
+  range: {
+    type: Number,
+    default: 1,
+  },
+  gender: {
     type: String,
   },
 });
 
-module.exports = mongoose.model("Users", userSchema);
+module.exports = mongoose.model("users", userSchema);
