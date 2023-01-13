@@ -191,6 +191,25 @@
       }
     },
     "/record": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "openRecord",
+        "tags": ["Records"],
+        "summary": "Open record",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Open record",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UserRecordsCreate"
+            }
+          }
+      ],
+      "responses": {}
+      },
       "delete": {
         "x-swagger-router-controller": "middleware-name3",
         "operationId": "CloseRecord",
@@ -264,11 +283,6 @@
           "description": "This field contains the user's marital status.",
           "example": "Soltero"
         },
-        "cause": {
-          "type": "string",
-          "description": "This field contains the reason why user registers. Note: If the user is a therapist enter 63ab303c9523e22c9ca14580 as a value.",
-          "example": "Depresion"
-        },
         "gender": {
           "type": "string",
           "description": "This field contains the user's gender. Note: Select male, female, or other.",
@@ -341,7 +355,29 @@
         "name": "AppointmentsDelete"
       }
     },
-    "UserRecords": {
+    "UserRecordsCreate": {
+      "properties": {
+        "idUser": {
+          "type": "string",
+          "description": "This field contains the ID of the therapist.",
+          "example": "63aa409c3a6c25ca233c0713"
+        },
+        "idPacient": {
+          "type": "string",
+          "description": "This field contains the patient's ID.",
+          "example": "63ab303d9523e22c9ca14583"
+        },
+        "cause": {
+          "type": "string",
+          "description": "This field contains the record cause.",
+          "example": "Ansiedad"
+        }
+      },
+      "xml": {
+        "name": "Appointments"
+      }
+    },
+    "UserRecordsClose": {
       "properties": {
         "idUser": {
           "type": "string",
