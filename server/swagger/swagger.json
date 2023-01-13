@@ -223,7 +223,7 @@
             "description": "Create appointment data",
             "required": true,
             "schema": {
-              "$ref": "#definitions/UserRecords"
+              "$ref": "#definitions/UserRecordsClose"
             }
           }
       ],
@@ -379,16 +379,6 @@
     },
     "UserRecordsClose": {
       "properties": {
-        "idUser": {
-          "type": "string",
-          "description": "This field contains the ID of the therapist.",
-          "example": "63aa409c3a6c25ca233c0713"
-        },
-        "idPacient": {
-          "type": "string",
-          "description": "This field contains the patient's ID.",
-          "example": "63beefef09ce2995e627b163"
-        },
         "idRecord": {
           "type": "string",
           "description": "This field contains the record's ID.",

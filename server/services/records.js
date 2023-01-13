@@ -10,10 +10,6 @@ async function createRecord(record) {
 }
 
 async function closeRecords(record) {
-  const saveUserRecord = await userRecordDB.registerRecord(record);
-
-  if (!saveUserRecord) return { isValid: false, message: 'It was not possible to close the record.', data: null };
-
   const close = await recordDB.closeRecord(record);
 
   if (!close) return { isValid: false, message: 'It was not possible to close the record.', data: null };
