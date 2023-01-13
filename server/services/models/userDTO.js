@@ -59,4 +59,39 @@ function filterUser(user) {
   return userData;
 }
 
-module.exports = { filterUser, checkUserData };
+function inputGetPatients(data) {
+  try {
+    const schema = Joi.object({
+      page: Joi.string().pattern(/^[0-9]+$/, { name: "numbers" }).trim(),
+      size: Joi.string().pattern(/^[0-9]+$/, { name: "numbers" }).trim(),
+      way: Joi.string().pattern(/(1|-1)$/, { name: "sort" }).trim(),
+    });
+    const value = schema.validate({
+      page: `${data.page}`,
+      size: `${data.size}`,
+      way: `${data.way}`,
+    }, { convert: true });
+    if (value.error) {
+      const message = `${value.error.message.split('"')[1]} has an invalid value`;
+      return ({ isValid: false, message, data: null });
+    }
+    return value;
+  } catch (error) {
+    return ({ isValid: false, message: error, data: null });
+  }
+}
+
+function outputGetPatients(user) {
+  const patientsData = {
+    therapistid: user._id,
+    therapistName: user.name,
+    therapistMiddleName: user.middleName,
+    therapistLastName: user.lastName,
+    patientsId: user.patients,
+  };
+  return patientsData;
+}
+
+module.exports = {
+  filterUser, checkUserData, inputGetPatients, outputGetPatients,
+};
