@@ -2,7 +2,6 @@ const bcrypt = require("bcrypt");
 const nodemailer = require('nodemailer');
 const userDB = require("../database/users");
 const tokenDB = require("../database/tokens");
-const recordDB = require("../database/records");
 const userDTO = require('./models/userDTO');
 const RANGE = require("../utils/range.constans");
 
@@ -45,10 +44,6 @@ async function generateUser(user) {
   const userData = user;
 
   if (!user.cause) return { isValid: false, message: 'It is necessary to open a file, please send the cause', data: null };
-
-  const generateRecord = await recordDB.saveRecord({ cause: user.cause });
-
-  userData.idRecord = generateRecord._id;
 
   const check = userDTO.checkUserData(user);
 
