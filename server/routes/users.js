@@ -40,7 +40,7 @@ app.get('/autocomplete', async (req, res) => {
 
 app.get('/autoComplete', async (req, res) => {
   try {
-    const data = await userService.nameAutoComplete(req.headers.authorization.split(" ")[1]);
+    const data = await userService.nameAuto(req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,
