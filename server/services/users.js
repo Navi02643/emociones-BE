@@ -78,4 +78,15 @@ async function nameAutoComplete(user, token) {
   return { isValid: false, message: 'List of users not found', data: null };
 }
 
-module.exports = { generateUser, nameAutoComplete };
+async function nameAuto(token) {
+  const { idUser } = await tokenDB.findToken(token);
+  const loggerUser = await userDB.findById(idUser);
+
+  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'User range not valid, access only for therapists', data: null };
+
+  const dataDB = await userDB.findPatients();
+
+  return { isValid: true, message: 'List of users obtained successfully', data: dataDB };
+}
+
+module.exports = { generateUser, nameAutoComplete, nameAuto };

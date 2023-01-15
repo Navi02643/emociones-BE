@@ -17,6 +17,11 @@ async function findPatient(user) {
   return searchPatient;
 }
 
+async function findPatients() {
+  const searchPatient = await UserModel.find({ range: RANGE.patient });
+  return searchPatient;
+}
+
 async function findById(id) {
   const searchId = await UserModel.findById(id);
   return searchId;
@@ -27,4 +32,5 @@ module.exports = {
   findEmail,
   findPatient,
   findById,
+  findPatients,
 };
