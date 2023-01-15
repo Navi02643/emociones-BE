@@ -12,7 +12,6 @@ function checkUserData(user) {
       email: Joi.string().email(),
       phone: Joi.number(),
       maritalStatus: Joi.string(),
-      idRecord: Joi.string(),
       gender: Joi.string(),
     });
 
@@ -23,7 +22,6 @@ function checkUserData(user) {
       email: `${user.email}`,
       phone: `${user.phone}`,
       maritalStatus: `${user.maritalStatus}`,
-      idRecord: `${user.idRecord}`,
       gender: `${user.gender}`,
     });
 
@@ -40,7 +38,7 @@ function checkUserData(user) {
 
     return { isValid: true, message: 'Fields are valid', data: null };
   } catch (error) {
-    return { isValid: false, message: 'the name, lastName, email, phone, birthday, gender, maritalStatus, record is obligatory', data: null };
+    return { isValid: false, message: 'the name, lastName, email, phone, birthday, gender and maritalStatus is obligatory', data: null };
   }
 }
 

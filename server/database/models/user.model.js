@@ -27,16 +27,9 @@ const userSchema = new Schema({
   maritalStatus: {
     type: String,
   },
-  idRecord: {
-    type: Schema.Types.ObjectId,
-    ref: "records",
-  },
   status: {
     type: Boolean,
     default: true,
-  },
-  background: {
-    type: String,
   },
   range: {
     type: Number,

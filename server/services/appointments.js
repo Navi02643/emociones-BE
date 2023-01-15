@@ -2,6 +2,7 @@ const userDB = require("../database/users");
 const tokenDB = require("../database/tokens");
 const appointmentDB = require("../database/appointments");
 const appointmentDTO = require("./models/appointmentsDTO");
+const notificationService = require("./notification");
 const RANGE = require("../utils/range.constans");
 
 function checkDate(currentDate, dateSave) {
@@ -60,7 +61,6 @@ async function createAppointment(appointment, token) {
   const appointmentData = appointment;
   const { idUser } = await tokenDB.findToken(token);
   const loggerUser = await userDB.findById(idUser);
-
   if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'Logged-in user range not valid', data: null };
 
   const checkIsTherapist = await userDB.findById(appointment.idUser);
@@ -91,11 +91,14 @@ async function createAppointment(appointment, token) {
 
 async function deleteAppointment(appointment, token) {
   const { idUser } = await tokenDB.findToken(token);
-  const loggerUser = await userDB.findById(idUser);
+  const loggerUser = await userDB.findById({ _id: idUser });
   const data = { _id: appointment._id };
   const deleteAppointments = await appointmentDB.deleteAppointment(data);
+  const patient = await userDB.findById(deleteAppointments.idPacient);
   const searchDate = await appointmentDB.searchAppointments(data);
   const currentDate = new Date();
+
+  notificationService.cancelledAppointment(deleteAppointments, patient);
 
   if (loggerUser.range === RANGE.therapist) {
     return { isValid: true, message: "Appointment deleted successfully", data: deleteAppointments };

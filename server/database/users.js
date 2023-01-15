@@ -23,5 +23,8 @@ async function findById(id) {
 }
 
 module.exports = {
-  saveUser, findEmail, findPatient, findById,
+  saveUser,
+  findEmail,
+  findPatient,
+  findById,
 };
