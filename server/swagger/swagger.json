@@ -76,6 +76,47 @@
         "responses": {}
       }
     },
+    "/user/patients": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getPatients",
+        "tags": ["Patients"],
+        "summary": "Get all the patients registered to a therapist",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the page that will be displayed",
+            "schema": {
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the size of the page that will be displayed",
+            "schema": {
+              "example": "10"
+            }
+          },
+          {
+            "in": "query",
+            "name": "way",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the way of the sorting of the patients by name",
+            "schema": {
+              "example": "Only accepts 1 or -1"
+            }
+          }
+        ]
+      }
+    },
     "/appointments": {
       "get": {
         "x-swagger-router-controller": "middleware-name3",
