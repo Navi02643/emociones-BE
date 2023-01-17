@@ -191,6 +191,25 @@
       }
     },
     "/record": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "openRecord",
+        "tags": ["Records"],
+        "summary": "Open record",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Open record",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UserRecordsCreate"
+            }
+          }
+      ],
+      "responses": {}
+      },
       "delete": {
         "x-swagger-router-controller": "middleware-name3",
         "operationId": "CloseRecord",
@@ -204,7 +223,7 @@
             "description": "Create appointment data",
             "required": true,
             "schema": {
-              "$ref": "#definitions/UserRecords"
+              "$ref": "#definitions/UserRecordsClose"
             }
           }
       ],
@@ -263,11 +282,6 @@
           "type": "string",
           "description": "This field contains the user's marital status.",
           "example": "Soltero"
-        },
-        "cause": {
-          "type": "string",
-          "description": "This field contains the reason why user registers. Note: If the user is a therapist enter 63ab303c9523e22c9ca14580 as a value.",
-          "example": "Depresion"
         },
         "gender": {
           "type": "string",
@@ -341,7 +355,7 @@
         "name": "AppointmentsDelete"
       }
     },
-    "UserRecords": {
+    "UserRecordsCreate": {
       "properties": {
         "idUser": {
           "type": "string",
@@ -351,8 +365,20 @@
         "idPacient": {
           "type": "string",
           "description": "This field contains the patient's ID.",
-          "example": "63beefef09ce2995e627b163"
+          "example": "63ab303d9523e22c9ca14583"
         },
+        "cause": {
+          "type": "string",
+          "description": "This field contains the record cause.",
+          "example": "Ansiedad"
+        }
+      },
+      "xml": {
+        "name": "Appointments"
+      }
+    },
+    "UserRecordsClose": {
+      "properties": {
         "idRecord": {
           "type": "string",
           "description": "This field contains the record's ID.",
