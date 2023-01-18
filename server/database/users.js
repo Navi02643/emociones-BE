@@ -61,6 +61,11 @@ async function findPatientsByTherapist(id, data, offset) {
   return foundPatients[0];
 }
 
+async function deleteTherapist(therapist) {
+  const idTherapist = await UserModel.findOneAndDelete({ _id: `${therapist._id}` });
+  return idTherapist;
+}
+
 module.exports = {
   saveUser,
   findEmail,
@@ -69,4 +74,5 @@ module.exports = {
   removeRecord,
   addPatient,
   findPatientsByTherapist,
+  deleteTherapist,
 };

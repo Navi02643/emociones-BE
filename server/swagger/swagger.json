@@ -117,6 +117,27 @@
         ]
       }
     },
+    "/user/deleteTherapist": {
+      "delete": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "deleteTherapist",
+        "tags": ["Therapist"],
+        "summary": "Elimination of therapist by the admin",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "_id",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the id of the therapist",
+            "schema": {
+              "example": "_id: 63c6ed72c72043ee3d3ef450"
+            }
+          }
+        ]
+      }
+    },
     "/appointments": {
       "get": {
         "x-swagger-router-controller": "middleware-name3",
