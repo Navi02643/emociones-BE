@@ -46,7 +46,7 @@ app.get('/', rangeRequired, async (req, res) => {
       data: data.data,
     });
   } catch (error) {
-    return res.status(200).send({
+    return res.status(500).send({
       isValid: false,
       message: 'something failed, try again later',
       data: null,
