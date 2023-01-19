@@ -40,7 +40,9 @@ async function sendEmail(user, password) {
   return 0;
 }
 
-async function generateUser(user) {
+async function generateUser(user, token) {
+  const { idUser } = await tokenDB.findToken(token);
+
   const userData = user;
 
   if (!user.cause) return { isValid: false, message: 'It is necessary to open a file, please send the cause', data: null };
@@ -57,6 +59,7 @@ async function generateUser(user) {
   const passwordEncrypted = await bcrypt.hash(password, 10);
   userData.password = passwordEncrypted;
   const userSave = await userDB.saveUser(userData);
+  await userDB.addPatient(idUser, userSave._id);
   const dataUserFilter = userDTO.filterUser(userSave);
 
   sendEmail(dataUserFilter, password);
@@ -75,18 +78,49 @@ async function nameAutoComplete(user, token) {
     const userData = await userDB.findPatient(data);
     return { isValid: true, message: 'List of users obtained successfully', data: userData };
   }
+  if (!data.name) {
+    return { isValid: false, message: 'Enter the name parameter with its value', data: null };
+  }
+  if (!data) {
+    return { isValid: false, message: 'Enter the name parameter', data: null };
+  }
   return { isValid: false, message: 'List of users not found', data: null };
 }
 
-async function nameAuto(token) {
+async function autoName(token) {
   const { idUser } = await tokenDB.findToken(token);
   const loggerUser = await userDB.findById(idUser);
 
   if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'User range not valid, access only for therapists', data: null };
+  const dataNames = await userDB.findPatientsN();
 
-  const dataDB = await userDB.findPatients();
-
-  return { isValid: true, message: 'List of users obtained successfully', data: dataDB };
+  return { isValid: true, message: 'List of users obtained successfully', data: dataNames };
 }
 
-module.exports = { generateUser, nameAutoComplete, nameAuto };
+async function getPatients(query, token) {
+  const page = query.page === "" ? 1 : query.page;
+  const size = query.size === "" ? 10 : query.size;
+  const way = query.way === "" ? 1 : query.way;
+  const data = ({
+    page,
+    size,
+    way,
+  });
+
+  const filteredData = userDTO.inputGetPatients(data);
+  filteredData.value.page = parseInt(filteredData.value.page, 10);
+  filteredData.value.size = parseInt(filteredData.value.size, 10);
+  filteredData.value.way = parseInt(filteredData.value.way, 10);
+  const offset = (filteredData.value.page * filteredData.value.size) - filteredData.value.size;
+  const { idUser } = await tokenDB.findToken(token);
+  const user = await userDB.findPatientsByTherapist(idUser, filteredData, offset);
+  const filteredUser = userDTO.outputGetPatients(user);
+  return ({ isValid: true, message: "Patients found successfully", data: filteredUser });
+}
+
+module.exports = {
+  generateUser,
+  nameAutoComplete,
+  getPatients,
+  autoName,
+};

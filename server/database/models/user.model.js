@@ -38,6 +38,10 @@ const userSchema = new Schema({
   gender: {
     type: String,
   },
+  idPatients: [{
+    type: Schema.Types.ObjectId,
+    ref: "users",
+  }],
 });
 
 module.exports = mongoose.model("users", userSchema);
