@@ -102,4 +102,22 @@ async function getPatients(query, token) {
   return ({ isValid: true, message: "Patients found successfully", data: filteredUser });
 }
 
-module.exports = { generateUser, nameAutoComplete, getPatients };
+async function deleteTherapist(therapist, token) {
+  const { idUser } = await tokenDB.findToken(token);
+  const loggerUser = await userDB.findById(idUser);
+
+  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'This user rank cannot delete therapist', data: null };
+  if (loggerUser.range === RANGE.therapist) return { isValid: false, message: 'This user rank cannot delete therapist', data: null };
+
+  const data = { _id: therapist._id };
+  const userData = await userDB.deleteTherapist(data);
+
+  if (!userData) {
+    return { isValid: false, message: 'Therapist not found', data: null };
+  }
+  return { isValid: true, message: 'Therapist successfully removed', data: userData };
+}
+
+module.exports = {
+  generateUser, nameAutoComplete, getPatients, deleteTherapist,
+};
