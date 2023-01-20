@@ -118,9 +118,50 @@ async function getPatients(query, token) {
   return ({ isValid: true, message: "Patients found successfully", data: filteredUser });
 }
 
+async function deleteTherapist(therapist, token) {
+  const { idUser } = await tokenDB.findToken(token);
+  const loggerUser = await userDB.findById(idUser);
+
+  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'This user rank cannot delete therapist', data: null };
+  if (loggerUser.range === RANGE.therapist) return { isValid: false, message: 'This user rank cannot delete therapist', data: null };
+
+  const data = { _id: therapist._id };
+  const userData = await userDB.deleteTherapist(data);
+
+  if (!userData) {
+    return { isValid: false, message: 'Therapist not found', data: null };
+  }
+  return { isValid: true, message: 'Therapist successfully removed', data: userData };
+}
+
+async function findUsers(user, token) {
+  const { idUser } = await tokenDB.findToken(token);
+  const loggerUser = await userDB.findById(idUser);
+
+  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'This range of users cannot search for users', data: null };
+  if (loggerUser.range === RANGE.therapist) return { isValid: false, message: 'This range of users cannot search for users', data: null };
+
+  const pageSize = user.pageSize === "" ? 1 : user.pageSize;
+  const pageNumber = user.pageNumber === "" ? 1 : user.pageNumber;
+  const range = user.range === "" ? 1 : user.range;
+  const data = ({
+    pageSize,
+    pageNumber,
+    range,
+  });
+  const userData = await userDB.findUsers(data);
+
+  if (!userData) {
+    return { isValid: false, message: 'Could not get user list', data: null };
+  }
+  return { isValid: true, message: 'User list obtained successfully', data: userData };
+}
+
 module.exports = {
   generateUser,
   nameAutoComplete,
   getPatients,
   autoName,
+  deleteTherapist,
+  findUsers,
 };
