@@ -55,7 +55,7 @@ async function checkTokenValidator(token) {
 async function findTokens(token) {
   const findToken = await tokenDB.findToken(token);
   const TokenCheck = await checkTokenValidator(findToken);
-  return TokenCheck;
+  return (TokenCheck, findToken);
 }
 
 module.exports = { login, logout, findTokens };
