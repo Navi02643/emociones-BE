@@ -6,4 +6,45 @@ async function registerRecord(record) {
   return saveUserRecord;
 }
 
-module.exports = { registerRecord };
+async function getRecordsByUser(user, parameters, offset) {
+  const records = await UserRecordModel.aggregate([
+    { $match: { idUser: user } },
+    {
+      $lookup: {
+        from: "users",
+        localField: "idPacient",
+        foreignField: "_id",
+        as: "Pacient",
+        pipeline: [{
+          $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } },
+        }],
+      },
+    },
+    {
+      $lookup: {
+        from: "records",
+        localField: "idRecord",
+        foreignField: "_id",
+        as: "Record",
+      },
+    },
+    {
+      $unwind: "$Record",
+    },
+    {
+      $unwind: "$Pacient",
+    },
+    {
+      $skip: offset,
+    },
+    {
+      $limit: parameters.value.size,
+    },
+    {
+      $sort: { [parameters.value.order]: parameters.value.way },
+    },
+  ]);
+  return records;
+}
+
+module.exports = { registerRecord, getRecordsByUser };
