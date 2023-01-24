@@ -77,7 +77,23 @@ async function nameAutoComplete(user, token) {
     const userData = await userDB.findPatient(data);
     return { isValid: true, message: 'List of users obtained successfully', data: userData };
   }
+  if (!data.name) {
+    return { isValid: false, message: 'Enter the name parameter with its value', data: null };
+  }
+  if (!data) {
+    return { isValid: false, message: 'Enter the name parameter', data: null };
+  }
   return { isValid: false, message: 'List of users not found', data: null };
+}
+
+async function autoName(token) {
+  const { idUser } = await tokenDB.findToken(token);
+  const loggerUser = await userDB.findById(idUser);
+
+  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'User range not valid, access only for therapists', data: null };
+  const dataNames = await userDB.findPatientsN();
+
+  return { isValid: true, message: 'List of users obtained successfully', data: dataNames };
 }
 
 async function getPatients(query, token) {
@@ -117,6 +133,27 @@ async function deleteTherapist(therapist, token) {
   return { isValid: true, message: 'Therapist successfully removed', data: userData };
 }
 
+async function findUsers(user) {
+  const pageSize = user.pageSize === "" ? 1 : user.pageSize;
+  const pageNumber = user.pageNumber === "" ? 1 : user.pageNumber;
+  const data = ({
+    pageSize,
+    pageNumber,
+  });
+  const userData = await userDB.findUsers(data);
+  const userDataDto = userDTO.filterUsers(userData);
+
+  if (!userDataDto) {
+    return { isValid: false, message: 'Could not get user list', data: null };
+  }
+  return { isValid: true, message: 'User list obtained successfully', data: userDataDto };
+}
+
 module.exports = {
-  generateUser, nameAutoComplete, getPatients, deleteTherapist,
+  generateUser,
+  nameAutoComplete,
+  getPatients,
+  autoName,
+  deleteTherapist,
+  findUsers,
 };

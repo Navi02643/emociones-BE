@@ -55,6 +55,58 @@
         "responses": {}
       }
     },
+    "/user/autocomplete": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getUsersName",
+        "tags": ["Get User Name"],
+        "summary": "UserName",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "type": "string",
+            "schema": {
+              "$ref": "#definitions/UserGetName"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getUsers",
+        "tags": ["Get Users Range ( therapist, admin )"],
+        "summary": "Get all the users registered ( therapist, admin )",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the pageSize that will be displayed",
+            "schema": {
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the pageNumber of the page that will be displayed",
+            "schema": {
+              "example": "1"
+            }
+          }
+        ]
+      }
+    },
     "/user/register": {
       "post": {
         "x-swagger-router-controller": "middleware-name2",
@@ -355,6 +407,18 @@
       },
       "xml": {
         "name": "Login"
+      }
+    },
+    "UserGetName": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "This field contains the name of the users.",
+          "example": "Eduardo"
+        }
+      },
+      "xml": {
+        "name": "UserGetName"
       }
     },
     "UserRegister": {
