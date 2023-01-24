@@ -142,11 +142,9 @@ async function findUsers(user, token) {
 
   const pageSize = user.pageSize === "" ? 1 : user.pageSize;
   const pageNumber = user.pageNumber === "" ? 1 : user.pageNumber;
-  const range = user.range === "" ? 1 : user.range;
   const data = ({
     pageSize,
     pageNumber,
-    range,
   });
   const userData = await userDB.findUsers(data);
 

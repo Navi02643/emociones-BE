@@ -71,8 +71,8 @@ async function deleteTherapist(therapist) {
   return idTherapist;
 }
 
-async function findUsers(user) {
-  const searchUser = await UserModel.find({ range: `${user.range}` });
+async function findUsers() {
+  const searchUser = await UserModel.find({ range: [RANGE.therapist, RANGE.admin] });
   return searchUser;
 }
 
