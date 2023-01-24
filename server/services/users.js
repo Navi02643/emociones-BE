@@ -43,6 +43,9 @@ async function sendEmail(user, password) {
 
 async function generateUser(user) {
   const userData = user;
+
+  if (!user.cause) return { isValid: false, message: 'It is necessary to open a file, please send the cause', data: null };
+
   const generateRecord = await recordDB.saveRecord({ cause: user.cause });
 
   userData.idRecord = generateRecord._id;

@@ -16,7 +16,8 @@ function checkAppointmentData(appointment) {
       idPacient: `${appointment.idPacient}`,
     });
 
-    const isCorrectDateFormat = Moment(appointment.date, "YYYY-MM-DD HH:mm:ss", true).isValid();
+    const date = `${appointment.date} ${appointment.hour}`;
+    const isCorrectDateFormat = Moment(date, "YYYY-MM-DD HH:mm:ss", true).isValid();
 
     if (!isCorrectDateFormat) return { isValid: false, message: 'Invalid date', data: null };
 
@@ -63,6 +64,7 @@ function outputGetAppointmentsDTO(appointmentData) {
   const hour = Moment.parseZone(appointmentData.date).utc().format("HH:mm");
   const date = Moment.parseZone(appointmentData.date).utc().format("YYYY/MM/DD");
   const appointmentDTO = {
+    appointmentId: appointmentData._id,
     patientName: appointmentData.Pacient.fullName,
     therapistName: appointmentData.User.fullName,
     date,
@@ -85,9 +87,23 @@ function outPutNotification(appointments) {
   return appointmentAux;
 }
 
+function outPutCancelNotification(appointments) {
+  const appointmentAux = [];
+  const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  appointments.forEach((appointment) => {
+    const dataAppointment = {
+      date: `${appointment.date.getDate()} de ${months[appointment.date.getMonth()]} del ${appointment.date.getFullYear()}`,
+      hour: Moment.parseZone(appointment.date).utc().format('HH:MM'),
+    };
+    appointmentAux.push(dataAppointment);
+  });
+  return appointmentAux;
+}
+
 module.exports = {
   inputGetAppointmentsDTO,
   outputGetAppointmentsDTO,
   checkAppointmentData,
   outPutNotification,
+  outPutCancelNotification,
 };
