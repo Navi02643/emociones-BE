@@ -4,7 +4,7 @@ const requireRange = require("../rangeVerification/rangeVerification");
 
 const app = express();
 
-app.post('/register', requireRange, async (req, res) => {
+app.post('/register', requireRange.therapistAndAdminRange, async (req, res) => {
   try {
     const data = await userService.generateUser(req.body, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
@@ -38,7 +38,7 @@ app.get('/autocomplete', async (req, res) => {
   }
 });
 
-app.get('/patients', requireRange, async (req, res) => {
+app.get('/patients', requireRange.therapistAndAdminRange, async (req, res) => {
   try {
     const data = await userService.getPatients(req.query, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
@@ -89,7 +89,7 @@ app.get('/autocompletes', async (req, res) => {
   }
 });
 
-app.get('/', async (req, res) => {
+app.get('/', requireRange.AdminRange, async (req, res) => {
   try {
     const data = await userService.findUsers(req.query, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({

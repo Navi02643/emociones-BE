@@ -57,6 +57,25 @@ function filterUser(user) {
   return userData;
 }
 
+function filterUsers(users) {
+  const dataAux = [];
+  users.forEach((user) => {
+    const userData = {
+      id: user._id,
+      fullName: `${user.name} ${user.middleName} ${user.lastName}`,
+      email: user.email,
+      phone: user.phone,
+      birthdate: user.birthdate,
+      maritalStatus: user.maritalStatus,
+      range: user.range,
+      gender: user.gender,
+      status: user.status,
+    };
+    dataAux.push(userData);
+  });
+  return dataAux;
+}
+
 function inputGetPatients(data) {
   try {
     const schema = Joi.object({
@@ -91,5 +110,9 @@ function outputGetPatients(user) {
 }
 
 module.exports = {
-  filterUser, checkUserData, inputGetPatients, outputGetPatients,
+  filterUser,
+  checkUserData,
+  inputGetPatients,
+  outputGetPatients,
+  filterUsers,
 };

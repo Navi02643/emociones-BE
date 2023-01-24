@@ -133,13 +133,7 @@ async function deleteTherapist(therapist, token) {
   return { isValid: true, message: 'Therapist successfully removed', data: userData };
 }
 
-async function findUsers(user, token) {
-  const { idUser } = await tokenDB.findToken(token);
-  const loggerUser = await userDB.findById(idUser);
-
-  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'This range of users cannot search for users', data: null };
-  if (loggerUser.range === RANGE.therapist) return { isValid: false, message: 'This range of users cannot search for users', data: null };
-
+async function findUsers(user) {
   const pageSize = user.pageSize === "" ? 1 : user.pageSize;
   const pageNumber = user.pageNumber === "" ? 1 : user.pageNumber;
   const data = ({
@@ -147,11 +141,12 @@ async function findUsers(user, token) {
     pageNumber,
   });
   const userData = await userDB.findUsers(data);
+  const userDataDto = userDTO.filterUsers(userData);
 
-  if (!userData) {
+  if (!userDataDto) {
     return { isValid: false, message: 'Could not get user list', data: null };
   }
-  return { isValid: true, message: 'User list obtained successfully', data: userData };
+  return { isValid: true, message: 'User list obtained successfully', data: userDataDto };
 }
 
 module.exports = {
