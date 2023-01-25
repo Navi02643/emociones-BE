@@ -47,4 +47,9 @@ async function getRecordsByUser(user, parameters, offset) {
   return records;
 }
 
-module.exports = { registerRecord, getRecordsByUser };
+async function closeRecord(record) {
+  const recordDelete = await UserRecordModel.findOneAndUpdate(record.idRecord, { status: false });
+  return recordDelete;
+}
+
+module.exports = { registerRecord, getRecordsByUser, closeRecord };
