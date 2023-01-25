@@ -71,6 +71,11 @@ async function deleteTherapist(therapist) {
   return idTherapist;
 }
 
+async function findUsers() {
+  const searchUser = await UserModel.find({ range: [RANGE.therapist, RANGE.admin] });
+  return searchUser;
+}
+
 module.exports = {
   saveUser,
   findEmail,
@@ -81,4 +86,5 @@ module.exports = {
   findPatientsByTherapist,
   deleteTherapist,
   findPatientsN,
+  findUsers,
 };

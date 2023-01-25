@@ -37,7 +37,7 @@ app.delete('/', async (req, res) => {
   }
 });
 
-app.get('/', rangeRequired, async (req, res) => {
+app.get('/', rangeRequired.therapistAndAdminRange, async (req, res) => {
   try {
     const data = await recordService.getRecords(req.headers.authorization.split(" ")[1], req.query);
     return res.status(200).send({

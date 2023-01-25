@@ -76,6 +76,37 @@
         "responses": {}
       }
     },
+    "/user": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getUsers",
+        "tags": ["Get Users Range ( therapist, admin )"],
+        "summary": "Get all the users registered ( therapist, admin )",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the pageSize that will be displayed",
+            "schema": {
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the pageNumber of the page that will be displayed",
+            "schema": {
+              "example": "1"
+            }
+          }
+        ]
+      }
+    },
     "/user/register": {
       "post": {
         "x-swagger-router-controller": "middleware-name2",
