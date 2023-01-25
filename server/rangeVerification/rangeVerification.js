@@ -13,4 +13,18 @@ const therapistAndAdminRange = async (req, res, next) => {
   }));
 };
 
-module.exports = therapistAndAdminRange;
+const AdminRange = async (req, res, next) => {
+  const { idUser } = await tokenDB.findToken(req.headers.authorization.split(" ")[1]);
+  const { range } = await userDB.findById(idUser);
+  if (range === RANGE.admin) return next();
+  return (res.status(403).send({
+    isValid: false,
+    message: "Requires grant permission",
+    data: null,
+  }));
+};
+
+module.exports = {
+  therapistAndAdminRange,
+  AdminRange,
+};

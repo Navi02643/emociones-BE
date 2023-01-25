@@ -38,10 +38,10 @@ function checkAppointmentData(appointment) {
 function inputGetAppointmentsDTO(getAppointmentData) {
   try {
     const schema = Joi.object({
-      page: Joi.string().pattern(/^[0-9]+$/, { name: "numbers" }).trim(),
-      size: Joi.string().pattern(/^[0-9]+$/, { name: "numbers" }).trim(),
-      order: Joi.string().pattern(/^(Pacient.fullName|date)/, { name: "sort" }).trim(),
-      way: Joi.string().pattern(/(1|-1)$/, { name: "sort" }).trim(),
+      page: Joi.string().pattern(/^[0-9]+$/, { name: "numbers" }).trim().required(),
+      size: Joi.string().pattern(/^[0-9]+$/, { name: "numbers" }).trim().required(),
+      order: Joi.string().pattern(/^(Pacient.fullName|date)/, { name: "sort" }).trim().required(),
+      way: Joi.string().pattern(/(1|-1)$/, { name: "sort" }).trim().required(),
     });
     const value = schema.validate({
       page: `${getAppointmentData.page}`,
@@ -87,9 +87,23 @@ function outPutNotification(appointments) {
   return appointmentAux;
 }
 
+function outPutCancelNotification(appointments) {
+  const appointmentAux = [];
+  const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  appointments.forEach((appointment) => {
+    const dataAppointment = {
+      date: `${appointment.date.getDate()} de ${months[appointment.date.getMonth()]} del ${appointment.date.getFullYear()}`,
+      hour: Moment.parseZone(appointment.date).utc().format('HH:MM'),
+    };
+    appointmentAux.push(dataAppointment);
+  });
+  return appointmentAux;
+}
+
 module.exports = {
   inputGetAppointmentsDTO,
   outputGetAppointmentsDTO,
   checkAppointmentData,
   outPutNotification,
+  outPutCancelNotification,
 };
