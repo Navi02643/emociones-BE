@@ -89,9 +89,9 @@ app.get('/autocompletes', async (req, res) => {
   }
 });
 
-app.get('/', requireRange.AdminRange, async (req, res) => {
+app.delete('/deleteTherapist', async (req, res) => {
   try {
-    const data = await userService.findUsers(req.query, req.headers.authorization.split(" ")[1]);
+    const data = await userService.deleteTherapist(req.query, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,

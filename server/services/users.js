@@ -70,15 +70,15 @@ async function nameAutoComplete(user, token) {
   if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'User range not valid, access only for therapists', data: null };
 
   const data = { name: user.name };
+  if (data.name === undefined) {
+    return { isValid: false, message: 'Enter the name parameter', data: null };
+  }
   if (data.name.length >= 3) {
     const userData = await userDB.findPatient(data);
     return { isValid: true, message: 'List of users obtained successfully', data: userData };
   }
   if (!data.name) {
     return { isValid: false, message: 'Enter the name parameter with its value', data: null };
-  }
-  if (!data) {
-    return { isValid: false, message: 'Enter the name parameter', data: null };
   }
   return { isValid: false, message: 'List of users not found', data: null };
 }
@@ -89,8 +89,9 @@ async function autoName(token) {
 
   if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'User range not valid, access only for therapists', data: null };
   const dataNames = await userDB.findPatientsN();
+  const dataUserFilter = userDTO.filterUsers(dataNames);
 
-  return { isValid: true, message: 'List of users obtained successfully', data: dataNames };
+  return { isValid: true, message: 'List of users obtained successfully', data: dataUserFilter };
 }
 
 async function getPatients(query, token) {
