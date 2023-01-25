@@ -9,7 +9,7 @@ app.use("/login", require("./login"));
 app.use("/user", expressAccessToken, firewall, require("./users"));
 app.use("/session", expressAccessToken, firewall, require("./session"));
 app.use("/appointments", expressAccessToken, firewall, require("./appointments"));
-app.use("/notification", expressAccessToken, firewall, require('./notifications'));
-app.use("/record", expressAccessToken, firewall, require('./records'));
+app.use("/notification", expressAccessToken, firewall, require("./notifications"));
+app.use("/record", expressAccessToken, firewall, require("./records"));
 
 module.exports = app;
