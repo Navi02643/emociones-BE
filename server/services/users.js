@@ -43,10 +43,7 @@ async function sendEmail(user, password) {
 async function generateUser(user, token) {
   const { idUser } = await tokenDB.findToken(token);
   const userData = user;
-
-  if (!user.cause) return { isValid: false, message: 'It is necessary to open a file, please send the cause', data: null };
-
-  const check = userDTO.checkUserData(user);
+  const check = userDTO.checkUserData(userData);
 
   if (check.isValid === false) return check;
 
