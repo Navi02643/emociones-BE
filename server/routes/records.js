@@ -1,9 +1,10 @@
 const express = require("express");
 const recordService = require("../services/records");
+const requireRange = require("../rangeVerification/rangeVerification");
 
 const app = express();
 
-app.delete('/', async (req, res) => {
+app.delete('/', requireRange, async (req, res) => {
   try {
     const data = await recordService.closeRecords(req.body);
     return res.status(200).send({
