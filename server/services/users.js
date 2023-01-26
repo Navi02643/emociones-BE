@@ -130,7 +130,7 @@ async function deleteTherapist(therapist, token) {
   return { isValid: true, message: 'Therapist successfully removed', data: userData };
 }
 
-async function findUsers(user) {
+async function findUser(user) {
   const pagesSize = user.pagesSize === "" ? 1 : user.pagesSize;
   const pagesNumber = user.pagesNumber === "" ? 1 : user.pagesNumber;
   const data = ({
@@ -152,5 +152,5 @@ module.exports = {
   getPatients,
   autoName,
   deleteTherapist,
-  findUsers,
+  findUser,
 };
