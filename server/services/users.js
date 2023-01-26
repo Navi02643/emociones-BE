@@ -131,11 +131,11 @@ async function deleteTherapist(therapist, token) {
 }
 
 async function findUsers(user) {
-  const pageSize = user.pageSize === "" ? 1 : user.pageSize;
-  const pageNumber = user.pageNumber === "" ? 1 : user.pageNumber;
+  const pagesSize = user.pagesSize === "" ? 1 : user.pagesSize;
+  const pagesNumber = user.pagesNumber === "" ? 1 : user.pagesNumber;
   const data = ({
-    pageSize,
-    pageNumber,
+    pagesSize,
+    pagesNumber,
   });
   const userData = await userDB.findUsers(data);
   const userDataDto = userDTO.filterUsers(userData);
