@@ -47,7 +47,9 @@ async function findPatientsByTherapist(id, data, offset) {
       foreignField: "_id",
       as: "patients",
       pipeline: [{
-        $project: { name: 1, middleName: 1, lastName: 1 },
+        $project: {
+          id: "$_id", _id: 0, name: 1, middleName: 1, lastName: 1,
+        },
       }, {
         $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } },
       }, {
