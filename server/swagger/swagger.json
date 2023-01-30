@@ -55,27 +55,6 @@
         "responses": {}
       }
     },
-    "/user/autocomplete": {
-      "get": {
-        "x-swagger-router-controller": "middleware-name2",
-        "operationId": "getUsersName",
-        "tags": ["User"],
-        "summary": "UserName",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "required": true,
-            "type": "string",
-            "schema": {
-              "$ref": "#definitions/UserGetName"
-            }
-          }
-        ],
-        "responses": {}
-      }
-    },
     "/user": {
       "get": {
         "x-swagger-router-controller": "middleware-name2",
@@ -107,21 +86,21 @@
         ]
       }
     },
-    "/user/register": {
-      "post": {
+    "/user/autocomplete": {
+      "get": {
         "x-swagger-router-controller": "middleware-name2",
-        "operationId": "getUsers",
+        "operationId": "getUsersName",
         "tags": ["User"],
-        "summary": "Register User",
+        "summary": "UserName",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "Register user data",
+            "in": "query",
+            "name": "name",
             "required": true,
+            "type": "string",
             "schema": {
-              "$ref": "#definitions/UserRegister"
+              "$ref": "#definitions/UserGetName"
             }
           }
         ],
@@ -132,7 +111,7 @@
       "get": {
         "x-swagger-router-controller": "middleware-name2",
         "operationId": "getPatients",
-        "tags": ["Patients"],
+        "tags": ["User"],
         "summary": "Get all the patients registered to a therapist",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
@@ -169,11 +148,32 @@
         ]
       }
     },
+    "/user/register": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getUsers",
+        "tags": ["User"],
+        "summary": "Register User",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Register user data",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UserRegister"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/user/deleteTherapist": {
       "delete": {
         "x-swagger-router-controller": "middleware-name2",
         "operationId": "deleteTherapist",
-        "tags": ["Therapist"],
+        "tags": ["User"],
         "summary": "Elimination of therapist by the admin",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
