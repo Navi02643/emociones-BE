@@ -4,9 +4,26 @@ const requireRange = require("../rangeVerification/rangeVerification");
 
 const app = express();
 
-app.post('/register', requireRange.therapistAndAdminRange, async (req, res) => {
+app.post('/registerPatient', requireRange.therapistAndAdminRange, async (req, res) => {
   try {
-    const data = await userService.generateUser(req.body, req.headers.authorization.split(" ")[1]);
+    const data = await userService.createPatient(req.body, req.headers.authorization.split(" ")[1]);
+    return res.status(200).send({
+      isValid: data.isValid,
+      message: data.message,
+      data: data.data,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      isValid: false,
+      message: 'something failed, try again later',
+      data: null,
+    });
+  }
+});
+
+app.post('/registerTherapist', requireRange.AdminRange, async (req, res) => {
+  try {
+    const data = await userService.createTherapist(req.body, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,

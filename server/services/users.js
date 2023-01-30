@@ -40,12 +40,8 @@ async function sendEmail(user, password) {
   return 0;
 }
 
-async function generateUser(user, token) {
-  const { idUser } = await tokenDB.findToken(token);
+async function generateUser(user) {
   const userData = user;
-  const check = userDTO.checkUserData(userData);
-
-  if (check.isValid === false) return check;
 
   const findEmail = await userDB.findEmail(user.email);
 
@@ -55,12 +51,33 @@ async function generateUser(user, token) {
   const passwordEncrypted = await bcrypt.hash(password, 10);
   userData.password = passwordEncrypted;
   const userSave = await userDB.saveUser(userData);
-  await userDB.addPatient(idUser, userSave._id);
   const dataUserFilter = userDTO.filterUser(userSave);
 
   sendEmail(dataUserFilter, password);
 
-  return { isValid: true, message: 'User successfully created', data: dataUserFilter };
+  return dataUserFilter;
+}
+
+async function createPatient(data, token) {
+  const user = data;
+  user.range = RANGE.patient;
+  const check = userDTO.checkPatientData(user);
+  if (!check.isValid) return check;
+  const { idUser } = await tokenDB.findToken(token);
+  const userData = await generateUser(user);
+  if (userData.isValid === false) return userData;
+  await userDB.addPatient(idUser, userData.id);
+
+  return { isValid: true, message: 'Patient successfully created', data: userData };
+}
+
+async function createTherapist(data) {
+  const user = data;
+  const check = userDTO.checkUserData(user);
+  if (!check.isValid) return check;
+  const userData = await generateUser(user);
+  if (userData.isValid === false) return userData;
+  return { isValid: true, message: 'Therapist successfully created', data: userData };
 }
 
 async function nameAutoComplete(user, token) {
@@ -148,7 +165,8 @@ async function findUser(user) {
 }
 
 module.exports = {
-  generateUser,
+  createPatient,
+  createTherapist,
   nameAutoComplete,
   getPatients,
   autoName,

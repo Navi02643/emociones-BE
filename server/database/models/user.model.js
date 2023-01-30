@@ -38,6 +38,9 @@ const userSchema = new Schema({
   gender: {
     type: String,
   },
+  license: {
+    type: String,
+  },
   idPatients: [{
     type: Schema.Types.ObjectId,
     ref: "users",
