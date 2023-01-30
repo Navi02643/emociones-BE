@@ -105,6 +105,7 @@ async function getPatients(query, token) {
   });
 
   const filteredData = userDTO.inputGetPatients(data);
+  if (filteredData.isValid === false) return filteredData;
   filteredData.value.page = parseInt(filteredData.value.page, 10);
   filteredData.value.size = parseInt(filteredData.value.size, 10);
   filteredData.value.way = parseInt(filteredData.value.way, 10);
