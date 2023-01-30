@@ -15,6 +15,13 @@ const userRecordSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "records",
   },
+  creationDate: {
+    type: Date,
+  },
+  status: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 module.exports = mongoose.model("userrecords", userRecordSchema);

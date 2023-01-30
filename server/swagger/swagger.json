@@ -55,6 +55,58 @@
         "responses": {}
       }
     },
+    "/user/autocomplete": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getUsersName",
+        "tags": ["User"],
+        "summary": "UserName",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "required": true,
+            "type": "string",
+            "schema": {
+              "$ref": "#definitions/UserGetName"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getUsers",
+        "tags": ["User"],
+        "summary": "Get all the users registered ( therapist, admin )",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageSize",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the pageSize that will be displayed",
+            "schema": {
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pageNumber",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the pageNumber of the page that will be displayed",
+            "schema": {
+              "example": "1"
+            }
+          }
+        ]
+      }
+    },
     "/user/register": {
       "post": {
         "x-swagger-router-controller": "middleware-name2",
@@ -74,6 +126,68 @@
           }
         ],
         "responses": {}
+      }
+    },
+    "/user/patients": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getPatients",
+        "tags": ["Patients"],
+        "summary": "Get all the patients registered to a therapist",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the page that will be displayed",
+            "schema": {
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the size of the page that will be displayed",
+            "schema": {
+              "example": "10"
+            }
+          },
+          {
+            "in": "query",
+            "name": "way",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the way of the sorting of the patients by name",
+            "schema": {
+              "example": "Only accepts 1 or -1"
+            }
+          }
+        ]
+      }
+    },
+    "/user/deleteTherapist": {
+      "delete": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "deleteTherapist",
+        "tags": ["Therapist"],
+        "summary": "Elimination of therapist by the admin",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "_id",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the id of the therapist",
+            "schema": {
+              "example": "_id: 63c6ed72c72043ee3d3ef450"
+            }
+          }
+        ]
       }
     },
     "/appointments": {
@@ -211,6 +325,25 @@
       }
     },
     "/record": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "openRecord",
+        "tags": ["Records"],
+        "summary": "Open record",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Open record",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/UserRecordsCreate"
+            }
+          }
+      ],
+      "responses": {}
+      },
       "delete": {
         "x-swagger-router-controller": "middleware-name3",
         "operationId": "CloseRecord",
@@ -224,10 +357,60 @@
             "description": "Create appointment data",
             "required": true,
             "schema": {
-              "$ref": "#definitions/UserRecords"
+              "$ref": "#definitions/UserRecordsClose"
             }
           }
       ],
+      "responses": {}
+      },
+      "get": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "GetMultipleRecords",
+        "tags": ["Records"],
+        "summary": "Get record",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the page that will be displayed",
+            "schema": {
+              "example": "1"
+            }
+          },
+          {
+            "in": "query",
+            "name": "size",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the size of the page",
+            "schema": {
+              "example": "10"
+            }
+          },
+          {
+            "in": "query",
+            "name": "order",
+            "required": false,
+            "type": "string",
+            "description": "This field contains the order in which they will be displayed",
+            "schema": {
+              "example": "creationDate || Pacient.fullName"
+            }
+          },
+          {
+            "in": "query",
+            "name": "way",
+            "required": false,
+            "type": "integer",
+            "description": "This field contains the way in which they are sorted",
+            "schema": {
+              "example": "1 || -1"
+            }
+          }
+        ],
       "responses": {}
       }
     }
@@ -244,6 +427,18 @@
       },
       "xml": {
         "name": "Login"
+      }
+    },
+    "UserGetName": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "This field contains the name of the users.",
+          "example": "Eduardo"
+        }
+      },
+      "xml": {
+        "name": "UserGetName"
       }
     },
     "UserRegister": {
@@ -283,11 +478,6 @@
           "type": "string",
           "description": "This field contains the user's marital status.",
           "example": "Soltero"
-        },
-        "cause": {
-          "type": "string",
-          "description": "This field contains the reason why user registers. Note: If the user is a therapist enter 63ab303c9523e22c9ca14580 as a value.",
-          "example": "Depresion"
         },
         "gender": {
           "type": "string",
@@ -370,7 +560,7 @@
         }
       },
       "xml": {
-        "name": "Appointments"
+        "name": "Notification"
       }
     },
     "UserRecords": {
@@ -383,8 +573,20 @@
         "idPacient": {
           "type": "string",
           "description": "This field contains the patient's ID.",
-          "example": "63beefef09ce2995e627b163"
+          "example": "63ab303d9523e22c9ca14583"
         },
+        "cause": {
+          "type": "string",
+          "description": "This field contains the record cause.",
+          "example": "Ansiedad"
+        }
+      },
+      "xml": {
+        "name": "UserRecords"
+      }
+    },
+    "UserRecordsClose": {
+      "properties": {
         "idRecord": {
           "type": "string",
           "description": "This field contains the record's ID.",
@@ -392,7 +594,7 @@
         }
       },
       "xml": {
-        "name": "Appointments"
+        "name": "UserRecordsClose"
       }
     },
     "Followup": {
@@ -409,7 +611,7 @@
         }
       },
       "xml": {
-        "name": "Appointments"
+        "name": "Followup"
       }
     }
   }  

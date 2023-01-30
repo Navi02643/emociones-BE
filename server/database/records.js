@@ -6,9 +6,4 @@ async function saveRecord(cause) {
   return savedRecord;
 }
 
-async function closeRecord(record) {
-  const recordDelete = await RecordModel.findByIdAndUpdate(record.idRecord, { open: false });
-  return recordDelete;
-}
-
-module.exports = { saveRecord, closeRecord };
+module.exports = { saveRecord };
