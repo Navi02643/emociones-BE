@@ -12,6 +12,7 @@ function checkUserData(user) {
       email: Joi.string().email(),
       phone: Joi.number(),
       license: Joi.string().pattern(/^[a-zA-Z0-9]+$/, { name: 'license' }),
+      range: Joi.string().pattern(/^[2-3]+$/, { name: 'range' }),
     });
 
     const value = schema.validate({
@@ -21,6 +22,7 @@ function checkUserData(user) {
       email: `${user.email}`,
       phone: `${user.phone}`,
       license: `${user.license}`,
+      range: `${user.range}`,
     });
 
     const isCorrectDateFormat = Moment(user.birthdate, "YYYY-MM-DD", true).isValid();

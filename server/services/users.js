@@ -42,15 +42,6 @@ async function sendEmail(user, password) {
 
 async function generateUser(user) {
   const userData = user;
-  if (user.range === RANGE.patient) {
-    const check = userDTO.checkPatientData(userData);
-    if (!check.isValid) return check;
-  }
-
-  if (user.range === RANGE.therapist) {
-    const check = userDTO.checkUserData(userData);
-    if (!check.isValid) return check;
-  }
 
   const findEmail = await userDB.findEmail(user.email);
 
@@ -70,6 +61,8 @@ async function generateUser(user) {
 async function createPatient(data, token) {
   const user = data;
   user.range = RANGE.patient;
+  const check = userDTO.checkPatientData(user);
+  if (!check.isValid) return check;
   const { idUser } = await tokenDB.findToken(token);
   const userData = await generateUser(user);
   if (userData.isValid === false) return userData;
@@ -80,7 +73,8 @@ async function createPatient(data, token) {
 
 async function createTherapist(data) {
   const user = data;
-  user.range = RANGE.therapist;
+  const check = userDTO.checkUserData(user);
+  if (!check.isValid) return check;
   const userData = await generateUser(user);
   if (userData.isValid === false) return userData;
   return { isValid: true, message: 'Therapist successfully created', data: userData };
