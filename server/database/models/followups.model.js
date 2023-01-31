@@ -8,7 +8,7 @@ const followupsSchema = new Schema({
     ref: "records",
   },
   date: {
-    type: String,
+    type: Date,
   },
   note: {
     type: String,

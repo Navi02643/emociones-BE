@@ -55,32 +55,11 @@
         "responses": {}
       }
     },
-    "/user/autocomplete": {
-      "get": {
-        "x-swagger-router-controller": "middleware-name2",
-        "operationId": "getUsersName",
-        "tags": ["Get User Name"],
-        "summary": "UserName",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "name",
-            "required": true,
-            "type": "string",
-            "schema": {
-              "$ref": "#definitions/UserGetName"
-            }
-          }
-        ],
-        "responses": {}
-      }
-    },
     "/user": {
       "get": {
         "x-swagger-router-controller": "middleware-name2",
         "operationId": "getUsers",
-        "tags": ["Get Users Range ( therapist, admin )"],
+        "tags": ["User"],
         "summary": "Get all the users registered ( therapist, admin )",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
@@ -107,21 +86,21 @@
         ]
       }
     },
-    "/user/register": {
-      "post": {
+    "/user/autocomplete": {
+      "get": {
         "x-swagger-router-controller": "middleware-name2",
-        "operationId": "getUsers",
+        "operationId": "getUsersName",
         "tags": ["User"],
-        "summary": "Register User",
+        "summary": "UserName",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
-            "in": "body",
-            "name": "body",
-            "description": "Register user data",
+            "in": "query",
+            "name": "name",
             "required": true,
+            "type": "string",
             "schema": {
-              "$ref": "#definitions/UserRegister"
+              "$ref": "#definitions/UserGetName"
             }
           }
         ],
@@ -132,7 +111,7 @@
       "get": {
         "x-swagger-router-controller": "middleware-name2",
         "operationId": "getPatients",
-        "tags": ["Patients"],
+        "tags": ["User"],
         "summary": "Get all the patients registered to a therapist",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
@@ -169,11 +148,53 @@
         ]
       }
     },
+    "/user/registerPatient": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getUsers",
+        "tags": ["User"],
+        "summary": "Register Patient",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Register user data",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/PatientRegister"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/user/registerTherapist": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name2",
+        "operationId": "getUsers",
+        "tags": ["User"],
+        "summary": "Register Therapist",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Register user data",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/TherapistRegister"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/user/deleteTherapist": {
       "delete": {
         "x-swagger-router-controller": "middleware-name2",
         "operationId": "deleteTherapist",
-        "tags": ["Therapist"],
+        "tags": ["User"],
         "summary": "Elimination of therapist by the admin",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
@@ -304,6 +325,26 @@
       "responses": {}
       }
     },
+    "/followup/createNote": {
+      "post": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "createNotes",
+        "tags": ["FollowUp"],
+        "summary": "Create note of followup",
+        "parameters": [
+          {
+           "in": "body",
+            "name": "body",
+            "description": "Create note of followup",
+            "required": true,
+            "schema": {
+              "$ref": "#definitions/Followup"
+            }
+          }
+        ],
+        "responses": {}
+      }
+    },
     "/record": {
       "post": {
         "x-swagger-router-controller": "middleware-name3",
@@ -421,7 +462,7 @@
         "name": "UserGetName"
       }
     },
-    "UserRegister": {
+    "PatientRegister": {
       "properties": {
         "name": {
           "type": "string",
@@ -463,15 +504,53 @@
           "type": "string",
           "description": "This field contains the user's gender. Note: Select male, female, or other.",
           "example": "Otro"
-        },
-        "range": {
-          "type": "number",
-          "description": "This field contains the range that will be assigned to the user. Note: 1 is for patient and 2 for therapist.",
-          "example": 1
         }
       },
       "xml": {
-        "name": "User"
+        "name": "Patient"
+      }
+    },
+    "TherapistRegister": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "This field contains the user's name.",
+          "example": "Jose Ramon"
+        },
+        "middleName": {
+          "type": "string",
+          "description": "This field contains the user's middleName. Note: If the user does not have a middleName omit this field.",
+          "example": "Silva"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "This field contains the user's lastName.",
+          "example": "Torres"
+        },
+        "email": {
+          "type": "string",
+          "description": "This field contains the user's email. Note: The password is automatically generated, the password is sent to the email, use an email that you can access.",
+          "example": "correo@gmail.com"
+        },
+        "phone": {
+          "type": "number",
+          "description": "This field contains the user's number phone. Note: Notifications will be sent to the number that is registered.",
+          "example": "4495653636"
+        },
+        "birthdate": {
+          "type": "string",
+          "format": "date",
+          "description": "this field contains the date of birth of the user in the format YYYY-MM-DD.",
+          "example": "2000-04-03"
+        },
+        "license": {
+          "type": "string",
+          "description": "This field contains the therapist license number.",
+          "example": "AESSA - 9999999"
+        }
+      },
+      "xml": {
+        "name": "Therapist"
       }
     },
     "Appointments": {
@@ -531,7 +610,19 @@
         "name": "AppointmentsDelete"
       }
     },
-    "UserRecordsCreate": {
+    "Notification": {
+      "properties": {
+        "action": {
+          "type": "string",
+          "description": "This field contains the action to take. 1=remember one day before, 2=remember one hour before.",
+          "example": "1"
+        }
+      },
+      "xml": {
+        "name": "Notification"
+      }
+    },
+    "UserRecords": {
       "properties": {
         "idUser": {
           "type": "string",
@@ -550,7 +641,7 @@
         }
       },
       "xml": {
-        "name": "Appointments"
+        "name": "UserRecords"
       }
     },
     "UserRecordsClose": {
@@ -562,19 +653,24 @@
         }
       },
       "xml": {
-        "name": "Appointments"
+        "name": "UserRecordsClose"
       }
     },
-    "Notification": {
+    "Followup": {
       "properties": {
-        "action": {
+        "idRecord": {
           "type": "string",
-          "description": "This field contains the action to take. 1=remember one day before, 2=remember one hour before.",
-          "example": "1"
+          "description": "This field contains the ID of the selected record.",
+          "example": "63b70b02c58705e228d6c347"
+        },
+        "note": {
+          "type": "string",
+          "description": "This field contains the text of the note taken during the session.",
+          "example": "Ut molestias vero non consequatur ipsam. Lorem ipsum dolor sit amet. Sit quia repellendus Ea galisum qui nihil voluptatem est sapiente nesciunt qui rerum voluptatum ut perspiciatis molestiae et perferendis pariatur. Qui harum modiAt dolores non fugit amet ab nisi culpa non iste exercitationem sit velit architecto ut ipsam neque? Nam illum omnis nam sint tenetur Et suscipit et nihil magni sed animi dolores sit corrupti maiores et illum deserunt! Sed voluptas ullam et molestias temporaEt error est veniam eius sed natus velit ut officiis consequatur non omnis sint? In beatae illum aut debitis officiisEum internos et animi perspiciatis aut voluptas similique a corrupti veniam? 33 perspiciatis officiisAut enim est iure quia et dolor minima. At expedita rationeUt provident et odio placeat est autem consequuntur ut enim nihil 33 similique minima. Et enim beatae sed laudantium doloremqueAd quia aut distinctio rerum id officiis natus est obcaecati fugit aut harum consequuntur. Qui voluptatum distinctioEt esse ab debitis ratione 33 exercitationem blanditiis est repellat quasi. Est vitae maioresEt odit est consequatur nobis eos quas quae! Ut repellendus nesciuntAb tempore ut maiores perferendis? Et harum nobisUt obcaecati est perspiciatis officiis et vero rerum vel natus vitae aut provident fugit rem ullam sint? Aut rerum pariatur est galisum debitisaut molestiae. Ut maiores excepturi eum labore laboriosamUt fugiat. Et perferendis maxime quo praesentium quis. Ut rerum fugit et voluptatum omnisut dolorem sit esse adipisci. Nam voluptas voluptatem Et quas aut voluptas recusandae qui laudantium eius. Est ullam odit est quod pariaturUt voluptates vel esse voluptatibus cum voluptatibus veniam et laudantium cumque. Qui voluptatem explicabo Sed nostrum non mollitia rerum qui ducimus architecto sit dignissimos dolores et eaque nulla sit quam pariatur! Qui reprehenderit esse qui illo magnamNon culpa ea excepturi ratione et inventore voluptas ea veniam officia aut repellat ratione. Ex aspernatur eius quo corrupti dignissimosaut sunt aut laudantium nemo. Et cumque aperiam Non aliquam et placeat iure ut omnis sequi et sapiente minima qui nihil recusandae aut voluptas fugiat. Et pariatur quas 33 quia numquamsed deserunt aut saepe perferendis? Sit nihil consequuntur et maxime eaquesit dicta qui odio omnis et quia inventore. Et totam errorEt tenetur ut distinctio nemo! Qui consectetur voluptatesAd atque qui laboriosam quisquam ab architecto eaque et molestiae inventore ut necessitatibus molestiae et molestiae necessitatibus. Id alias nemoNon dolores ut eius doloribus. 33 dolorum minus sit expedita natusQui sunt. Ex deserunt exercitationemUt placeat rem sunt officiis ut consequuntur delectus? Et sunt mollitia id eveniet ipsa. Est eius possimus id accusantium beatae eos enim sequi quo magnam minima. Et accusantium adipisci 33 unde odio. Est eveniet quas qui sint enim ad eaque placeat qui debitis totam. Ut consequatur temporibus. Eum consectetur totam aut Quis ipsa. Ea impedit beatae et eaque provident. Et corrupti libero eum dicta molestiae ex debitis tempora! Aut dolorem similique non odio consequatur vel voluptatibus sint? In omnis molestiasAut ducimus ea optio sequi vel minima quaerat. Id quas dolorUt Quis ex tempora ullam non labore sint ut sunt consequatur ad labore sint! Et reprehenderit voluptasAut adipisci qui earum voluptas et dolor porro non laborum dolores. Qui sint architectoRem quod sit quae sequi. Et commodi aperiam qui accusantium neque Eum officia qui voluptas obcaecati et quod velit et harum obcaecati. Et commodi officiaEa tenetur aut eveniet omnis id animi consequatur. Cum molestiae temporibus Ea ipsam ut incidunt asperiores cum dignissimos tempore est nobis iusto id vitae odit. Sed galisum quidemEa labore a placeat alias rem accusamus inventore aut optio porro. Vel sint dignissimos ea libero officiiset dignissimos hic voluptatem cupiditate quo internos accusantium. Aut Quis quis Et totam sed debitis accusantium. Et omnis errorEum porro eum debitis accusantium ea fugit debitis. Ea corrupti veritatis quo galisum obcaecati. Et recusandae quae aut aliquam blanditiis aut fugit accusamus. Et eligendi consequatur 33 alias tenetur sit quis omnis! Sed sunt tenetur rem voluptas nostrum aut galisum quaerat et voluptatem corporis. Qui odit consequuntur id reiciendis sint et nesciunt autem 33 quisquam earum."
         }
       },
       "xml": {
-        "name": "Appointments"
+        "name": "Followup"
       }
     }
   }  
