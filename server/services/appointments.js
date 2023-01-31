@@ -57,17 +57,8 @@ async function getAppointments(query, token) {
   return ({ isValid: true, message: "Appointments retrieved successfully", data: outputAppointments });
 }
 
-async function createAppointment(appointment, token) {
+async function createAppointment(appointment) {
   const appointmentData = appointment;
-  const { idUser } = await tokenDB.findToken(token);
-  const loggerUser = await userDB.findById(idUser);
-  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'Logged-in user range not valid', data: null };
-
-  const checkIsTherapist = await userDB.findById(appointment.idUser);
-
-  if (checkIsTherapist.range === RANGE.patient) {
-    return { isValid: false, message: 'The user who tries to register as a therapist is not', data: null };
-  }
 
   const dateFinal = `${appointment.date} ${appointment.hour}`;
   const current = new Date();

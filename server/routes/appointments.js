@@ -1,5 +1,6 @@
 const express = require("express");
 const appointmentsService = require("../services/appointments");
+const requireRange = require("../rangeVerification/rangeVerification");
 
 const app = express();
 
@@ -20,9 +21,9 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.post('/', async (req, res) => {
+app.post('/', requireRange.therapistAndAdminRange, async (req, res) => {
   try {
-    const data = await appointmentsService.createAppointment(req.body, req.headers.authorization.split(" ")[1]);
+    const data = await appointmentsService.createAppointment(req.body);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,
@@ -39,7 +40,7 @@ app.post('/', async (req, res) => {
 
 app.delete('/', async (req, res) => {
   try {
-    const data = await appointmentsService.deleteAppointment(req.query, req.headers.authorization.split(" ")[1]);
+    const data = await appointmentsService.deleteAppointment(req.body, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
       isValid: data.isValid,
       message: data.message,

@@ -11,6 +11,45 @@ function checkUserData(user) {
       lastName: Joi.string().pattern(/^[a-zA-Z ]+$/, { name: 'alpha' }),
       email: Joi.string().email(),
       phone: Joi.number(),
+      license: Joi.string().pattern(/^[a-zA-Z0-9]+$/, { name: 'license' }),
+      range: Joi.string().pattern(/^[2-3]+$/, { name: 'range' }),
+    });
+
+    const value = schema.validate({
+      name: `${user.name}`,
+      middleName: `${user.middleName}`,
+      lastName: `${user.lastName}`,
+      email: `${user.email}`,
+      phone: `${user.phone}`,
+      license: `${user.license}`,
+      range: `${user.range}`,
+    });
+
+    const isCorrectDateFormat = Moment(user.birthdate, "YYYY-MM-DD", true).isValid();
+
+    if (!isCorrectDateFormat) {
+      return { isValid: false, message: 'The correct birthday format is YYYY MM DD', data: null };
+    }
+
+    if (value.error) {
+      const message = (value.error.details[0].message).replaceAll('"', '');
+      return { isValid: false, message, data: null };
+    }
+
+    return { isValid: true, message: 'Fields are valid', data: null };
+  } catch (error) {
+    return { isValid: false, message: 'the name, lastName, email, phone, birthday, gender and maritalStatus is obligatory', data: null };
+  }
+}
+
+function checkPatientData(user) {
+  try {
+    const schema = Joi.object({
+      name: Joi.string().pattern(/^[a-zA-Z ]+$/, { name: 'alpha' }),
+      middleName: Joi.string().allow('').pattern(/^[a-zA-Z ]+$/, { name: 'alpha' }),
+      lastName: Joi.string().pattern(/^[a-zA-Z ]+$/, { name: 'alpha' }),
+      email: Joi.string().email(),
+      phone: Joi.number(),
       maritalStatus: Joi.string(),
       gender: Joi.string(),
     });
@@ -53,6 +92,7 @@ function filterUser(user) {
     range: user.range,
     gender: user.gender,
     status: user.status,
+    license: user.license,
   };
   return userData;
 }
@@ -112,6 +152,7 @@ function outputGetPatients(user) {
 module.exports = {
   filterUser,
   checkUserData,
+  checkPatientData,
   inputGetPatients,
   outputGetPatients,
   filterUsers,
