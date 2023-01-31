@@ -52,8 +52,15 @@ async function getRecords(token, query) {
   return ({ isValid: true, message: "Records retrieved successfully", data: filteredRecords });
 }
 
+async function getRecord(idRecord) {
+  const record = await userRecordDB.getRecord(idRecord.record);
+  const followup = '';
+  return { isValid: true, message: 'record', data: record };
+}
+
 module.exports = {
   closeRecords,
   createRecord,
   getRecords,
+  getRecord,
 };

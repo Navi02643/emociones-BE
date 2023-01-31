@@ -21,6 +21,23 @@ app.get('/', rangeRequired.therapistAndAdminRange, async (req, res) => {
   }
 });
 
+app.get('/record', rangeRequired.therapistAndAdminRange, async (req, res) => {
+  try {
+    const data = await recordService.getRecord(req.query);
+    return res.status(200).send({
+      isValid: data.isValid,
+      message: data.message,
+      data: data.data,
+    });
+  } catch (error) {
+    return res.status(500).send({
+      isValid: false,
+      message: 'something failed, try again later',
+      data: null,
+    });
+  }
+});
+
 app.post('/', async (req, res) => {
   try {
     const data = await recordService.createRecord(req.body);
