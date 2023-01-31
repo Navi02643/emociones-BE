@@ -133,14 +133,14 @@ async function getPatients(query, token) {
   return ({ isValid: true, message: "Patients found successfully", data: filteredUser });
 }
 
-async function deleteTherapist(therapist, token) {
-  const { idUser } = await tokenDB.findToken(token);
-  const loggerUser = await userDB.findById(idUser);
-
-  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'This user rank cannot delete therapist', data: null };
-  if (loggerUser.range === RANGE.therapist) return { isValid: false, message: 'This user rank cannot delete therapist', data: null };
-
+async function deleteTherapist(therapist) {
   const data = { _id: therapist._id };
+  if (data._id === undefined) {
+    return { isValid: false, message: 'Enter the ID (_id) parameter', data: null };
+  }
+  if (!data._id) {
+    return { isValid: false, message: 'Enter the ID (_id) parameter with its value', data: null };
+  }
   const userData = await userDB.deleteTherapist(data);
 
   if (!userData) {
