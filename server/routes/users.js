@@ -72,7 +72,7 @@ app.get('/patients', requireRange.therapistAndAdminRange, async (req, res) => {
   }
 });
 
-app.delete('/deleteTherapist', requireRange.AdminRange, async (req, res) => {
+app.put('/deleteTherapist', requireRange.AdminRange, async (req, res) => {
   try {
     const data = await userService.deleteTherapist(req.query, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
