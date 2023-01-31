@@ -69,8 +69,8 @@ async function findPatientsByTherapist(id, data, offset) {
 }
 
 async function deleteTherapist(therapist) {
-  const idTherapist = await UserModel.findOneAndDelete({ _id: `${therapist._id}` });
-  return idTherapist;
+  const idTherapist = await UserModel.findOneAndUpdate({ _id: `${therapist._id}` }, { status: false });
+  console.log(idTherapist);
 }
 
 async function findUsers() {

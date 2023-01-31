@@ -135,6 +135,7 @@ async function getPatients(query, token) {
 
 async function deleteTherapist(therapist) {
   const data = { _id: therapist._id };
+
   if (data._id === undefined) {
     return { isValid: false, message: 'Enter the ID (_id) parameter', data: null };
   }
