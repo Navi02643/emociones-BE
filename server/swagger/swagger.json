@@ -546,7 +546,12 @@
         "license": {
           "type": "string",
           "description": "This field contains the therapist license number.",
-          "example": "AESSA - 9999999"
+          "example": "9999999"
+        },
+        "range": {
+          "type": "integer",
+          "description": "This field contains the user range.",
+          "example": "2"
         }
       },
       "xml": {
