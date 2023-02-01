@@ -11,7 +11,7 @@ function checkUserData(user) {
       lastName: Joi.string().pattern(/^[a-zA-Z ]+$/, { name: 'alpha' }),
       email: Joi.string().email(),
       phone: Joi.number(),
-      license: Joi.string().pattern(/^[a-zA-Z0-9]+$/, { name: 'license' }),
+      license: Joi.string().pattern(/^[0-9]+$/, { name: 'license' }),
       range: Joi.string().pattern(/^[2-3]+$/, { name: 'range' }),
     });
 

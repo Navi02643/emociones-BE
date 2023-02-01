@@ -111,7 +111,7 @@
       "post": {
         "x-swagger-router-controller": "middleware-name2",
         "operationId": "getUsers",
-        "tags": ["User"],
+        "tags": ["Patients"],
         "summary": "Register Patient",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
@@ -132,7 +132,7 @@
       "post": {
         "x-swagger-router-controller": "middleware-name2",
         "operationId": "getUsers",
-        "tags": ["User"],
+        "tags": ["Therapist"],
         "summary": "Register Therapist",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
@@ -527,6 +527,11 @@
           "type": "string",
           "description": "This field contains the therapist license number.",
           "example": "AESSA - 9999999"
+        },
+        "range": {
+          "type": "integer",
+          "description": "This field contains the user range.",
+          "example": "1"
         }
       },
       "xml": {
