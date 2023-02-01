@@ -48,8 +48,10 @@ async function findPatientsByTherapist(id, data, offset) {
       as: "patients",
       pipeline: [{
         $project: {
-          id: "$_id", _id: 0, name: 1, middleName: 1, lastName: 1,
+          id: "$_id", _id: 0, name: 1, middleName: 1, lastName: 1, status: 1,
         },
+      }, {
+        $match: { status: true },
       }, {
         $addFields: { fullName: { $concat: ["$name", " ", "$middleName", " ", "$lastName"] } },
       }, {
@@ -74,7 +76,7 @@ async function deleteTherapist(therapist) {
 }
 
 async function findUsers() {
-  const searchUser = await UserModel.find({ range: [RANGE.therapist, RANGE.admin] });
+  const searchUser = await UserModel.find({ range: [RANGE.therapist, RANGE.admin], status: true });
   return searchUser;
 }
 
