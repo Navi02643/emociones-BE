@@ -76,7 +76,7 @@ async function deleteTherapist(therapist) {
 }
 
 async function findUsers() {
-  const searchUser = await UserModel.find({ range: [RANGE.therapist, RANGE.admin], status: true });
+  const searchUser = await UserModel.find({ range: [RANGE.therapist, RANGE.admin] });
   return searchUser;
 }
 
