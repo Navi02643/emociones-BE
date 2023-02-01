@@ -38,4 +38,18 @@ function outputGetRecords(record) {
   return outputRecord;
 }
 
-module.exports = { inputGetRecordsDTO, outputGetRecords };
+function outputCreationRecord(history, cause, patient, therapist) {
+  const data = {
+    idRecord: history._id,
+    cause: cause.cause,
+    patientName: `${patient.name} ${patient.middleName} ${patient.lastName}`,
+    therapistName: `${therapist.name} ${patient.middleName} ${therapist.lastName}`,
+  };
+  return data;
+}
+
+module.exports = {
+  inputGetRecordsDTO,
+  outputGetRecords,
+  outputCreationRecord,
+};
