@@ -85,13 +85,14 @@ async function deleteAppointment(appointment, token) {
   const loggerUser = await userDB.findById({ _id: idUser });
   const data = { _id: appointment._id };
   const deleteAppointments = await appointmentDB.deleteAppointment(data);
+  if (!deleteAppointments) return ({ isValid: false, message: "Appointment already deleted", data: null });
   const patient = await userDB.findById(deleteAppointments.idPacient);
   const searchDate = await appointmentDB.searchAppointments(data);
   const currentDate = new Date();
 
-  notificationService.cancelledAppointment(deleteAppointments, patient);
+  if (patient) notificationService.cancelledAppointment(deleteAppointments, patient);
 
-  if (loggerUser.range === RANGE.therapist) {
+  if (loggerUser.range === RANGE.therapist || loggerUser.range === RANGE.admin) {
     return { isValid: true, message: "Appointment deleted successfully", data: deleteAppointments };
   }
   if (loggerUser.range === RANGE.patient) {
