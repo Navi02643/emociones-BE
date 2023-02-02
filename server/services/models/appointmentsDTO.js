@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const Moment = require('moment');
-const MONTHS = require('../../utils/months.constant');
+const FILTERDATE = require('../../utils/getDate.constants');
 
 Moment().format();
 
@@ -77,8 +77,9 @@ function outputGetAppointmentsDTO(appointmentData) {
 function outPutNotification(appointments) {
   const appointmentAux = [];
   appointments.forEach((appointment) => {
+    const date = FILTERDATE.filterDate(appointment.date);
     const dataAppointment = {
-      date: `${appointment.date.getDate()} de ${MONTHS[appointment.date.getMonth()]} del ${appointment.date.getFullYear()}`,
+      date,
       hour: Moment.parseZone(appointment.date).utc().format('HH:MM'),
       phone: appointment.pacient[0].phone,
     };
@@ -90,8 +91,9 @@ function outPutNotification(appointments) {
 function outPutCancelNotification(appointments) {
   const appointmentAux = [];
   appointments.forEach((appointment) => {
+    const date = FILTERDATE.filterDate(appointment.date);
     const dataAppointment = {
-      date: `${appointment.date.getDate()} de ${MONTHS[appointment.date.getMonth()]} del ${appointment.date.getFullYear()}`,
+      date,
       hour: Moment.parseZone(appointment.date).utc().format('HH:MM'),
     };
     appointmentAux.push(dataAppointment);

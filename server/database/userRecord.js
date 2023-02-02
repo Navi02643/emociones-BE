@@ -58,6 +58,13 @@ async function getRecord(id) {
     {
       $lookup: {
         from: 'users',
+        localField: 'idUser',
+        foreignField: '_id',
+        as: 'therapist',
+      },
+    }, {
+      $lookup: {
+        from: 'users',
         localField: 'idPacient',
         foreignField: '_id',
         as: 'patient',
@@ -69,7 +76,11 @@ async function getRecord(id) {
         foreignField: '_id',
         as: 'record',
       },
-    }, {
+    },
+    { $unwind: "$therapist" },
+    { $unwind: "$patient" },
+    { $unwind: "$record" },
+    {
       $match: {
         idRecord: new Types.ObjectId(id),
       },

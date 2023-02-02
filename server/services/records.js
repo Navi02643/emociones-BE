@@ -1,8 +1,9 @@
 const Moment = require('moment');
 const recordDB = require('../database/records');
 const tokenDB = require('../database/tokens');
-const recordsDTO = require("./models/recordsDTO");
 const userRecordDB = require('../database/userRecord');
+const followupDB = require('../database/followup');
+const recordsDTO = require("./models/recordsDTO");
 
 async function createRecord(record) {
   const recordData = record;
@@ -54,8 +55,9 @@ async function getRecords(token, query) {
 
 async function getRecord(idRecord) {
   const record = await userRecordDB.getRecord(idRecord.record);
-  const followup = '';
-  return { isValid: true, message: 'record', data: record };
+  const followup = await followupDB.findFollowups(idRecord.record);
+  const data = recordsDTO.outputRecord(record, followup);
+  return { isValid: true, message: 'record', data };
 }
 
 module.exports = {
