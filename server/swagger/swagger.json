@@ -204,7 +204,7 @@
             "in": "query",
             "name": "_id",
             "required": false,
-            "type": "integer",
+            "type": "string",
             "description": "This field contains the id of the therapist",
             "schema": {
               "example": "_id: 63c6ed72c72043ee3d3ef450"
