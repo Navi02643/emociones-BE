@@ -69,12 +69,12 @@ async function findPatientsByTherapist(id, data, offset) {
 }
 
 async function deleteTherapist(therapist) {
-  const idTherapist = await UserModel.findOneAndDelete({ _id: `${therapist._id}` });
+  const idTherapist = await UserModel.findOneAndUpdate({ _id: `${therapist._id}` }, { status: false });
   return idTherapist;
 }
 
 async function findUsers() {
-  const searchUser = await UserModel.find({ range: [RANGE.therapist, RANGE.admin] });
+  const searchUser = await UserModel.find({ range: [RANGE.therapist, RANGE.admin], status: true });
   return searchUser;
 }
 
