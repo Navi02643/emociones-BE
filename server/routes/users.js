@@ -106,7 +106,7 @@ app.get('/autocompletes', async (req, res) => {
   }
 });
 
-app.get('/', async (req, res) => {
+app.get('/', requireRange.AdminRange, async (req, res) => {
   try {
     const data = await userService.findUser(req.query, req.headers.authorization.split(" ")[1]);
     return res.status(200).send({
