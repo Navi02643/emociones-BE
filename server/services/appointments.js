@@ -84,24 +84,17 @@ async function deleteAppointment(appointment, token) {
   const { idUser } = await tokenDB.findToken(token);
   const loggerUser = await userDB.findById({ _id: idUser });
   const data = { _id: appointment._id };
-  const deleteAppointments = await appointmentDB.deleteAppointment(data);
-  if (!deleteAppointments) return ({ isValid: false, message: "Appointment already deleted", data: null });
-  const patient = await userDB.findById(deleteAppointments.idPacient);
-  const searchDate = await appointmentDB.searchAppointments(data);
+  const appointmentToDelete = await appointmentDB.searchAppointment(data);
+  if (!appointmentToDelete) return ({ isValid: false, message: "Appointment already deleted", data: null });
   const currentDate = new Date();
+  if (loggerUser.range === RANGE.patient && appointmentToDelete.date.getDate() === currentDate.getDate()) {
+    return { isValid: false, message: "Sorry, contact your therapist directly to make your cancellation", data: null };
+  }
 
+  const deleteAppointments = await appointmentDB.deleteAppointment(data);
+  const patient = await userDB.findById(deleteAppointments.idPacient);
   if (patient) notificationService.cancelledAppointment(deleteAppointments, patient);
-
-  if (loggerUser.range === RANGE.therapist || loggerUser.range === RANGE.admin) {
-    return { isValid: true, message: "Appointment deleted successfully", data: deleteAppointments };
-  }
-  if (loggerUser.range === RANGE.patient) {
-    if (searchDate.date === currentDate) {
-      return { isValid: false, message: "Sorry, contact your therapist directly to make your cancellation", data: null };
-    }
-    return { isValid: true, message: "Appointment deleted successfully", data: deleteAppointments };
-  }
-  return ({ isValid: false, message: "Appointment not existing", data: null });
+  return { isValid: true, message: "Appointment deleted successfully", data: deleteAppointments };
 }
 
 async function updateAppointments(appointment, token) {
