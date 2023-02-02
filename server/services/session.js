@@ -24,7 +24,7 @@ function tokenGeneration(postData) {
 
 async function login(user) {
   const dataUser = await usersDB.findEmail(user.email);
-
+  if (dataUser.status === false) return ({ isValid: false, message: 'User not valid', data: null });
   if (!dataUser) return ({ isValid: false, message: 'Incorrect email/password', data: null });
 
   const isCorrectPassword = await bcrypt.compare(user.password, dataUser.password);
