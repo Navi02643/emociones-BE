@@ -362,7 +362,7 @@
             "description": "Open record",
             "required": true,
             "schema": {
-              "$ref": "#definitions/UserRecordsCreate"
+              "$ref": "#definitions/UserRecords"
             }
           }
       ],
