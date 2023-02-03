@@ -1,18 +1,30 @@
 const Moment = require('moment');
 const recordDB = require('../database/records');
 const tokenDB = require('../database/tokens');
-const userRecordDB = require('../database/userRecord');
+const userDB = require("../database/users");
 const followupDB = require('../database/followup');
+const userRecordDB = require('../database/userRecord');
 const recordsDTO = require("./models/recordsDTO");
+const RANGE = require('../utils/range.constans');
 
 async function createRecord(record) {
   const recordData = record;
+
+  const therapist = await userDB.findById(record.idUser);
+  const patient = await userDB.findById(record.idPacient);
+
+  if (!therapist || !patient) return { isValid: false, message: 'the therapist or patient does not exist', data: null };
+
+  if ((therapist.range !== RANGE.therapist) || (therapist.range !== RANGE.admin)) {
+    return { isValid: false, message: 'The user you are trying to save as a therapist does not have the indicated range', data: null };
+  }
   const saveRecord = await recordDB.saveRecord(recordData);
   recordData.idRecord = String(saveRecord._id);
   recordData.creationDate = new Date();
   recordData.creationDate = Moment.parseZone(recordData.creationDate).toISOString();
   const saveUserRecord = await userRecordDB.registerRecord(recordData);
-  return { isValid: true, message: 'record open', data: saveUserRecord };
+  const filter = recordsDTO.outputCreationRecord(saveUserRecord, saveRecord, patient, therapist);
+  return { isValid: true, message: 'record open', data: filter };
 }
 
 async function closeRecords(record) {
@@ -57,7 +69,7 @@ async function getRecord(idRecord) {
   const record = await userRecordDB.getRecord(idRecord.record);
   const followup = await followupDB.findFollowups(idRecord.record);
   const data = recordsDTO.outputRecord(record, followup);
-  return { isValid: true, message: 'record', data };
+  return { isValid: true, message: 'Record retrieved successfully', data };
 }
 
 module.exports = {

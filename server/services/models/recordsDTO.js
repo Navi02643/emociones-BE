@@ -53,6 +53,7 @@ function outputRecord(record, followups) {
   });
 
   const filter = {
+    idRecord: record[0].idRecord,
     therapistFullName: `${record[0].therapist.name} ${record[0].therapist.middleName} ${record[0].therapist.lastName}`,
     patientFullName: `${record[0].patient.name} ${record[0].patient.middleName} ${record[0].patient.lastName}`,
     creationDate,
@@ -64,8 +65,19 @@ function outputRecord(record, followups) {
   return filter;
 }
 
+function outputCreationRecord(history, cause, patient, therapist) {
+  const data = {
+    idRecord: history._id,
+    cause: cause.cause,
+    patientName: `${patient.name} ${patient.middleName} ${patient.lastName}`,
+    therapistName: `${therapist.name} ${patient.middleName} ${therapist.lastName}`,
+  };
+  return data;
+}
+
 module.exports = {
   inputGetRecordsDTO,
   outputGetRecords,
+  outputCreationRecord,
   outputRecord,
 };

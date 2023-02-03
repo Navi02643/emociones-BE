@@ -83,7 +83,8 @@
               "example": "1"
             }
           }
-        ]
+        ],
+        "responses": {}
       }
     },
     "/user/autocomplete": {
@@ -145,7 +146,8 @@
               "example": "Only accepts 1 or -1"
             }
           }
-        ]
+        ],
+        "responses": {}
       }
     },
     "/user/registerPatient": {
@@ -202,13 +204,14 @@
             "in": "query",
             "name": "_id",
             "required": false,
-            "type": "integer",
+            "type": "string",
             "description": "This field contains the id of the therapist",
             "schema": {
               "example": "_id: 63c6ed72c72043ee3d3ef450"
             }
           }
-        ]
+        ],
+        "responses": {}
       }
     },
     "/appointments": {
@@ -429,6 +432,28 @@
             "description": "This field contains the way in which they are sorted",
             "schema": {
               "example": "1 || -1"
+            }
+          }
+        ],
+      "responses": {}
+      }
+    },
+    "/record/record": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name3",
+        "operationId": "GetMultipleRecords",
+        "tags": ["Records"],
+        "summary": "Get record",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "record",
+            "required": false,
+            "type": "string",
+            "description": "This field contains the record ID's",
+            "schema": {
+              "example": "63c8365696d37a0f05fefe37"
             }
           }
         ],
