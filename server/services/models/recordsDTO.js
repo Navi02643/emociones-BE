@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const Moment = require('moment');
-const FILTERDATE = require('../../utils/getDate.constants');
+const { filterDate } = require('../../utils/getDate.constants');
 
 Moment().format();
 
@@ -40,11 +40,12 @@ function outputGetRecords(record) {
 }
 
 function outputRecord(record, followups) {
+  const [records] = record;
   const followupsAux = [];
-  const creationDate = FILTERDATE.filterDate(record[0].creationDate);
+  const creationDate = filterDate(records.creationDate);
 
   followups.forEach((followup) => {
-    const date = FILTERDATE.filterDate(followup.date);
+    const date = filterDate(followup.date);
     const data = {
       date,
       note: followup.note,
@@ -53,13 +54,13 @@ function outputRecord(record, followups) {
   });
 
   const filter = {
-    idRecord: record[0].idRecord,
-    therapistFullName: `${record[0].therapist.name} ${record[0].therapist.middleName} ${record[0].therapist.lastName}`,
-    patientFullName: `${record[0].patient.name} ${record[0].patient.middleName} ${record[0].patient.lastName}`,
+    idRecord: records.idRecord,
+    therapistFullName: `${records.therapist.name} ${records.therapist.middleName} ${records.therapist.lastName}`,
+    patientFullName: `${records.patient.name} ${records.patient.middleName} ${records.patient.lastName}`,
     creationDate,
-    cause: record[0].record.cause,
-    recordStatus: record[0].status === true ? 'Abierto' : 'Cerrado',
-    notes: followupsAux,
+    cause: records.record.cause,
+    recordStatus: records.status === true ? 'Abierto' : 'Cerrado',
+    notes: followupsAux.length <= 0 ? 'sin seguimientos' : followupsAux,
   };
 
   return filter;

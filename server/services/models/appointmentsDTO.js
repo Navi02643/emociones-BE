@@ -1,6 +1,6 @@
 const Joi = require("joi");
 const Moment = require('moment');
-const FILTERDATE = require('../../utils/getDate.constants');
+const { filterDate } = require('../../utils/getDate.constants');
 
 Moment().format();
 
@@ -77,7 +77,7 @@ function outputGetAppointmentsDTO(appointmentData) {
 function outPutNotification(appointments) {
   const appointmentAux = [];
   appointments.forEach((appointment) => {
-    const date = FILTERDATE.filterDate(appointment.date);
+    const date = filterDate(appointment.date);
     const dataAppointment = {
       date,
       hour: Moment.parseZone(appointment.date).utc().format('HH:MM'),
@@ -91,7 +91,7 @@ function outPutNotification(appointments) {
 function outPutCancelNotification(appointments) {
   const appointmentAux = [];
   appointments.forEach((appointment) => {
-    const date = FILTERDATE.filterDate(appointment.date);
+    const date = filterDate(appointment.date);
     const dataAppointment = {
       date,
       hour: Moment.parseZone(appointment.date).utc().format('HH:MM'),
