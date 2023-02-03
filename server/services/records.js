@@ -67,7 +67,7 @@ async function getRecords(token, query) {
 
 async function getRecord(idRecord) {
   const record = await userRecordDB.getRecord(idRecord.record);
-  console.log(record);
+
   if (record.length <= 0) return { isValid: false, message: 'Record not found', data: null };
 
   const followup = await followupDB.findFollowups(idRecord.record);
