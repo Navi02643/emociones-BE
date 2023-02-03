@@ -82,7 +82,7 @@ async function getRecord(id) {
     { $unwind: "$record" },
     {
       $match: {
-        idRecord: new Types.ObjectId(id),
+        idRecord: Types.ObjectId(id),
       },
     },
   ]);
