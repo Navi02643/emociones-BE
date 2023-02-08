@@ -97,17 +97,21 @@ async function deleteAppointment(appointment, token) {
   return { isValid: true, message: "Appointment deleted successfully", data: deleteAppointments };
 }
 
-async function updateAppointments(appointment, token) {
-  const { idUser } = await tokenDB.findToken(token);
-  const loggerUser = await userDB.findById(idUser);
-
-  if (loggerUser.range === RANGE.patient) return { isValid: false, message: 'This user rank cannot update appointments', data: null };
+async function updateAppointments(appointment) {
   const appointmentDate = appointment.date;
   const date = (appointment.date).split(" ")[0];
   const hour = (appointment.date).split(" ")[1];
   appointmentDate.date = `${date}T${hour}.000+00:00`;
 
   const data = { _id: appointment._id, date: appointmentDate };
+
+  if (data._id === undefined) {
+    return { isValid: false, message: 'Enter the ID (_id) parameter', data: null };
+  }
+
+  if (!data.date) {
+    return { isValid: false, message: 'Enter the new date value', data: null };
+  }
 
   const updateAppointment = await appointmentDB.updateAppointment(data);
   if (!updateAppointment) {
