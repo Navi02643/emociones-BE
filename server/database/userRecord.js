@@ -1,3 +1,4 @@
+const { Types } = require('mongoose');
 const UserRecordModel = require('./models/user_record.model');
 
 async function registerRecord(record) {
@@ -48,7 +49,7 @@ async function getRecordsByUser(user, parameters, offset) {
 }
 
 async function closeRecord(record) {
-  const recordDelete = await UserRecordModel.findOneAndUpdate(record.idRecord, { status: false });
+  const recordDelete = await UserRecordModel.findOneAndUpdate({ idRecord: Types.ObjectId(record.idRecord) }, { status: false });
   return recordDelete;
 }
 
