@@ -49,7 +49,7 @@ async function getRecordsByUser(user, parameters, offset) {
 }
 
 async function closeRecord(record) {
-  const recordDelete = await UserRecordModel.findOneAndUpdate(record.idRecord, { status: false });
+  const recordDelete = await UserRecordModel.findOneAndUpdate({ idRecord: Types.ObjectId(record.idRecord) }, { status: false });
   return recordDelete;
 }
 
