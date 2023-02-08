@@ -109,8 +109,8 @@ async function updateAppointments(appointment) {
     return { isValid: false, message: 'Enter the ID (_id) parameter', data: null };
   }
 
-  if (data.date === undefined) {
-    return { isValid: false, message: 'Enter the date parameter', data: null };
+  if (!data.date) {
+    return { isValid: false, message: 'Enter the new date value', data: null };
   }
 
   const updateAppointment = await appointmentDB.updateAppointment(data);
