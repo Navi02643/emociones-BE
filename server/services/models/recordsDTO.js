@@ -1,5 +1,6 @@
 const Joi = require("joi");
 const Moment = require('moment');
+const { filterDate } = require('../../utils/getDate.constants');
 
 Moment().format();
 
@@ -28,14 +29,41 @@ function inputGetRecordsDTO(getRecordsData) {
 }
 
 function outputGetRecords(record) {
-  const outputRecord = {
+  const outPutRecord = {
     patientName: record.Pacient.fullName,
     dateOfBirth: record.Pacient.birthdate,
     gender: record.Pacient.gender,
     cause: record.Record.cause,
     creationDate: record.creationDate,
   };
-  return outputRecord;
+  return outPutRecord;
+}
+
+function outputRecord(record, followups) {
+  const [records] = record;
+  const followupsAux = [];
+  const creationDate = filterDate(records.creationDate);
+
+  followups.forEach((followup) => {
+    const date = filterDate(followup.date);
+    const data = {
+      date,
+      note: followup.note,
+    };
+    followupsAux.push(data);
+  });
+
+  const filter = {
+    idRecord: records.idRecord,
+    therapistFullName: `${records.therapist.name} ${records.therapist.middleName} ${records.therapist.lastName}`,
+    patientFullName: `${records.patient.name} ${records.patient.middleName} ${records.patient.lastName}`,
+    creationDate,
+    cause: records.record.cause,
+    recordStatus: records.status === true ? 'Abierto' : 'Cerrado',
+    notes: followupsAux.length <= 0 ? 'sin seguimientos' : followupsAux,
+  };
+
+  return filter;
 }
 
 function outputCreationRecord(history, cause, patient, therapist) {
@@ -52,4 +80,5 @@ module.exports = {
   inputGetRecordsDTO,
   outputGetRecords,
   outputCreationRecord,
+  outputRecord,
 };

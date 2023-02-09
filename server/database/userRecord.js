@@ -1,4 +1,4 @@
-const { Types } = require('mongoose');
+const { Types } = require("mongoose");
 const UserRecordModel = require('./models/user_record.model');
 
 async function registerRecord(record) {
@@ -53,4 +53,45 @@ async function closeRecord(record) {
   return recordDelete;
 }
 
-module.exports = { registerRecord, getRecordsByUser, closeRecord };
+async function getRecord(id) {
+  const record = await UserRecordModel.aggregate([
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'idUser',
+        foreignField: '_id',
+        as: 'therapist',
+      },
+    }, {
+      $lookup: {
+        from: 'users',
+        localField: 'idPacient',
+        foreignField: '_id',
+        as: 'patient',
+      },
+    }, {
+      $lookup: {
+        from: 'records',
+        localField: 'idRecord',
+        foreignField: '_id',
+        as: 'record',
+      },
+    },
+    { $unwind: "$therapist" },
+    { $unwind: "$patient" },
+    { $unwind: "$record" },
+    {
+      $match: {
+        idRecord: Types.ObjectId(id),
+      },
+    },
+  ]);
+  return record;
+}
+
+module.exports = {
+  registerRecord,
+  getRecordsByUser,
+  closeRecord,
+  getRecord,
+};

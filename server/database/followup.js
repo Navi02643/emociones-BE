@@ -12,4 +12,13 @@ async function findFollow(follow) {
   return searchFollow;
 }
 
-module.exports = { saveFollow, findFollow };
+async function findFollowups(idRecord) {
+  const searchFollow = await FollowupModel.find({ idRecord: Types.ObjectId(idRecord) }).sort({ date: 1 });
+  return searchFollow;
+}
+
+module.exports = {
+  saveFollow,
+  findFollow,
+  findFollowups,
+};

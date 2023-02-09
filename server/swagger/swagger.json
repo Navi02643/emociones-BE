@@ -19,7 +19,7 @@
   "paths": {
     "/login": {
       "post": {
-        "x-swagger-router-controller": "middleware-name3",
+        "x-swagger-router-controller": "middleware-name1",
         "operationId": "login",
         "tags": ["Login"],
         "summary": "Log a user",
@@ -39,7 +39,7 @@
     },
     "/session/logout": {
       "delete": {
-        "x-swagger-router-controller": "middleware-name1",
+        "x-swagger-router-controller": "middleware-name2",
         "operationId": "getUsers",
         "tags": ["Session"],
         "summary": "Register User",
@@ -57,7 +57,7 @@
     },
     "/user": {
       "get": {
-        "x-swagger-router-controller": "middleware-name2",
+        "x-swagger-router-controller": "middleware-name3",
         "operationId": "getUsers",
         "tags": ["User"],
         "summary": "Get all the users registered ( therapist, admin )",
@@ -89,7 +89,7 @@
     },
     "/user/autocomplete": {
       "get": {
-        "x-swagger-router-controller": "middleware-name2",
+        "x-swagger-router-controller": "middleware-name4",
         "operationId": "getUsersName",
         "tags": ["User"],
         "summary": "UserName",
@@ -110,7 +110,7 @@
     },
     "/user/patients": {
       "get": {
-        "x-swagger-router-controller": "middleware-name2",
+        "x-swagger-router-controller": "middleware-name5",
         "operationId": "getPatients",
         "tags": ["User"],
         "summary": "Get all the patients registered to a therapist",
@@ -152,7 +152,7 @@
     },
     "/user/registerPatient": {
       "post": {
-        "x-swagger-router-controller": "middleware-name2",
+        "x-swagger-router-controller": "middleware-name6",
         "operationId": "getUsers",
         "tags": ["User"],
         "summary": "Register Patient",
@@ -173,7 +173,7 @@
     },
     "/user/registerTherapist": {
       "post": {
-        "x-swagger-router-controller": "middleware-name2",
+        "x-swagger-router-controller": "middleware-name7",
         "operationId": "getUsers",
         "tags": ["User"],
         "summary": "Register Therapist",
@@ -194,7 +194,7 @@
     },
     "/user/deleteTherapist": {
       "delete": {
-        "x-swagger-router-controller": "middleware-name2",
+        "x-swagger-router-controller": "middleware-name8",
         "operationId": "deleteTherapist",
         "tags": ["User"],
         "summary": "Elimination of therapist by the admin",
@@ -216,7 +216,7 @@
     },
     "/appointments": {
       "get": {
-        "x-swagger-router-controller": "middleware-name3",
+        "x-swagger-router-controller": "middleware-name9",
         "operationId": "showAppointments",
         "tags": ["Appointments"],
         "summary": "Show appointments",
@@ -250,7 +250,7 @@
         "responses": {}
       },
       "post": {
-        "x-swagger-router-controller": "middleware-name3",
+        "x-swagger-router-controller": "middleware-name10",
         "operationId": "createAppointments",
         "tags": ["Appointments"],
         "summary": "Register appointment",
@@ -269,7 +269,7 @@
       "responses": {}
     },
     "put": {
-      "x-swagger-router-controller": "middleware-name3",
+      "x-swagger-router-controller": "middleware-name11",
       "operationId": "updateAppointments",
       "tags": ["Appointments"],
       "summary": "Update appointment",
@@ -288,7 +288,7 @@
     "responses": {}
     },
     "delete": {
-      "x-swagger-router-controller": "middleware-name3",
+      "x-swagger-router-controller": "middleware-name12",
       "operationId": "deleteAppointments",
       "tags": ["Appointments"],
       "summary": "Delete appointment",
@@ -309,7 +309,7 @@
     },
     "/notification": {
       "post": {
-        "x-swagger-router-controller": "middleware-name3",
+        "x-swagger-router-controller": "middleware-name13",
         "operationId": "sendNotification",
         "tags": ["Notifications"],
         "summary": "Send notification",
@@ -330,7 +330,7 @@
     },
     "/followup/createNote": {
       "post": {
-        "x-swagger-router-controller": "middleware-name3",
+        "x-swagger-router-controller": "middleware-name14",
         "operationId": "createNotes",
         "tags": ["FollowUp"],
         "summary": "Create note of followup",
@@ -350,7 +350,7 @@
     },
     "/record": {
       "post": {
-        "x-swagger-router-controller": "middleware-name3",
+        "x-swagger-router-controller": "middleware-name15",
         "operationId": "openRecord",
         "tags": ["Records"],
         "summary": "Open record",
@@ -362,14 +362,14 @@
             "description": "Open record",
             "required": true,
             "schema": {
-              "$ref": "#definitions/UserRecordsCreate"
+              "$ref": "#definitions/UserRecords"
             }
           }
       ],
       "responses": {}
       },
       "delete": {
-        "x-swagger-router-controller": "middleware-name3",
+        "x-swagger-router-controller": "middleware-name16",
         "operationId": "CloseRecord",
         "tags": ["Records"],
         "summary": "Close record",
@@ -388,7 +388,7 @@
       "responses": {}
       },
       "get": {
-        "x-swagger-router-controller": "middleware-name3",
+        "x-swagger-router-controller": "middleware-name17",
         "operationId": "GetMultipleRecords",
         "tags": ["Records"],
         "summary": "Get record",
@@ -432,6 +432,28 @@
             "description": "This field contains the way in which they are sorted",
             "schema": {
               "example": "1 || -1"
+            }
+          }
+        ],
+      "responses": {}
+      }
+    },
+    "/record/record": {
+      "get": {
+        "x-swagger-router-controller": "middleware-name38",
+        "operationId": "GetMultipleRecords",
+        "tags": ["Records"],
+        "summary": "Get record",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "record",
+            "required": false,
+            "type": "string",
+            "description": "This field contains the record ID's",
+            "schema": {
+              "example": "63c8365696d37a0f05fefe37"
             }
           }
         ],
